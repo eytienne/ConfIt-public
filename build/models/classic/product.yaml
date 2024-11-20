@@ -1,0 +1,178 @@
+components:
+  - name: Poitrine
+    part: chest
+    cameraPosition: [0.814, 0.640, 1.536]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColour: Black
+    colors: true
+  - name: Face avant
+    part: front_face
+    cameraPosition: [0.814, 0.640, 1.536]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColour: Red
+    colors: true
+  - name: Bras
+    part: arm
+    cameraPosition: [0.814, 0.640, 1.536]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColour: TitaniumGrey
+    colors: true
+  - name: Fessier
+    part: buttock
+    cameraPosition: [0.693, -0.042, -1.483]
+    cameraTarget: [0.039, -0.069, -0.088]
+    defaultColour: LimeYellow
+    colors: true
+  - name: Ressort lombaires
+    part: logo_spring
+    cameraPosition: [0.037, 0.115, -1.618]
+    cameraTarget: [0.003, -0.023, -0.137]
+    defaultColour: Black
+    colors:
+      - Black
+      - White
+      - Red
+  - name: Dos
+    part: back
+    cameraPosition: [0.290, 0.606, -1.461]
+    cameraTarget: [-0.009, 0.105, -0.197]
+    defaultColour: KawaGreen
+    colors: true
+  - name: Haut du dos
+    part: upper_back
+    cameraPosition: [0.390, 0.803, -1.368]
+    cameraTarget: [0.070, 0.180, -0.189]
+    defaultColour: DukeGreen
+    colors: true
+  - name: Aisselles
+    part: armpit
+    cameraPosition: [0.054, 0.620, -1.382]
+    cameraTarget: [0.004, 0.134, -0.199]
+    defaultColour: SBlue
+    colors: true
+  - name: Sous-bras
+    part: underarm
+    cameraPosition: [0.002, 0.250, -1.578]
+    cameraTarget: [-0.013, 0.011, -0.169]
+    defaultColour: HyBlue
+    colors: true
+  - name: Bande poitrine haut
+    part: chest_band_top
+    cameraPosition: [0.219, 0.980, 0.896]
+    cameraTarget: [0.005, 0.276, 0.083]
+    defaultColour: Violet
+    colors: true
+  - name: Bande poitrine bas
+    part: chest_band_bottom
+    cameraPosition: [0.219, 0.980, 0.896]
+    cameraTarget: [0.005, 0.276, 0.083]
+    defaultColour: HOrange
+    colors: true
+  - name: Bande bras avant
+    part: arm_band_front
+    cameraPosition: [1.395, 0.679, 0.615]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColour: Gold
+    colors: true
+  - name: Bande bras arrière
+    part: arm_band_rear
+    cameraPosition: [1.395, 0.679, 0.615]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColour: Chrome
+    colors: true
+  - name: Bande dos bas
+    part: back_band_bottom
+    cameraPosition: [0.189, 0.910, -1.208]
+    cameraTarget: [0.011, 0.216, -0.194]
+    defaultColour: FluoYellow
+    colors: true
+  - name: Bande dos haut
+    part: back_band_top
+    cameraPosition: [0.189, 0.910, -1.208]
+    cameraTarget: [0.011, 0.216, -0.194]
+    defaultColour: FluoOrange
+    colors: true
+  - name: Bandes latérales
+    part: side_band_edges
+    cameraPosition: [1.329, 0.396, 0.859]
+    cameraTarget: [0.226, 0.007, -0.028]
+    defaultColour: FluoPink
+    colors: true
+
+colours:
+  - name: Black
+    hex: '040200'
+    displayName: 'Noir'
+  - name: White
+    hex: 'f1f1f1'
+    displayName: 'Blanc'
+  - name: Red
+    hex: 'e7302a'
+    displayName: 'Rouge'
+  - name: TitaniumGrey
+    hex: '707070'
+    displayName: 'Gris titane'
+  - name: LimeYellow
+    hex: 'f7ff4d'
+    displayName: 'Jaune citron'
+  - name: KawaGreen
+    hex: '38b308'
+    displayName: 'Vert kawa'
+  - name: DukeGreen
+    hex: '0c650c'
+    displayName: 'Vert duc'
+  - name: SBlue
+    hex: '0069b4'
+    displayName: 'Bleu S'
+  - name: HyBlue
+    hex: '00184c'
+    displayName: 'Bleu HY'
+  - name: Violet
+    hex: '420060'
+    displayName: 'Violet'
+  - name: HOrange
+    hex: 'df6900'
+    displayName: 'Orange H'
+  - name: Gold
+    hex: 'f9e4a4'
+    displayName: 'Or'
+    metalness: 0.9
+  - name: Chrome
+    hex: 'd1d3d5'
+    displayName: 'Chrome'
+    metalness: 0.9
+  - name: FluoYellow
+    hex: 'ffff00'
+    displayName: 'Jaune fluo'
+  - name: FluoOrange
+    hex: 'fb6e00'
+    displayName: 'Orange fluo'
+  - name: FluoPink
+    hex: 'fa25cb'
+    displayName: 'Rose fluo'
+  - name: FluoRed
+    hex: 'ff0000'
+    displayName: 'Rouge fluo'
+
+assets:
+  baseColourMap: 'Colour.png'
+  normalMap: 'Normal.png'
+  occlusionMap: 'Occlusion.png'
+  roughnessMap: 'Roughness.png'
+  metalnessMap: 'Metalness.png'
+  ormMap: 'ORM.png'
+
+shadowCatcher:
+  part: 'shadow_catcher'
+  texture: 'Shadow catcher.png'
+
+restrictions:
+  maxColours: 3
+
+snapshots:
+  - default: './Snapshot1.jpeg'
+    cameraPosition: [0.720, 0.560, 1.358]
+    cameraTarget: [-0.029, -0.048, -0.107]
+  - default: './Snapshot2.jpeg'
+    cameraPosition: [0.612, 0.521, -1.485]
+    cameraTarget: [0.098, 0.062, -0.189]
