@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].use[1]!./node_modules/@csstools/normalize.css/normalize.css ***!
+  \**********************************************************************************************************************************/
 /* Document
  * ========================================================================== */
 
@@ -256,6 +259,66 @@
   display: list-item;
 }
 
-body,input,textarea,button{font-family:"Rubik",sans-serif}body{align-items:center;display:flex;flex-flow:column nowrap;margin:0px;width:100%}body>img{max-height:15%;max-width:100%}.overlay{top:0px;left:0px;width:100%;height:100%;position:fixed}#fake-header{background-color:#343434;display:flex;justify-content:center;width:100%;color:#fff}#fake-header .inner{max-width:100%;width:700px}#fake-header .inner>img{padding-top:10px;width:100%}#fake-header .inner>ul{display:flex;flex-flow:row wrap;justify-content:space-around;list-style:none;padding:0px}#fake-header .inner>ul li{background-color:#101010;border-radius:5px;padding:8px 12px;transition:all 200ms}#fake-header .inner>ul li:hover{box-shadow:0px 0px 8px 2px #c1c1c1}#fake-header .inner>ul li a{cursor:pointer}
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[5].use[3]!./src/style.scss ***!
+  \***********************************************************************************************************************************************************************************************************/
+body, input, textarea, button {
+  font-family: "Rubik", sans-serif;
+}
+
+body {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0px;
+  width: 100%;
+}
+body > img {
+  max-height: 15%;
+  max-width: 100%;
+}
+
+.overlay {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+#fake-header {
+  background-color: #343434;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  color: #fff;
+}
+#fake-header .inner {
+  max-width: 100%;
+  width: 700px;
+}
+#fake-header .inner > img {
+  padding-top: 10px;
+  width: 100%;
+}
+#fake-header .inner > ul {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0px;
+}
+#fake-header .inner > ul li {
+  background-color: #101010;
+  border-radius: 5px;
+  padding: 8px 12px;
+  transition: all 200ms;
+}
+#fake-header .inner > ul li:hover {
+  box-shadow: 0px 0px 8px 2px #C1C1C1;
+}
+#fake-header .inner > ul li a {
+  cursor: pointer;
+}
 
 /*# sourceMappingURL=style.scss.css.map*/
