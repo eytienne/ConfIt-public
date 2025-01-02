@@ -1,105 +1,137 @@
 components:
-  - name: Poitrine
+  - displayName: Poitrine
     part: chest
     cameraPosition: [0.814, 0.640, 1.536]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColour: Black
+    defaultColor: Black
     colors: true
-  - name: Face avant
+  - displayName: Face avant
     part: front_face
     cameraPosition: [0.814, 0.640, 1.536]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColour: Red
+    defaultColor: Red
     colors: true
-  - name: Bras
+    materialParams:
+      springRotation: 88
+  - displayName: Bras
     part: arm
     cameraPosition: [0.814, 0.640, 1.536]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColour: TitaniumGrey
+    defaultColor: TitaniumGrey
     colors: true
-  - name: Fessier
+  - displayName: Fessier
     part: buttock
     cameraPosition: [0.693, -0.042, -1.483]
     cameraTarget: [0.039, -0.069, -0.088]
-    defaultColour: LimeYellow
+    defaultColor: LimeYellow
     colors: true
-  - name: Ressort lombaires
+  - displayName: Ressort lombaires
     part: logo_spring
     cameraPosition: [0.037, 0.115, -1.618]
     cameraTarget: [0.003, -0.023, -0.137]
-    defaultColour: Black
+    defaultColor: Black
     colors:
       - Black
       - White
       - Red
-  - name: Dos
+  - displayName: Dos
     part: back
     cameraPosition: [0.290, 0.606, -1.461]
     cameraTarget: [-0.009, 0.105, -0.197]
-    defaultColour: KawaGreen
+    defaultColor: KawaGreen
     colors: true
-  - name: Haut du dos
+  - displayName: Haut du dos
     part: upper_back
     cameraPosition: [0.390, 0.803, -1.368]
     cameraTarget: [0.070, 0.180, -0.189]
-    defaultColour: DukeGreen
+    defaultColor: DukeGreen
     colors: true
-  - name: Aisselles
+  - displayName: Aisselles
     part: armpit
     cameraPosition: [0.054, 0.620, -1.382]
     cameraTarget: [0.004, 0.134, -0.199]
-    defaultColour: SBlue
+    defaultColor: SBlue
     colors: true
-  - name: Sous-bras
+  - displayName: Sous-bras
     part: underarm
     cameraPosition: [0.002, 0.250, -1.578]
     cameraTarget: [-0.013, 0.011, -0.169]
-    defaultColour: HyBlue
+    defaultColor: HyBlue
     colors: true
-  - name: Bande poitrine haut
+  - displayName: Bande poitrine haut
     part: chest_band_top
     cameraPosition: [0.219, 0.980, 0.896]
     cameraTarget: [0.005, 0.276, 0.083]
-    defaultColour: Violet
+    defaultColor: Violet
     colors: true
-  - name: Bande poitrine bas
+  - displayName: Bande poitrine bas
     part: chest_band_bottom
     cameraPosition: [0.219, 0.980, 0.896]
     cameraTarget: [0.005, 0.276, 0.083]
-    defaultColour: HOrange
+    defaultColor: HOrange
     colors: true
-  - name: Bande bras avant
+  - displayName: Bande bras avant
     part: arm_band_front
     cameraPosition: [1.395, 0.679, 0.615]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColour: Gold
+    defaultColor: Gold
     colors: true
-  - name: Bande bras arrière
+  - displayName: Bande bras arrière
     part: arm_band_rear
     cameraPosition: [1.395, 0.679, 0.615]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColour: Chrome
+    defaultColor: Chrome
     colors: true
-  - name: Bande dos bas
+  - displayName: Bande dos bas
     part: back_band_bottom
     cameraPosition: [0.189, 0.910, -1.208]
     cameraTarget: [0.011, 0.216, -0.194]
-    defaultColour: FluoYellow
+    defaultColor: FluoYellow
     colors: true
-  - name: Bande dos haut
+  - displayName: Bande dos haut
     part: back_band_top
     cameraPosition: [0.189, 0.910, -1.208]
     cameraTarget: [0.011, 0.216, -0.194]
-    defaultColour: FluoOrange
+    defaultColor: FluoOrange
     colors: true
-  - name: Bandes latérales
+  - displayName: Bandes latérales
     part: side_band_edges
     cameraPosition: [1.329, 0.396, 0.859]
     cameraTarget: [0.226, 0.007, -0.028]
-    defaultColour: FluoPink
+    defaultColor: FluoPink
     colors: true
+  - part: nckevlar
+    material: kevlar
+  - part: ncneck
+    material: leather
+    hex: '5e5e5c'
+  - part: ncblack_leather
+    material: leather
+    hex: '090909'
+  - part: ncred_leather
+    material: leather
+    customColor: Red
+  - part: ncwhite_leather
+    material: leather
+    customColor: White
+  - part: ncshins
+    material: leather
+    hex: '5e5e5c'
+  - part: nclogo
+    colorMap: "/ES Logo.png"
+    material: leather
+  - part: ncslider
+    material: plastic
+  - part: ncslider_support
+    material: suede
+    hex: '2e2e2c'
+  - part: nczip
+    material: black-metal
+  - part: ncblack_fabric
+    material: black-fabric
 
-colours:
+materialForColors: leather
+colors:
   - name: Black
     hex: '040200'
     displayName: 'Noir'
@@ -154,8 +186,42 @@ colours:
     hex: 'ff0000'
     displayName: 'Rouge fluo'
 
+materials:
+  - name: leather
+    complex: true
+    params:
+      mask: 'Mask.png'
+  - name: kevlar
+    params:
+      map: 'Fabric004_2K-PNG_Color.png'
+      metalness: 1
+      normalMap: 'Fabric004_2K-PNG_NormalGL.png'
+      roughness: 3
+      roughnessMap: 'Fabric004_2K-PNG_Roughness.png'
+    repeat: 100
+  - name: plastic
+    params:
+      map: 'Plastic006_2K-JPG_Color.jpg'
+      normalMap: 'Plastic006_2K-JPG_NormalGL.jpg'
+      roughnessMap: 'Plastic006_2K-JPG_Roughness.jpg'
+    repeat: 42
+  - name: suede
+    params:
+      map: 'suede_ao.png'
+      normalMap: 'suede_normal.png'
+      roughnessMap: 'suede_roughness.png'
+    repeat: 16
+  - name: black-metal
+    params:
+      color: '131313'
+      metalness: 1
+  - name: black-fabric
+    params:
+      color: '090909'
+
+
 assets:
-  baseColourMap: 'Colour.png'
+  map: 'Color.png'
   normalMap: 'Normal.png'
   occlusionMap: 'Occlusion.png'
   roughnessMap: 'Roughness.png'
@@ -167,7 +233,7 @@ shadowCatcher:
   texture: 'Shadow catcher.png'
 
 restrictions:
-  maxColours: 3
+  maxColors: 3
 
 snapshots:
   - default: './Snapshot1.jpeg'

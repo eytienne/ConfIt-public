@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkconfit=self.webpackChunkconfit||[]).push([[119,302],{8302:(n,c,e)=>{function t(n){return 0===n?"uv":"uv".concat(n)}e.r(c),e.d(c,{getChannel:()=>t})}}]);

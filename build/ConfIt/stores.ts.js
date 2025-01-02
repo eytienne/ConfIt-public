@@ -4965,10 +4965,12 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   opened: () => (/* binding */ opened),
+/* harmony export */   productPath: () => (/* binding */ productPath),
 /* harmony export */   snapshots: () => (/* binding */ snapshots)
 /* harmony export */ });
 /* harmony import */ var svelte_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/store */ "../svelte/packages/svelte/src/runtime/store/index.js");
 
+var productPath = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)();
 var opened = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
 var snapshots = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
 })();
