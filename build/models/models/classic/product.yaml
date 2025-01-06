@@ -1,0 +1,244 @@
+components:
+  - displayName: Poitrine
+    part: chest
+    cameraPosition: [0.814, 0.640, 1.536]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColor: Black
+    colors: true
+  - displayName: Face avant
+    part: front_face
+    cameraPosition: [0.814, 0.640, 1.536]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColor: Red
+    colors: true
+    materialParams:
+      springRotation: 88
+  - displayName: Bras
+    part: arm
+    cameraPosition: [0.814, 0.640, 1.536]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColor: TitaniumGrey
+    colors: true
+  - displayName: Fessier
+    part: buttock
+    cameraPosition: [0.693, -0.042, -1.483]
+    cameraTarget: [0.039, -0.069, -0.088]
+    defaultColor: LimeYellow
+    colors: true
+  - displayName: Ressort lombaires
+    part: logo_spring
+    cameraPosition: [0.037, 0.115, -1.618]
+    cameraTarget: [0.003, -0.023, -0.137]
+    defaultColor: Black
+    colors:
+      - Black
+      - White
+      - Red
+  - displayName: Dos
+    part: back
+    cameraPosition: [0.290, 0.606, -1.461]
+    cameraTarget: [-0.009, 0.105, -0.197]
+    defaultColor: KawaGreen
+    colors: true
+  - displayName: Haut du dos
+    part: upper_back
+    cameraPosition: [0.390, 0.803, -1.368]
+    cameraTarget: [0.070, 0.180, -0.189]
+    defaultColor: DukeGreen
+    colors: true
+  - displayName: Aisselles
+    part: armpit
+    cameraPosition: [0.054, 0.620, -1.382]
+    cameraTarget: [0.004, 0.134, -0.199]
+    defaultColor: SBlue
+    colors: true
+  - displayName: Sous-bras
+    part: underarm
+    cameraPosition: [0.002, 0.250, -1.578]
+    cameraTarget: [-0.013, 0.011, -0.169]
+    defaultColor: HyBlue
+    colors: true
+  - displayName: Bande poitrine haut
+    part: chest_band_top
+    cameraPosition: [0.219, 0.980, 0.896]
+    cameraTarget: [0.005, 0.276, 0.083]
+    defaultColor: Violet
+    colors: true
+  - displayName: Bande poitrine bas
+    part: chest_band_bottom
+    cameraPosition: [0.219, 0.980, 0.896]
+    cameraTarget: [0.005, 0.276, 0.083]
+    defaultColor: HOrange
+    colors: true
+  - displayName: Bande bras avant
+    part: arm_band_front
+    cameraPosition: [1.395, 0.679, 0.615]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColor: Gold
+    colors: true
+  - displayName: Bande bras arrière
+    part: arm_band_rear
+    cameraPosition: [1.395, 0.679, 0.615]
+    cameraTarget: [-0.029, -0.048, -0.107]
+    defaultColor: Chrome
+    colors: true
+  - displayName: Bande dos bas
+    part: back_band_bottom
+    cameraPosition: [0.189, 0.910, -1.208]
+    cameraTarget: [0.011, 0.216, -0.194]
+    defaultColor: FluoYellow
+    colors: true
+  - displayName: Bande dos haut
+    part: back_band_top
+    cameraPosition: [0.189, 0.910, -1.208]
+    cameraTarget: [0.011, 0.216, -0.194]
+    defaultColor: FluoOrange
+    colors: true
+  - displayName: Bandes latérales
+    part: side_band_edges
+    cameraPosition: [1.329, 0.396, 0.859]
+    cameraTarget: [0.226, 0.007, -0.028]
+    defaultColor: FluoPink
+    colors: true
+  - part: nckevlar
+    material: kevlar
+  - part: ncneck
+    material: leather
+    hex: '5e5e5c'
+  - part: ncblack_leather
+    material: leather
+    hex: '090909'
+  - part: ncred_leather
+    material: leather
+    customColor: Red
+  - part: ncwhite_leather
+    material: leather
+    customColor: White
+  - part: ncshins
+    material: leather
+    hex: '5e5e5c'
+  - part: nclogo
+    colorMap: "/ES Logo.png"
+    material: leather
+  - part: ncslider
+    material: plastic
+  - part: ncslider_support
+    material: suede
+    hex: '2e2e2c'
+  - part: nczip
+    material: black-metal
+  - part: ncblack_fabric
+    material: black-fabric
+
+materialForColors: leather
+colors:
+  - name: Black
+    hex: '040200'
+    displayName: 'Noir'
+  - name: White
+    hex: 'f1f1f1'
+    displayName: 'Blanc'
+  - name: Red
+    hex: 'e7302a'
+    displayName: 'Rouge'
+  - name: TitaniumGrey
+    hex: '707070'
+    displayName: 'Gris titane'
+  - name: LimeYellow
+    hex: 'f7ff4d'
+    displayName: 'Jaune citron'
+  - name: KawaGreen
+    hex: '38b308'
+    displayName: 'Vert kawa'
+  - name: DukeGreen
+    hex: '0c650c'
+    displayName: 'Vert duc'
+  - name: SBlue
+    hex: '0069b4'
+    displayName: 'Bleu S'
+  - name: HyBlue
+    hex: '00184c'
+    displayName: 'Bleu HY'
+  - name: Violet
+    hex: '420060'
+    displayName: 'Violet'
+  - name: HOrange
+    hex: 'df6900'
+    displayName: 'Orange H'
+  - name: Gold
+    hex: 'f9e4a4'
+    displayName: 'Or'
+    metalness: 0.9
+  - name: Chrome
+    hex: 'd1d3d5'
+    displayName: 'Chrome'
+    metalness: 0.9
+  - name: FluoYellow
+    hex: 'ffff00'
+    displayName: 'Jaune fluo'
+  - name: FluoOrange
+    hex: 'fb6e00'
+    displayName: 'Orange fluo'
+  - name: FluoPink
+    hex: 'fa25cb'
+    displayName: 'Rose fluo'
+  - name: FluoRed
+    hex: 'ff0000'
+    displayName: 'Rouge fluo'
+
+materials:
+  - name: leather
+    complex: true
+    params:
+      mask: 'Mask.png'
+  - name: kevlar
+    params:
+      map: 'Fabric004_2K-PNG_Color.png'
+      metalness: 1
+      normalMap: 'Fabric004_2K-PNG_NormalGL.png'
+      roughness: 3
+      roughnessMap: 'Fabric004_2K-PNG_Roughness.png'
+    repeat: 100
+  - name: plastic
+    params:
+      map: 'Plastic006_2K-JPG_Color.jpg'
+      normalMap: 'Plastic006_2K-JPG_NormalGL.jpg'
+      roughnessMap: 'Plastic006_2K-JPG_Roughness.jpg'
+    repeat: 42
+  - name: suede
+    params:
+      map: 'suede_ao.png'
+      normalMap: 'suede_normal.png'
+      roughnessMap: 'suede_roughness.png'
+    repeat: 16
+  - name: black-metal
+    params:
+      color: '131313'
+      metalness: 1
+  - name: black-fabric
+    params:
+      color: '090909'
+
+
+assets:
+  map: 'Color.png'
+  normalMap: 'Normal.png'
+  occlusionMap: 'Occlusion_4K.png'
+  roughnessMap: 'Roughness.png'
+  metalnessMap: 'Metalness.png'
+  ormMap: 'ORM.png'
+
+shadowCatcher:
+  part: 'shadow_catcher'
+  texture: 'Shadow catcher.png'
+
+restrictions:
+  maxColors: 3
+
+snapshots:
+  - default: './Snapshot1.jpeg'
+    cameraPosition: [0.720, 0.560, 1.358]
+    cameraTarget: [-0.029, -0.048, -0.107]
+  - default: './Snapshot2.jpeg'
+    cameraPosition: [0.612, 0.521, -1.485]
+    cameraTarget: [0.098, 0.062, -0.189]
