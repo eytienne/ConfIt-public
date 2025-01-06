@@ -56,7 +56,7 @@ function _leather() {
             springBumpScale: 1,
             maskMap: maskMap
           })));
-          (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.addOnBeforeCompile)(material, function (parameters) {
+          (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.addCallback)(material, "onBeforeCompile", function (parameters) {
             parameters.bumpMap = true;
             parameters.bumpMapUv = material.getChannel(leatherNormal.channel);
             for (var _i = 0, _Object$entries = Object.entries(parameters.uniforms); _i < _Object$entries.length; _i++) {
@@ -70,6 +70,21 @@ function _leather() {
             }
             material.setVertexUvS(parameters);
           });
+          (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.addCallback)(material, "onBeforeRender", function (_renderer, _scene, _camera, _geometry, object, _group) {
+            if (object.material.uniformsNeedUpdate) {
+              for (var _i2 = 0, _Object$entries2 = Object.entries(object.material.uniforms); _i2 < _Object$entries2.length; _i2++) {
+                var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+                  name = _Object$entries2$_i[0],
+                  uniform = _Object$entries2$_i[1];
+                if (name.match(_three_helper__WEBPACK_IMPORTED_MODULE_0__.ANY_MAP_REGEXP) && (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.isTexture)(uniform.value)) {
+                  if (uniform.value.matrixAutoUpdate === true) {
+                    uniform.value.updateMatrix();
+                  }
+                  object.material.uniforms[name + "Transform"].value.copy(uniform.value.matrix);
+                }
+              }
+            }
+          });
           TOKEN = "void main() {";
           material.vertexShader = material.vertexShader.replace(TOKEN, "\n\t\tvoid rotateUv(inout vec2 uv, float rotation) {\n\t\t\tfloat cosAngle = cos(rotation);\n\t\t\tfloat sinAngle = sin(rotation);\n\t\t\tmat2 rotationMatrix = mat2(\n\t\t\t\tcosAngle, -sinAngle,\n\t\t\t\tsinAngle,  cosAngle\n\t\t\t);\n\t\t\tuv = rotationMatrix * uv;\n\t\t}\n\n\t\tout vec2 normalMapUv;\n\t\tuniform mat3 maskMapTransform;\n\t\tout vec2 maskMapUv;\n\t\tuniform mat3 perforationsBumpMapTransform;\n\t\tout vec2 perforationsBumpMapUv;\n\t\tuniform mat3 springBumpMapTransform;\n\t\tuniform float springRotation;\n\t\tout vec2 springBumpMapUv;\n\n\t\t".concat(TOKEN, "\n\n\t\tnormalMapUv = ( normalMapTransform * vec3( NORMALMAP_UV, 1 ) ).xy;\n\t\tmaskMapUv = ( maskMapTransform * vec3( NORMALMAP_UV, 1 ) ).xy;\n\t\tperforationsBumpMapUv = ( perforationsBumpMapTransform * vec3( NORMALMAP_UV, 1 ) ).xy;\n\t\tspringBumpMapUv = ( springBumpMapTransform * vec3( NORMALMAP_UV, 1 ) ).xy;\n\t\trotateUv(springBumpMapUv, springRotation);\n\t\t"));
           material.fragmentShader = material.fragmentShader.replace(TOKEN, "\n\t\tvec3 blend_rnm(vec3 n1, vec3 n2)\n\t\t{\n\t\t\tvec3 t = n1.xyz*vec3( 2,  2, 2) + vec3(-1, -1,  0);\n\t\t\tvec3 u = n2.xyz*vec3(-2, -2, 2) + vec3( 1,  1, -1);\n\t\t\tvec3 r = t*dot(t, u) - u*t.z;\n\t\t\treturn normalize(r);\n\t\t}\n\n\t\tvec2 dHdxy_fwd2(sampler2D map, vec2 mapUv, float scale) {\n\t\t\tvec2 dSTdx = dFdx( mapUv );\n\t\t\tvec2 dSTdy = dFdy( mapUv );\n\n\t\t\tfloat Hll = scale * texture2D( map, mapUv ).x;\n\t\t\tfloat dBx = scale * texture2D( map, mapUv + dSTdx ).x - Hll;\n\t\t\tfloat dBy = scale * texture2D( map, mapUv + dSTdy ).x - Hll;\n\n\t\t\treturn vec2( dBx, dBy );\n\t\t}\n\n\t\tin vec2 normalMapUv;\n\t\tuniform sampler2D maskMap;\n\t\tin vec2 maskMapUv;\n\t\tuniform sampler2D perforationsBumpMap;\n\t\tuniform float perforationsBumpScale;\n\t\tin vec2 perforationsBumpMapUv;\n\t\tuniform sampler2D springBumpMap;\n\t\tuniform float springBumpScale;\n\t\tin vec2 springBumpMapUv;\n\n\t\t".concat(TOKEN));
@@ -82,7 +97,7 @@ function _leather() {
             _material.uniforms.springRotation = (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.getUniform)((0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_3__.degToRad)(springRotation));
           };
           return _context.abrupt("return", material);
-        case 13:
+        case 14:
         case "end":
           return _context.stop();
       }

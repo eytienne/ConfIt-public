@@ -9,7 +9,7 @@ components:
     part: front_face
     cameraPosition: [0.814, 0.640, 1.536]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColor: Red
+    defaultColor: Camo
     colors: true
     materialParams:
       springRotation: 88
@@ -44,7 +44,7 @@ components:
     part: upper_back
     cameraPosition: [0.390, 0.803, -1.368]
     cameraTarget: [0.070, 0.180, -0.189]
-    defaultColor: DukeGreen
+    defaultColor: Red
     colors: true
   - displayName: Aisselles
     part: armpit
@@ -150,9 +150,10 @@ colors:
   - name: KawaGreen
     hex: '38b308'
     displayName: 'Vert kawa'
-  - name: DukeGreen
-    hex: '0c650c'
-    displayName: 'Vert duc'
+  - name: Camo
+    map: 'camouflage.jpg'
+    repeat: 8
+    displayName: 'Camo'
   - name: SBlue
     hex: '0069b4'
     displayName: 'Bleu S'
@@ -223,7 +224,7 @@ materials:
 assets:
   map: 'Color.png'
   normalMap: 'Normal.png'
-  occlusionMap: 'Occlusion.png'
+  occlusionMap: 'Occlusion_4K.png'
   roughnessMap: 'Roughness.png'
   metalnessMap: 'Metalness.png'
   ormMap: 'ORM.png'

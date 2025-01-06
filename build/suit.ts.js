@@ -6083,7 +6083,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ANY_MAP_REGEXP: () => (/* binding */ ANY_MAP_REGEXP),
 /* harmony export */   MeshStandardMaterial: () => (/* binding */ MeshStandardMaterial),
 /* harmony export */   StandardShaderMaterial: () => (/* binding */ StandardShaderMaterial),
-/* harmony export */   addOnBeforeCompile: () => (/* binding */ addOnBeforeCompile),
+/* harmony export */   addCallback: () => (/* binding */ addCallback),
 /* harmony export */   clipCanvas: () => (/* binding */ clipCanvas),
 /* harmony export */   generateTransformUniforms: () => (/* binding */ generateTransformUniforms),
 /* harmony export */   getPixelColor: () => (/* binding */ getPixelColor),
@@ -6096,9 +6096,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   textureLoader: () => (/* binding */ textureLoader),
 /* harmony export */   tileTexture: () => (/* binding */ tileTexture)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
-/* harmony import */ var _svelte_helper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./svelte-helper */ "./src/ConfIt/svelte-helper.ts");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -6124,7 +6123,6 @@ function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !==
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
 function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-
 
 function isTexture(prop) {
   return (prop === null || prop === void 0 ? void 0 : prop.isTexture) === true;
@@ -6228,11 +6226,11 @@ var MeshStandardMaterial = /*#__PURE__*/function (_CopyCallbacksMixin) {
   }
   _inherits(MeshStandardMaterial, _CopyCallbacksMixin);
   return _createClass(MeshStandardMaterial);
-}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_1__.MeshStandardMaterial)));
+}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_0__.MeshStandardMaterial)));
 var ANY_MAP_REGEXP = /[mM]ap$/;
-var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.lights, {
+var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.lights, {
   emissive: {
-    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_1__.Color(0x000000)
+    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_0__.Color(0x000000)
   },
   roughness: {
     value: 1.0
@@ -6256,7 +6254,7 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
   function StandardShaderMaterial(parameters) {
     var _this2;
     _classCallCheck(this, StandardShaderMaterial);
-    _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread(_objectSpread({}, parameters !== null && parameters !== void 0 ? parameters : {}), three__WEBPACK_IMPORTED_MODULE_2__.ShaderLib.physical), {}, {
+    _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread(_objectSpread({}, parameters !== null && parameters !== void 0 ? parameters : {}), three__WEBPACK_IMPORTED_MODULE_1__.ShaderLib.physical), {}, {
       lights: true
     })]);
     _defineProperty(_this2, "_activeChannels", new Set());
@@ -6284,7 +6282,7 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
       return "uv".concat(value);
     }
   }]);
-}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(UniformPropertiesMixin(three__WEBPACK_IMPORTED_MODULE_1__.ShaderMaterial, StandardShaderProps)))));
+}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(UniformPropertiesMixin(three__WEBPACK_IMPORTED_MODULE_0__.ShaderMaterial, StandardShaderProps)))));
 var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
   function CustomTextureLoader() {
     _classCallCheck(this, CustomTextureLoader);
@@ -6302,11 +6300,11 @@ var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
       }, onProgress, onError]);
     }
   }]);
-}(three__WEBPACK_IMPORTED_MODULE_1__.TextureLoader);
-var loadingManager = new three__WEBPACK_IMPORTED_MODULE_1__.LoadingManager();
+}(three__WEBPACK_IMPORTED_MODULE_0__.TextureLoader);
+var loadingManager = new three__WEBPACK_IMPORTED_MODULE_0__.LoadingManager();
 var textureLoader = new CustomTextureLoader(loadingManager);
 function tileTexture(texture, repeat) {
-  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
+  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__.RepeatWrapping;
   texture.repeat.setScalar(repeat);
   return texture;
 }
@@ -6329,7 +6327,7 @@ function generateTransformUniforms(uniforms) {
     var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
       name = _Object$entries2$_i[0],
       uniform = _Object$entries2$_i[1];
-    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_1__.Texture) {
+    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_0__.Texture) {
       uniform.value.updateMatrix();
       uniforms[name + "Transform"] = {
         value: uniform.value.matrix.clone()
@@ -6338,17 +6336,19 @@ function generateTransformUniforms(uniforms) {
   }
   return uniforms;
 }
-function addOnBeforeCompile(material, callback) {
-  var oldOBC = material.onBeforeCompile;
-  material.onBeforeCompile = function (shader, renderer) {
+function addCallback(material, name, callback) {
+  var oldOBC = material[name];
+  material[name] = function () {
     if (oldOBC) {
-      oldOBC(shader, renderer);
+      //@ts-expect-error 2556
+      oldOBC.apply(void 0, arguments);
     }
-    callback(shader, renderer);
+    //@ts-expect-error 2556
+    callback.apply(void 0, arguments);
   };
 }
 function hsl() {
-  var color = new three__WEBPACK_IMPORTED_MODULE_1__.Color();
+  var color = new three__WEBPACK_IMPORTED_MODULE_0__.Color();
   color.setHSL.apply(color, arguments);
   return color;
 }
@@ -6365,7 +6365,7 @@ function getPixelColor(uv, texture) {
   var ctx = getPixelColorCanvas.getContext("2d");
   ctx.drawImage(texture.image, uv.x, uv.y);
   var data = ctx.getImageData(0, 0, 1, 1).data;
-  return new three__WEBPACK_IMPORTED_MODULE_1__.Color(data[0], data[1], data[2]);
+  return new three__WEBPACK_IMPORTED_MODULE_0__.Color(data[0], data[1], data[2]);
 }
 function clipCanvas(canvas, aspectRatio) {
   var sourceAspectRatio = canvas.width / canvas.height;
@@ -6381,7 +6381,6 @@ function clipCanvas(canvas, aspectRatio) {
   destCanvas.width = width;
   destCanvas.height = height;
   var ctx = destCanvas.getContext("2d");
-  (0,_svelte_helper__WEBPACK_IMPORTED_MODULE_0__.logg)("clipCanvas", (canvas.width - width) / 2, (canvas.height - height) / 2, width, height, 0, 0, width, height);
   ctx.drawImage(canvas, (canvas.width - width) / 2, (canvas.height - height) / 2, width, height, 0, 0, width, height);
   return destCanvas;
 }
@@ -23947,9 +23946,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/ConfIt/Mod.svelte.18.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.18.css!./src/ConfIt/Mod.svelte":
+/***/ "./src/ConfIt/Mod.svelte.86.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.86.css!./src/ConfIt/Mod.svelte":
 /*!***************************************************************************************************************************************************************************!*\
-  !*** ./src/ConfIt/Mod.svelte.18.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.18.css!./src/ConfIt/Mod.svelte ***!
+  !*** ./src/ConfIt/Mod.svelte.86.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.86.css!./src/ConfIt/Mod.svelte ***!
   \***************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -24457,7 +24456,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./svelte-helper.ts */ "./src/ConfIt/svelte-helper.ts");
 /* harmony import */ var three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! three/src/math/MathUtils.js */ "../three.js/src/math/MathUtils.js");
 /* harmony import */ var _stores_ts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./stores.ts */ "./src/ConfIt/stores.ts");
-/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_18_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_18_css_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./src/ConfIt/Mod.svelte.18.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.18.css!./src/ConfIt/Mod.svelte */ "./src/ConfIt/Mod.svelte.18.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.18.css!./src/ConfIt/Mod.svelte");
+/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_86_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_86_css_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./src/ConfIt/Mod.svelte.86.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.86.css!./src/ConfIt/Mod.svelte */ "./src/ConfIt/Mod.svelte.86.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.86.css!./src/ConfIt/Mod.svelte");
 /* src/ConfIt/Mod.svelte generated by Svelte v4.2.19 */
 
 
@@ -24490,17 +24489,19 @@ const { Map: Map_1 } = svelte_internal__WEBPACK_IMPORTED_MODULE_0__.globals;
 
 function get_each_context_1(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[110] = list[i];
+	child_ctx[113] = list[i];
 	return child_ctx;
 }
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[107] = list[i];
+	child_ctx[109] = list[i];
+	const constants_0 = /*components*/ child_ctx[25].get(/*mesh*/ child_ctx[109].name);
+	child_ctx[110] = constants_0;
 	return child_ctx;
 }
 
-// (756:2) {#if $selectedMesh}
+// (765:2) {#if $selectedMesh}
 function create_if_block(ctx) {
 	let previous_key = /*$selectedMeshIndex*/ ctx[22];
 	let key_block_anchor;
@@ -24549,7 +24550,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (762:4) {:else}
+// (771:4) {:else}
 function create_else_block_2(ctx) {
 	let button0;
 	let arrowleft;
@@ -24664,7 +24665,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (760:4) {#if menuOn}
+// (769:4) {#if menuOn}
 function create_if_block_5(ctx) {
 	let h1;
 	let t0;
@@ -24700,7 +24701,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (783:5) {:else}
+// (792:5) {:else}
 function create_else_block_1(ctx) {
 	let hamburger;
 	let span;
@@ -24738,7 +24739,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (781:5) {#if menuOn}
+// (790:5) {#if menuOn}
 function create_if_block_4(ctx) {
 	let close;
 	let current;
@@ -24767,7 +24768,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (813:4) {:else}
+// (823:4) {:else}
 function create_else_block(ctx) {
 	let div;
 	let each_blocks = [];
@@ -24775,7 +24776,7 @@ function create_else_block(ctx) {
 	let div_intro;
 	let style_transform = `translateX(${/*$translateX*/ ctx[20]}px)`;
 	let each_value_1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.ensure_array_like)(/*availableColors*/ ctx[18]);
-	const get_key = ctx => /*color*/ ctx[110].name;
+	const get_key = ctx => /*color*/ ctx[113].name;
 
 	for (let i = 0; i < each_value_1.length; i += 1) {
 		let child_ctx = get_each_context_1(ctx, each_value_1, i);
@@ -24803,7 +24804,7 @@ function create_else_block(ctx) {
 				}
 			}
 
-			/*div_binding*/ ctx[43](div);
+			/*div_binding*/ ctx[44](div);
 		},
 		p(ctx, dirty) {
 			if (dirty[0] & /*availableColors, $selectedColor, components, $selectedMesh, translateX*/ 42213384) {
@@ -24835,19 +24836,19 @@ function create_else_block(ctx) {
 				each_blocks[i].d();
 			}
 
-			/*div_binding*/ ctx[43](null);
+			/*div_binding*/ ctx[44](null);
 		}
 	};
 }
 
-// (793:4) {#if menuOn}
+// (802:4) {#if menuOn}
 function create_if_block_1(ctx) {
 	let each_blocks = [];
 	let each_1_lookup = new Map_1();
 	let each_1_anchor;
 	let current;
 	let each_value = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.ensure_array_like)(/*$componentMeshes*/ ctx[19]);
-	const get_key = ctx => /*mesh*/ ctx[107].uuid;
+	const get_key = ctx => /*mesh*/ ctx[109].uuid;
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = get_each_context(ctx, each_value, i);
@@ -24874,7 +24875,7 @@ function create_if_block_1(ctx) {
 			current = true;
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*$selectedMesh, $componentMeshes, components*/ 34078728 | dirty[1] & /*toggleMenu*/ 2) {
+			if (dirty[0] & /*$selectedMesh, $componentMeshes, components, product*/ 34078729 | dirty[1] & /*toggleMenu*/ 2) {
 				each_value = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.ensure_array_like)(/*$componentMeshes*/ ctx[19]);
 				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.group_outros)();
 				each_blocks = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.update_keyed_each)(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, each_1_anchor.parentNode, svelte_internal__WEBPACK_IMPORTED_MODULE_0__.outro_and_destroy_block, create_each_block, each_1_anchor, get_each_context);
@@ -24909,10 +24910,10 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (835:6) {#if $selectedColor && color.name === $selectedColor.name}
+// (845:6) {#if $selectedColor && color.name === $selectedColor.name}
 function create_if_block_3(ctx) {
 	let div;
-	let t_value = /*color*/ ctx[110].displayName + "";
+	let t_value = /*color*/ ctx[113].displayName + "";
 	let t;
 
 	return {
@@ -24926,7 +24927,7 @@ function create_if_block_3(ctx) {
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append)(div, t);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*availableColors*/ 262144 && t_value !== (t_value = /*color*/ ctx[110].displayName + "")) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_data)(t, t_value);
+			if (dirty[0] & /*availableColors*/ 262144 && t_value !== (t_value = /*color*/ ctx[113].displayName + "")) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_data)(t, t_value);
 		},
 		d(detaching) {
 			if (detaching) {
@@ -24936,7 +24937,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (820:4) {#each availableColors as color (color.name) }
+// (830:4) {#each availableColors as color (color.name) }
 function create_each_block_1(key_1, ctx) {
 	let div;
 	let button;
@@ -24947,10 +24948,10 @@ function create_each_block_1(key_1, ctx) {
 	let dispose;
 
 	function click_handler_7() {
-		return /*click_handler_7*/ ctx[42](/*color*/ ctx[110]);
+		return /*click_handler_7*/ ctx[43](/*color*/ ctx[113]);
 	}
 
-	let if_block = /*$selectedColor*/ ctx[23] && /*color*/ ctx[110].name === /*$selectedColor*/ ctx[23].name && create_if_block_3(ctx);
+	let if_block = /*$selectedColor*/ ctx[23] && /*color*/ ctx[113].name === /*$selectedColor*/ ctx[23].name && create_if_block_3(ctx);
 
 	return {
 		key: key_1,
@@ -24962,8 +24963,8 @@ function create_each_block_1(key_1, ctx) {
 			if (if_block) if_block.c();
 			t1 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(button, "class", "material__btn svelte-18k24x5");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(button, "aria-current", button_aria_current_value = /*$selectedColor*/ ctx[23] && /*color*/ ctx[110].name === /*$selectedColor*/ ctx[23].name);
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(button, "--material-bg", "#" + /*color*/ ctx[110].hex);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(button, "aria-current", button_aria_current_value = /*$selectedColor*/ ctx[23] && /*color*/ ctx[113].name === /*$selectedColor*/ ctx[23].name);
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(button, "--material-bg", backgroundFor(/*color*/ ctx[113]));
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(div, "class", "material svelte-18k24x5");
 			this.first = div;
 		},
@@ -24982,15 +24983,15 @@ function create_each_block_1(key_1, ctx) {
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
 
-			if (dirty[0] & /*$selectedColor, availableColors*/ 8650752 && button_aria_current_value !== (button_aria_current_value = /*$selectedColor*/ ctx[23] && /*color*/ ctx[110].name === /*$selectedColor*/ ctx[23].name)) {
+			if (dirty[0] & /*$selectedColor, availableColors*/ 8650752 && button_aria_current_value !== (button_aria_current_value = /*$selectedColor*/ ctx[23] && /*color*/ ctx[113].name === /*$selectedColor*/ ctx[23].name)) {
 				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(button, "aria-current", button_aria_current_value);
 			}
 
 			if (dirty[0] & /*availableColors*/ 262144) {
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(button, "--material-bg", "#" + /*color*/ ctx[110].hex);
+				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(button, "--material-bg", backgroundFor(/*color*/ ctx[113]));
 			}
 
-			if (/*$selectedColor*/ ctx[23] && /*color*/ ctx[110].name === /*$selectedColor*/ ctx[23].name) {
+			if (/*$selectedColor*/ ctx[23] && /*color*/ ctx[113].name === /*$selectedColor*/ ctx[23].name) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
@@ -25015,7 +25016,7 @@ function create_each_block_1(key_1, ctx) {
 	};
 }
 
-// (806:5) {#if components.get(mesh.name).chosen}
+// (816:5) {#if component.chosen}
 function create_if_block_2(ctx) {
 	let div;
 	let check;
@@ -25052,25 +25053,29 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (794:4) {#each $componentMeshes as mesh (mesh.uuid)}
+// (803:4) {#each $componentMeshes as mesh (mesh.uuid)}
 function create_each_block(key_1, ctx) {
 	let button;
 	let div2;
 	let div0;
 	let t0;
 	let div1;
-	let t1_value = /*components*/ ctx[25].get(/*mesh*/ ctx[107].name).displayName + "";
+	let t1_value = /*component*/ ctx[110].displayName + "";
 	let t1;
 	let t2;
-	let show_if = /*components*/ ctx[25].get(/*mesh*/ ctx[107].name).chosen;
 	let t3;
 	let current;
 	let mounted;
 	let dispose;
-	let if_block = show_if && create_if_block_2(ctx);
+
+	function func(...args) {
+		return /*func*/ ctx[41](/*component*/ ctx[110], ...args);
+	}
+
+	let if_block = /*component*/ ctx[110].chosen && create_if_block_2(ctx);
 
 	function click_handler_6() {
-		return /*click_handler_6*/ ctx[41](/*mesh*/ ctx[107]);
+		return /*click_handler_6*/ ctx[42](/*mesh*/ ctx[109]);
 	}
 
 	return {
@@ -25087,7 +25092,7 @@ function create_each_block(key_1, ctx) {
 			if (if_block) if_block.c();
 			t3 = (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.space)();
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(div0, "class", "mesh__details__selection svelte-18k24x5");
-			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(div0, "--material-bg", /*mesh*/ ctx[107].material.color.getStyle());
+			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(div0, "--material-bg", backgroundFor(/*product*/ ctx[0].colors.find(func)));
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(div1, "class", "mesh__details__name svelte-18k24x5");
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(div2, "class", "mesh__details svelte-18k24x5");
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.attr)(button, "class", "mesh svelte-18k24x5");
@@ -25113,14 +25118,13 @@ function create_each_block(key_1, ctx) {
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
 
-			if (dirty[0] & /*$componentMeshes*/ 524288) {
-				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(div0, "--material-bg", /*mesh*/ ctx[107].material.color.getStyle());
+			if (dirty[0] & /*product, $componentMeshes*/ 524289) {
+				(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_style)(div0, "--material-bg", backgroundFor(/*product*/ ctx[0].colors.find(func)));
 			}
 
-			if ((!current || dirty[0] & /*$componentMeshes*/ 524288) && t1_value !== (t1_value = /*components*/ ctx[25].get(/*mesh*/ ctx[107].name).displayName + "")) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_data)(t1, t1_value);
-			if (dirty[0] & /*$componentMeshes*/ 524288) show_if = /*components*/ ctx[25].get(/*mesh*/ ctx[107].name).chosen;
+			if ((!current || dirty[0] & /*$componentMeshes*/ 524288) && t1_value !== (t1_value = /*component*/ ctx[110].displayName + "")) (0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.set_data)(t1, t1_value);
 
-			if (show_if) {
+			if (/*component*/ ctx[110].chosen) {
 				if (if_block) {
 					if (dirty[0] & /*$componentMeshes*/ 524288) {
 						(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.transition_in)(if_block, 1);
@@ -25162,7 +25166,7 @@ function create_each_block(key_1, ctx) {
 	};
 }
 
-// (757:2) {#key $selectedMeshIndex}
+// (766:2) {#key $selectedMeshIndex}
 function create_key_block(ctx) {
 	let div2;
 	let div0;
@@ -25240,7 +25244,7 @@ function create_key_block(ctx) {
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append)(div2, t1);
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append)(div2, div1);
 			if_blocks_2[current_block_type_index_2].m(div1, null);
-			/*div1_binding*/ ctx[44](div1);
+			/*div1_binding*/ ctx[45](div1);
 			current = true;
 
 			if (!mounted) {
@@ -25368,7 +25372,7 @@ function create_key_block(ctx) {
 			if_blocks[current_block_type_index].d();
 			if_blocks_1[current_block_type_index_1].d();
 			if_blocks_2[current_block_type_index_2].d();
-			/*div1_binding*/ ctx[44](null);
+			/*div1_binding*/ ctx[45](null);
 			mounted = false;
 			dispose();
 		}
@@ -25507,7 +25511,7 @@ function create_fragment(ctx) {
 			/*div5_binding*/ ctx[37](div5);
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.append)(div6, t9);
 			if (if_block) if_block.m(div6, null);
-			/*div7_binding*/ ctx[45](div7);
+			/*div7_binding*/ ctx[46](div7);
 			current = true;
 
 			if (!mounted) {
@@ -25608,7 +25612,7 @@ function create_fragment(ctx) {
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.destroy_component)(dragline);
 			/*div5_binding*/ ctx[37](null);
 			if (if_block) if_block.d();
-			/*div7_binding*/ ctx[45](null);
+			/*div7_binding*/ ctx[46](null);
 			mounted = false;
 			(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.run_all)(dispose);
 		}
@@ -25638,6 +25642,12 @@ function getClientXY(e, y = false) {
 	return y ? _e.clientY : _e.clientX;
 }
 
+function backgroundFor(color) {
+	return color.hex
+	? "#" + color.hex
+	: `no-repeat center/120% url("colors/${color.map}")`;
+}
+
 function instance($$self, $$props, $$invalidate) {
 	let availableColors;
 	let $componentMeshes;
@@ -25649,7 +25659,7 @@ function instance($$self, $$props, $$invalidate) {
 	let $productPath;
 	let $snapshots;
 	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _stores_ts__WEBPACK_IMPORTED_MODULE_14__.opened, $$value => $$invalidate(21, $opened = $$value));
-	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _stores_ts__WEBPACK_IMPORTED_MODULE_14__.productPath, $$value => $$invalidate(75, $productPath = $$value));
+	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _stores_ts__WEBPACK_IMPORTED_MODULE_14__.productPath, $$value => $$invalidate(77, $productPath = $$value));
 	(0,svelte_internal__WEBPACK_IMPORTED_MODULE_0__.component_subscribe)($$self, _stores_ts__WEBPACK_IMPORTED_MODULE_14__.snapshots, $$value => $$invalidate(24, $snapshots = $$value));
 
 	var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -25690,9 +25700,8 @@ function instance($$self, $$props, $$invalidate) {
 
 	let { product } = $$props;
 	(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("three version", three__WEBPACK_IMPORTED_MODULE_15__.REVISION);
+	three__WEBPACK_IMPORTED_MODULE_15__.Cache.enabled = true;
 	let canvas;
-	const renderClock = new three__WEBPACK_IMPORTED_MODULE_15__.Clock();
-	let renderRequested = false;
 
 	const components = new Map(product.components.map(component => [
 			component.part,
@@ -25800,6 +25809,10 @@ function instance($$self, $$props, $$invalidate) {
 			if (event.key === "p") {
 				(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("cameraPosition", vectorToString(camera.position));
 				navigator.clipboard.writeText(vectorToString(camera.position));
+			} else if (event.key === "o") {
+				(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("map", $selectedMesh.material.map);
+			} else if (event.key === "m") {
+				requestRenderIfNotRequested();
 			}
 		});
 	});
@@ -25815,14 +25828,16 @@ function instance($$self, $$props, $$invalidate) {
 
 	const initializeScene = (function () {
 		return __awaiter(this, void 0, void 0, function* () {
-			texturesLoaded = new Promise(function (resolve, reject) {
-					_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.loadingManager.onLoad = function () {
-						(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("loadingManager.onLoad");
-						resolve();
-					};
+			_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.loadingManager.onStart = () => {
+				texturesLoaded = new Promise(function (resolve, reject) {
+						_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.loadingManager.onLoad = function () {
+							(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("loadingManager.onLoad");
+							resolve();
+						};
 
-					_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.loadingManager.onError = reject;
-				});
+						_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.loadingManager.onError = reject;
+					});
+			};
 
 			const gltfLoader = new three_addons_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_17__.GLTFLoader();
 			const dracoLoader = new three_addons_loaders_DRACOLoader_js__WEBPACK_IMPORTED_MODULE_18__.DRACOLoader();
@@ -25879,20 +25894,15 @@ function instance($$self, $$props, $$invalidate) {
 			for (const materialDatum of materialData) {
 				const material = materialDatum[1].imports;
 				material.aoMap = occlusionMap;
-				(0,_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.addOnBeforeCompile)(material, addGlobalOcclusion);
+				(0,_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.addCallback)(material, "onBeforeCompile", addGlobalOcclusion);
 			}
 
 			(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("materialData", materialData);
 
-			const nonCustomizableMaterial = // new THREE.MeshStandardMaterial({
-			// 	name: "nonCustomizable",
-			// 	map,
-			// 	normalMap,
-			// 	aoMap,
-			// 	roughnessMap: ormMap,
-			// 	metalnessMap: ormMap,
-			// });
-			new three__WEBPACK_IMPORTED_MODULE_15__.MeshBasicMaterial({ color: new three__WEBPACK_IMPORTED_MODULE_15__.Color(0x00ff00) });
+			const nonCustomizableMaterial = new three__WEBPACK_IMPORTED_MODULE_15__.MeshBasicMaterial({
+					name: "nonCustomizable",
+					color: new three__WEBPACK_IMPORTED_MODULE_15__.Color(0x00ff00)
+				});
 
 			model.scene.traverse(function (object) {
 				return __awaiter(this, void 0, void 0, function* () {
@@ -25942,6 +25952,7 @@ function instance($$self, $$props, $$invalidate) {
 							}
 						} else if (object.name === product.shadowCatcher.part) {
 							const mat = new three__WEBPACK_IMPORTED_MODULE_15__.MeshStandardMaterial({
+									name: "shadow catcher",
 									alphaMap: shadowCatcherMap,
 									color: "#555",
 									transparent: true
@@ -25983,11 +25994,24 @@ function instance($$self, $$props, $$invalidate) {
 
 	function setMaterialColor(material, color) {
 		var _a;
-		material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color().setStyle("#" + color.hex);
+
+		if (color.hex) {
+			material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color().setStyle("#" + color.hex);
+			material.map = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load("build/colors/white.png");
+		} else {
+			material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color(0xffffff);
+			const map = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load("build/colors/" + color.map);
+			(0,_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.tileTexture)(map, color.repeat);
+			material.map = map;
+		}
 
 		material.metalness = (_a = color.metalness) !== null && _a !== void 0
 		? _a
 		: 0;
+
+		if (material instanceof three__WEBPACK_IMPORTED_MODULE_15__.ShaderMaterial) {
+			material.uniformsNeedUpdate = true;
+		}
 	}
 
 	let renderer;
@@ -26151,6 +26175,7 @@ function instance($$self, $$props, $$invalidate) {
 			color
 		);
 
+		yield texturesLoaded;
 		requestRenderIfNotRequested();
 	}));
 
@@ -26171,6 +26196,9 @@ function instance($$self, $$props, $$invalidate) {
 		selectedMeshMaterial.color.lerpColors(actualMaterial.color, glowColor, selectMeshMaterialEase(progress));
 		selectedMeshMaterial.metalness = three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_16__.MathUtils.lerp(selectedMeshMaterial.metalness, actualMaterial.metalness, progress);
 	}
+
+	const renderClock = new three__WEBPACK_IMPORTED_MODULE_15__.Clock();
+	let renderRequested = false;
 
 	function render() {
 		return __awaiter(this, void 0, void 0, function* () {
@@ -26343,8 +26371,6 @@ function instance($$self, $$props, $$invalidate) {
 	let unsubSeekMaterialOnSelection;
 
 	function _setupMaterialPicker(hardSeekMaterial = false) {
-		(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("_setupMaterialPicker");
-
 		if (unsubSeekMaterialOnSelection) {
 			unsubSeekMaterialOnSelection();
 		}
@@ -26469,7 +26495,6 @@ function instance($$self, $$props, $$invalidate) {
 		heightMax = 0.9 * modElement.clientHeight;
 
 		if (!mql.matches) {
-			(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("setupMenuSlider");
 			dragDiv.addEventListener('mousedown', dragStart, { passive: true });
 			dragDiv.addEventListener('touchstart', dragStart, { passive: true });
 			dragDiv.addEventListener('mousemove', dragMove, { passive: false });
@@ -26490,14 +26515,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	for_tablet_portrait_up.addEventListener("change", setupMenuSlider);
 
-	// +async function test(){
-	// 	for (let index = 0; index < 10000; index++) {
-	// 		logg("test", modElement);
-	// 		await sleep(500);
-	// 	}
-	// }();
 	function getSelectionHeight() {
-		(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("getSelectionHeight");
 		if (!modElement) return;
 
 		if (menuOn) {
@@ -26572,6 +26590,8 @@ function instance($$self, $$props, $$invalidate) {
 	const click_handler_5 = () => {
 		toggleMenu();
 	};
+
+	const func = (component, c) => c.name === (component.chosen ?? component.defaultColor);
 
 	const click_handler_6 = mesh => {
 		toggleMenu();
@@ -26665,6 +26685,7 @@ function instance($$self, $$props, $$invalidate) {
 		click_handler_3,
 		click_handler_4,
 		click_handler_5,
+		func,
 		click_handler_6,
 		click_handler_7,
 		div_binding,
@@ -37441,9 +37462,7 @@ if(material.isMeshGouraudMaterial&&material.envMap!==null){m_uniforms.envMap.val
 // use the current material's .needsUpdate flags to set
 // the GL state when required
 markUniformsLightsNeedsUpdate(m_uniforms,refreshLights);}// refresh uniforms common to several materials
-if(fog&&material.fog===true){materials.refreshFogUniforms(m_uniforms,fog);}materials.refreshMaterialUniforms(m_uniforms,material,_pixelRatio,_height,currentRenderState.state.transmissionRenderTarget[camera.id]);// console.log("WebGLUniforms.upload", material.name);
-WebGLUniforms.upload(_gl,getUniformList(materialProperties),m_uniforms,textures);}if(material.isShaderMaterial&&material.uniformsNeedUpdate===true){// console.log("WebGLUniforms.upload 2", material.name);
-WebGLUniforms.upload(_gl,getUniformList(materialProperties),m_uniforms,textures);material.uniformsNeedUpdate=false;}if(material.isSpriteMaterial){p_uniforms.setValue(_gl,'center',object.center);}// common matrices
+if(fog&&material.fog===true){materials.refreshFogUniforms(m_uniforms,fog);}materials.refreshMaterialUniforms(m_uniforms,material,_pixelRatio,_height,currentRenderState.state.transmissionRenderTarget[camera.id]);WebGLUniforms.upload(_gl,getUniformList(materialProperties),m_uniforms,textures);}if(material.isShaderMaterial&&material.uniformsNeedUpdate===true){WebGLUniforms.upload(_gl,getUniformList(materialProperties),m_uniforms,textures);material.uniformsNeedUpdate=false;}if(material.isSpriteMaterial){p_uniforms.setValue(_gl,'center',object.center);}// common matrices
 p_uniforms.setValue(_gl,'modelViewMatrix',object.modelViewMatrix);p_uniforms.setValue(_gl,'normalMatrix',object.normalMatrix);p_uniforms.setValue(_gl,'modelMatrix',object.matrixWorld);// UBOs
 if(material.isShaderMaterial||material.isRawShaderMaterial){const groups=material.uniformsGroups;for(let i=0,l=groups.length;i<l;i++){const group=groups[i];uniformsGroups.update(group,program);uniformsGroups.bind(group,program);}}return program;}// If uniforms are marked as clean, they don't need to be loaded to the GPU.
 function markUniformsLightsNeedsUpdate(uniforms,value){uniforms.ambientLightColor.needsUpdate=value;uniforms.lightProbe.needsUpdate=value;uniforms.directionalLights.needsUpdate=value;uniforms.directionalLightShadows.needsUpdate=value;uniforms.pointLights.needsUpdate=value;uniforms.pointLightShadows.needsUpdate=value;uniforms.spotLights.needsUpdate=value;uniforms.spotLightShadows.needsUpdate=value;uniforms.rectAreaLights.needsUpdate=value;uniforms.hemisphereLights.needsUpdate=value;}function materialNeedsLights(material){return material.isMeshLambertMaterial||material.isMeshToonMaterial||material.isMeshPhongMaterial||material.isMeshStandardMaterial||material.isShadowMaterial||material.isShaderMaterial&&material.lights===true;}this.getActiveCubeFace=function(){return _currentActiveCubeFace;};this.getActiveMipmapLevel=function(){return _currentActiveMipmapLevel;};this.getRenderTarget=function(){return _currentRenderTarget;};this.setRenderTargetTextures=function(renderTarget,colorTexture,depthTexture){properties.get(renderTarget.texture).__webglTexture=colorTexture;properties.get(renderTarget.depthTexture).__webglTexture=depthTexture;const renderTargetProperties=properties.get(renderTarget);renderTargetProperties.__hasExternalTextures=true;renderTargetProperties.__autoAllocateDepthBuffer=depthTexture===undefined;if(!renderTargetProperties.__autoAllocateDepthBuffer){// The multisample_render_to_texture extension doesn't work properly if there
@@ -52120,7 +52139,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"http://json-schema.org/dra
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"title":"Product","type":"object","properties":{"components":{"type":"array","items":{"allOf":[{"type":"object","properties":{"displayName":{"type":"string"},"part":{"type":"string"},"material":{"type":"string"},"hex":{"type":"string"},"customColor":{"type":"string"},"colorMap":{"type":"string"},"defaultColor":{"type":"string"},"colors":{"oneOf":[{"const":true},{"type":"array","items":{"type":"string"}}]},"materialParams":{"type":"object","additionalProperties":true}}},{"$ref":"#/$defs/view"}]}},"materialForColors":{"type":"string"},"colors":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"},"hex":{"type":"string"},"map":{"type":"string"},"displayName":{"type":"string"},"metalness":{"type":"number"}}}},"materials":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"name":{"type":"string"},"complex":{"const":true},"params":{"type":"object","additionalProperties":true}}},{"type":"object","properties":{"name":{"type":"string"},"params":{"type":"object","tsType":"THREE.MeshStandardMaterialParameters"},"repeat":{"type":"number"}}}]}},"assets":{"type":"object","properties":{"map":{"type":"string"},"normalMap":{"type":"string"},"ormMap":{"type":"string"},"occlusionMap":{"type":"string"},"roughnessMap":{"type":"string"},"metalnessMap":{"type":"string"}}},"shadowCatcher":{"type":"object","properties":{"part":{"type":"string"},"texture":{"type":"string"}}},"restrictions":{"type":"object","properties":{"maxColors":{"type":"number"}}},"snapshots":{"type":"array","items":{"allOf":[{"type":"object","properties":{"default":{"type":"string"}}},{"$ref":"#/$defs/view"}]}}},"$defs":{"vector3":{"type":"array","items":{"type":"number"},"minItems":3,"maxItems":3},"view":{"type":"object","properties":{"cameraPosition":{"$ref":"#/$defs/vector3"},"cameraTarget":{"$ref":"#/$defs/vector3"}}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"title":"Product","type":"object","properties":{"components":{"type":"array","items":{"allOf":[{"type":"object","properties":{"displayName":{"type":"string"},"part":{"type":"string"},"material":{"type":"string"},"hex":{"type":"string"},"customColor":{"type":"string"},"colorMap":{"type":"string"},"defaultColor":{"type":"string"},"colors":{"oneOf":[{"const":true},{"type":"array","items":{"type":"string"}}]},"materialParams":{"type":"object","additionalProperties":true}}},{"$ref":"#/$defs/view"}]}},"materialForColors":{"type":"string"},"colors":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"},"hex":{"type":"string"},"map":{"type":"string"},"repeat":{"type":"number"},"displayName":{"type":"string"},"metalness":{"type":"number"}}}},"materials":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"name":{"type":"string"},"complex":{"const":true},"params":{"type":"object","additionalProperties":true}}},{"type":"object","properties":{"name":{"type":"string"},"params":{"type":"object","tsType":"THREE.MeshStandardMaterialParameters"},"repeat":{"type":"number"}}}]}},"assets":{"type":"object","properties":{"map":{"type":"string"},"normalMap":{"type":"string"},"ormMap":{"type":"string"},"occlusionMap":{"type":"string"},"roughnessMap":{"type":"string"},"metalnessMap":{"type":"string"}}},"shadowCatcher":{"type":"object","properties":{"part":{"type":"string"},"texture":{"type":"string"}}},"restrictions":{"type":"object","properties":{"maxColors":{"type":"number"}}},"snapshots":{"type":"array","items":{"allOf":[{"type":"object","properties":{"default":{"type":"string"}}},{"$ref":"#/$defs/view"}]}}},"$defs":{"vector3":{"type":"array","items":{"type":"number"},"minItems":3,"maxItems":3},"view":{"type":"object","properties":{"cameraPosition":{"$ref":"#/$defs/vector3"},"cameraTarget":{"$ref":"#/$defs/vector3"}}}}}');
 
 /***/ })
 
