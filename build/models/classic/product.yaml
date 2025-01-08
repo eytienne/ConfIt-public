@@ -40,12 +40,14 @@ components:
     cameraTarget: [-0.009, 0.105, -0.197]
     defaultColor: KawaGreen
     colors: true
+    mapRotation: 90
   - displayName: Haut du dos
     part: upper_back
     cameraPosition: [0.390, 0.803, -1.368]
     cameraTarget: [0.070, 0.180, -0.189]
     defaultColor: Red
     colors: true
+    mapRotation: 90
   - displayName: Aisselles
     part: armpit
     cameraPosition: [0.054, 0.620, -1.382]
@@ -94,12 +96,14 @@ components:
     cameraTarget: [0.011, 0.216, -0.194]
     defaultColor: FluoOrange
     colors: true
+    mapRotation: 90
   - displayName: Bandes latérales
     part: side_band_edges
     cameraPosition: [1.329, 0.396, 0.859]
     cameraTarget: [0.226, 0.007, -0.028]
     defaultColor: FluoPink
     colors: true
+    mapRotation: 90
   - part: nckevlar
     material: kevlar
   - part: ncneck
@@ -118,7 +122,7 @@ components:
     material: leather
     hex: '5e5e5c'
   - part: nclogo
-    colorMap: "/ES Logo.png"
+    map: "/ES Logo.png"
     material: leather
   - part: ncslider
     material: plastic
