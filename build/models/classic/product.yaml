@@ -1,3 +1,25 @@
+price: 900
+options:
+  - price: 20
+    displayName: Bandes poitrine
+    parts:
+      - chest_band_top
+      - chest_band_bottom
+  - price: 20
+    displayName: Bandes bras
+    parts:
+      - arm_band_front
+      - arm_band_rear
+  - price: 20
+    displayName: Bandes dos
+    parts:
+      - back_band_top
+      - back_band_bottom
+  - price: 30
+    displayName: Bandes latérales
+    parts:
+      - side_band_edges
+
 components:
   - displayName: Poitrine
     part: chest
