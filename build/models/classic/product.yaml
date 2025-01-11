@@ -35,11 +35,12 @@ components:
     colors: true
     materialParams:
       springRotation: 88
+      perforationsRotation: 7 # todo fix the  symmetrical part putting the negative of the angle
   - displayName: Bras
     part: arm
     cameraPosition: [0.814, 0.640, 1.536]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColor: TitaniumGrey
+    defaultColor: Gold
     colors: true
   - displayName: Fessier
     part: buttock
@@ -98,7 +99,7 @@ components:
     part: arm_band_front
     cameraPosition: [1.395, 0.679, 0.615]
     cameraTarget: [-0.029, -0.048, -0.107]
-    defaultColor: Gold
+    defaultColor: TitaniumGrey
     colors: true
   - displayName: Bande bras arrière
     part: arm_band_rear

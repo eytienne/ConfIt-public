@@ -285,8 +285,8 @@ body > img {
 .overlay {
   top: 0px;
   left: 0px;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   position: fixed;
 }
 
@@ -311,6 +311,7 @@ body > img {
   justify-content: space-around;
   list-style: none;
   padding: 0px;
+  row-gap: 10px;
 }
 #fake-header .inner > ul li {
   background-color: #101010;
