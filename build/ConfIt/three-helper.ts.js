@@ -2,6 +2,22 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/ConfIt/shading.ts":
+/*!*******************************!*\
+  !*** ./src/ConfIt/shading.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   rotate: () => (/* binding */ rotate)
+/* harmony export */ });
+function rotate(material) {
+  material.vertexShader = material.vertexShader.replace("void main() {", "\n\t\tvec2 rotateUv(in vec2 uv, in float rotation) {\n\t\t\tfloat cosAngle = cos(rotation);\n\t\t\tfloat sinAngle = sin(rotation);\n\t\t\tmat2 rotationMatrix = mat2(\n\t\t\t\tcosAngle, -sinAngle,\n\t\t\t\tsinAngle,  cosAngle\n\t\t\t);\n\t\t\treturn mix(uv, rotationMatrix * uv, abs(sign(rotation)));\n\t\t}\n\t\t$&\n\t\t");
+}
+
+/***/ }),
+
 /***/ "../three.js/build/three.core.js":
 /*!***************************************!*\
   !*** ../three.js/build/three.core.js ***!
@@ -3624,8 +3640,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   textureLoader: () => (/* binding */ textureLoader),
 /* harmony export */   tileTexture: () => (/* binding */ tileTexture)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
+/* harmony import */ var _shading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shading */ "./src/ConfIt/shading.ts");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -3651,6 +3668,7 @@ function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !==
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
 function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+
 
 function isTexture(prop) {
   return (prop === null || prop === void 0 ? void 0 : prop.isTexture) === true;
@@ -3754,11 +3772,11 @@ var MeshStandardMaterial = /*#__PURE__*/function (_CopyCallbacksMixin) {
   }
   _inherits(MeshStandardMaterial, _CopyCallbacksMixin);
   return _createClass(MeshStandardMaterial);
-}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_0__.MeshStandardMaterial)));
+}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_1__.MeshStandardMaterial)));
 var ANY_MAP_REGEXP = /[mM]ap$/;
-var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.lights, {
+var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.lights, {
   emissive: {
-    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_0__.Color(0x000000)
+    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_1__.Color(0x000000)
   },
   roughness: {
     value: 1.0
@@ -3782,10 +3800,49 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
   function StandardShaderMaterial(parameters) {
     var _this2;
     _classCallCheck(this, StandardShaderMaterial);
-    _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread(_objectSpread({}, parameters !== null && parameters !== void 0 ? parameters : {}), three__WEBPACK_IMPORTED_MODULE_1__.ShaderLib.physical), {}, {
+    _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread(_objectSpread({}, parameters !== null && parameters !== void 0 ? parameters : {}), three__WEBPACK_IMPORTED_MODULE_2__.ShaderLib.physical), {}, {
       lights: true
     })]);
+    // rotate
     _defineProperty(_this2, "_activeChannels", new Set());
+    (0,_shading__WEBPACK_IMPORTED_MODULE_0__.rotate)(_this2);
+    addCallback(_this2, "onBeforeCompile", function (parameters) {
+      parameters.vertexShader = parameters.vertexShader.replace("void main() {", "\n\t\t\t\tuniform bool negativeRotate90;\n\n\t\t\t\t$&\n\t\t\t");
+      parameters.vertexShader = parameters.vertexShader.replace("#include <uv_vertex>", "\n\t\t\t\t$&\n\t\t\t\t#ifdef USE_MAP\n\t\t\t\t\tvMapUv = rotateUv(vMapUv, radians(90.0)*min(0.0, sign(position.x))*float(negativeRotate90));\n\t\t\t\t#endif\n\t\t\t");
+    });
+    addCallback(_this2, "perObjectSetup", function (material, _ref) {
+      var _ref$negativeRotate = _ref.negativeRotate90,
+        negativeRotate90 = _ref$negativeRotate === void 0 ? false : _ref$negativeRotate;
+      material.uniforms.negativeRotate90 = getUniform(negativeRotate90);
+    });
+
+    // texture set up
+    addCallback(_this2, "onBeforeCompile", function (parameters) {
+      for (var _i2 = 0, _Object$entries2 = Object.entries(parameters.uniforms); _i2 < _Object$entries2.length; _i2++) {
+        var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+          name = _Object$entries2$_i[0],
+          uniform = _Object$entries2$_i[1];
+        if (name.match(ANY_MAP_REGEXP) && isTexture(uniform.value)) {
+          parameters[name] = true;
+          parameters[name + "Uv"] = _this2.getChannel(uniform.value.channel);
+        }
+      }
+    });
+    addCallback(_this2, "onBeforeRender", function (_renderer, _scene, _camera, _geometry, object, _group) {
+      if (object.material.uniformsNeedUpdate) {
+        for (var _i3 = 0, _Object$entries3 = Object.entries(object.material.uniforms); _i3 < _Object$entries3.length; _i3++) {
+          var _Object$entries3$_i = _slicedToArray(_Object$entries3[_i3], 2),
+            name = _Object$entries3$_i[0],
+            uniform = _Object$entries3$_i[1];
+          if (name.match(ANY_MAP_REGEXP) && isTexture(uniform.value)) {
+            if (uniform.value.matrixAutoUpdate === true) {
+              uniform.value.updateMatrix();
+            }
+            object.material.uniforms[name + "Transform"].value.copy(uniform.value.matrix);
+          }
+        }
+      }
+    });
     return _this2;
   }
   _inherits(StandardShaderMaterial, _CopyTexturesByRefMix);
@@ -3810,7 +3867,7 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
       return "uv".concat(value);
     }
   }]);
-}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(UniformPropertiesMixin(three__WEBPACK_IMPORTED_MODULE_0__.ShaderMaterial, StandardShaderProps)))));
+}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(UniformPropertiesMixin(three__WEBPACK_IMPORTED_MODULE_1__.ShaderMaterial, StandardShaderProps)))));
 var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
   function CustomTextureLoader() {
     _classCallCheck(this, CustomTextureLoader);
@@ -3828,11 +3885,11 @@ var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
       }, onProgress, onError]);
     }
   }]);
-}(three__WEBPACK_IMPORTED_MODULE_0__.TextureLoader);
-var loadingManager = new three__WEBPACK_IMPORTED_MODULE_0__.LoadingManager();
+}(three__WEBPACK_IMPORTED_MODULE_1__.TextureLoader);
+var loadingManager = new three__WEBPACK_IMPORTED_MODULE_1__.LoadingManager();
 var textureLoader = new CustomTextureLoader(loadingManager);
 function tileTexture(texture, repeat) {
-  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__.RepeatWrapping;
+  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
   texture.repeat.setScalar(repeat);
   return texture;
 }
@@ -3843,19 +3900,19 @@ function getUniform(value) {
   };
 }
 function getUniforms(uniformObject) {
-  return Object.fromEntries(Object.entries(uniformObject).map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      uniform = _ref2[0],
-      value = _ref2[1];
+  return Object.fromEntries(Object.entries(uniformObject).map(function (_ref2) {
+    var _ref3 = _slicedToArray(_ref2, 2),
+      uniform = _ref3[0],
+      value = _ref3[1];
     return [uniform, getUniform(value)];
   }));
 }
 function generateTransformUniforms(uniforms) {
-  for (var _i2 = 0, _Object$entries2 = Object.entries(uniforms); _i2 < _Object$entries2.length; _i2++) {
-    var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
-      name = _Object$entries2$_i[0],
-      uniform = _Object$entries2$_i[1];
-    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_0__.Texture) {
+  for (var _i4 = 0, _Object$entries4 = Object.entries(uniforms); _i4 < _Object$entries4.length; _i4++) {
+    var _Object$entries4$_i = _slicedToArray(_Object$entries4[_i4], 2),
+      name = _Object$entries4$_i[0],
+      uniform = _Object$entries4$_i[1];
+    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_1__.Texture) {
       uniform.value.updateMatrix();
       uniforms[name + "Transform"] = {
         value: uniform.value.matrix.clone()
@@ -3864,19 +3921,29 @@ function generateTransformUniforms(uniforms) {
   }
   return uniforms;
 }
+function typeCallbackArgs(s, value, args) {
+  return s === value;
+}
 function addCallback(material, name, callback) {
-  var oldOBC = material[name];
-  material[name] = function () {
-    if (oldOBC) {
+  var oldOCallback = material[name];
+  var newCallback = function newCallback() {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+    if (oldOCallback) {
       //@ts-expect-error 2556
-      oldOBC.apply(void 0, arguments);
+      oldOCallback.apply(void 0, args);
     }
     //@ts-expect-error 2556
-    callback.apply(void 0, arguments);
+    callback.apply(void 0, args);
+    if (material instanceof StandardShaderMaterial && typeCallbackArgs(name, "onBeforeCompile", args)) {
+      material.setVertexUvS(args[0]);
+    }
   };
+  material[name] = newCallback;
 }
 function hsl() {
-  var color = new three__WEBPACK_IMPORTED_MODULE_0__.Color();
+  var color = new three__WEBPACK_IMPORTED_MODULE_1__.Color();
   color.setHSL.apply(color, arguments);
   return color;
 }
@@ -3893,7 +3960,7 @@ function getPixelColor(uv, texture) {
   var ctx = getPixelColorCanvas.getContext("2d");
   ctx.drawImage(texture.image, uv.x, uv.y);
   var data = ctx.getImageData(0, 0, 1, 1).data;
-  return new three__WEBPACK_IMPORTED_MODULE_0__.Color(data[0], data[1], data[2]);
+  return new three__WEBPACK_IMPORTED_MODULE_1__.Color(data[0], data[1], data[2]);
 }
 function clipCanvas(canvas, aspectRatio) {
   var sourceAspectRatio = canvas.width / canvas.height;

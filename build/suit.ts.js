@@ -5902,6 +5902,40 @@ var backgroundColor = new three__WEBPACK_IMPORTED_MODULE_0__.Color(0xf7f7f7);
 
 /***/ }),
 
+/***/ "./src/ConfIt/helper.ts":
+/*!******************************!*\
+  !*** ./src/ConfIt/helper.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   type: () => (/* binding */ type)
+/* harmony export */ });
+function type(variable) {
+  return true;
+}
+
+/***/ }),
+
+/***/ "./src/ConfIt/shading.ts":
+/*!*******************************!*\
+  !*** ./src/ConfIt/shading.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   rotate: () => (/* binding */ rotate)
+/* harmony export */ });
+function rotate(material) {
+  material.vertexShader = material.vertexShader.replace("void main() {", "\n\t\tvec2 rotateUv(in vec2 uv, in float rotation) {\n\t\t\tfloat cosAngle = cos(rotation);\n\t\t\tfloat sinAngle = sin(rotation);\n\t\t\tmat2 rotationMatrix = mat2(\n\t\t\t\tcosAngle, -sinAngle,\n\t\t\t\tsinAngle,  cosAngle\n\t\t\t);\n\t\t\treturn mix(uv, rotationMatrix * uv, abs(sign(rotation)));\n\t\t}\n\t\t$&\n\t\t");
+}
+
+/***/ }),
+
 /***/ "./src/ConfIt/stores.ts":
 /*!******************************!*\
   !*** ./src/ConfIt/stores.ts ***!
@@ -6096,8 +6130,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   textureLoader: () => (/* binding */ textureLoader),
 /* harmony export */   tileTexture: () => (/* binding */ tileTexture)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
+/* harmony import */ var _shading__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shading */ "./src/ConfIt/shading.ts");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -6123,6 +6158,7 @@ function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !==
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
 function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+
 
 function isTexture(prop) {
   return (prop === null || prop === void 0 ? void 0 : prop.isTexture) === true;
@@ -6226,11 +6262,11 @@ var MeshStandardMaterial = /*#__PURE__*/function (_CopyCallbacksMixin) {
   }
   _inherits(MeshStandardMaterial, _CopyCallbacksMixin);
   return _createClass(MeshStandardMaterial);
-}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_0__.MeshStandardMaterial)));
+}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_1__.MeshStandardMaterial)));
 var ANY_MAP_REGEXP = /[mM]ap$/;
-var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_1__.UniformsLib.lights, {
+var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_2__.UniformsLib.lights, {
   emissive: {
-    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_0__.Color(0x000000)
+    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_1__.Color(0x000000)
   },
   roughness: {
     value: 1.0
@@ -6254,10 +6290,49 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
   function StandardShaderMaterial(parameters) {
     var _this2;
     _classCallCheck(this, StandardShaderMaterial);
-    _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread(_objectSpread({}, parameters !== null && parameters !== void 0 ? parameters : {}), three__WEBPACK_IMPORTED_MODULE_1__.ShaderLib.physical), {}, {
+    _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread(_objectSpread({}, parameters !== null && parameters !== void 0 ? parameters : {}), three__WEBPACK_IMPORTED_MODULE_2__.ShaderLib.physical), {}, {
       lights: true
     })]);
+    // rotate
     _defineProperty(_this2, "_activeChannels", new Set());
+    (0,_shading__WEBPACK_IMPORTED_MODULE_0__.rotate)(_this2);
+    addCallback(_this2, "onBeforeCompile", function (parameters) {
+      parameters.vertexShader = parameters.vertexShader.replace("void main() {", "\n\t\t\t\tuniform bool negativeRotate90;\n\n\t\t\t\t$&\n\t\t\t");
+      parameters.vertexShader = parameters.vertexShader.replace("#include <uv_vertex>", "\n\t\t\t\t$&\n\t\t\t\t#ifdef USE_MAP\n\t\t\t\t\tvMapUv = rotateUv(vMapUv, radians(90.0)*min(0.0, sign(position.x))*float(negativeRotate90));\n\t\t\t\t#endif\n\t\t\t");
+    });
+    addCallback(_this2, "perObjectSetup", function (material, _ref) {
+      var _ref$negativeRotate = _ref.negativeRotate90,
+        negativeRotate90 = _ref$negativeRotate === void 0 ? false : _ref$negativeRotate;
+      material.uniforms.negativeRotate90 = getUniform(negativeRotate90);
+    });
+
+    // texture set up
+    addCallback(_this2, "onBeforeCompile", function (parameters) {
+      for (var _i2 = 0, _Object$entries2 = Object.entries(parameters.uniforms); _i2 < _Object$entries2.length; _i2++) {
+        var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+          name = _Object$entries2$_i[0],
+          uniform = _Object$entries2$_i[1];
+        if (name.match(ANY_MAP_REGEXP) && isTexture(uniform.value)) {
+          parameters[name] = true;
+          parameters[name + "Uv"] = _this2.getChannel(uniform.value.channel);
+        }
+      }
+    });
+    addCallback(_this2, "onBeforeRender", function (_renderer, _scene, _camera, _geometry, object, _group) {
+      if (object.material.uniformsNeedUpdate) {
+        for (var _i3 = 0, _Object$entries3 = Object.entries(object.material.uniforms); _i3 < _Object$entries3.length; _i3++) {
+          var _Object$entries3$_i = _slicedToArray(_Object$entries3[_i3], 2),
+            name = _Object$entries3$_i[0],
+            uniform = _Object$entries3$_i[1];
+          if (name.match(ANY_MAP_REGEXP) && isTexture(uniform.value)) {
+            if (uniform.value.matrixAutoUpdate === true) {
+              uniform.value.updateMatrix();
+            }
+            object.material.uniforms[name + "Transform"].value.copy(uniform.value.matrix);
+          }
+        }
+      }
+    });
     return _this2;
   }
   _inherits(StandardShaderMaterial, _CopyTexturesByRefMix);
@@ -6282,7 +6357,7 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
       return "uv".concat(value);
     }
   }]);
-}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(UniformPropertiesMixin(three__WEBPACK_IMPORTED_MODULE_0__.ShaderMaterial, StandardShaderProps)))));
+}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(UniformPropertiesMixin(three__WEBPACK_IMPORTED_MODULE_1__.ShaderMaterial, StandardShaderProps)))));
 var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
   function CustomTextureLoader() {
     _classCallCheck(this, CustomTextureLoader);
@@ -6300,11 +6375,11 @@ var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
       }, onProgress, onError]);
     }
   }]);
-}(three__WEBPACK_IMPORTED_MODULE_0__.TextureLoader);
-var loadingManager = new three__WEBPACK_IMPORTED_MODULE_0__.LoadingManager();
+}(three__WEBPACK_IMPORTED_MODULE_1__.TextureLoader);
+var loadingManager = new three__WEBPACK_IMPORTED_MODULE_1__.LoadingManager();
 var textureLoader = new CustomTextureLoader(loadingManager);
 function tileTexture(texture, repeat) {
-  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__.RepeatWrapping;
+  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_1__.RepeatWrapping;
   texture.repeat.setScalar(repeat);
   return texture;
 }
@@ -6315,19 +6390,19 @@ function getUniform(value) {
   };
 }
 function getUniforms(uniformObject) {
-  return Object.fromEntries(Object.entries(uniformObject).map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      uniform = _ref2[0],
-      value = _ref2[1];
+  return Object.fromEntries(Object.entries(uniformObject).map(function (_ref2) {
+    var _ref3 = _slicedToArray(_ref2, 2),
+      uniform = _ref3[0],
+      value = _ref3[1];
     return [uniform, getUniform(value)];
   }));
 }
 function generateTransformUniforms(uniforms) {
-  for (var _i2 = 0, _Object$entries2 = Object.entries(uniforms); _i2 < _Object$entries2.length; _i2++) {
-    var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
-      name = _Object$entries2$_i[0],
-      uniform = _Object$entries2$_i[1];
-    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_0__.Texture) {
+  for (var _i4 = 0, _Object$entries4 = Object.entries(uniforms); _i4 < _Object$entries4.length; _i4++) {
+    var _Object$entries4$_i = _slicedToArray(_Object$entries4[_i4], 2),
+      name = _Object$entries4$_i[0],
+      uniform = _Object$entries4$_i[1];
+    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_1__.Texture) {
       uniform.value.updateMatrix();
       uniforms[name + "Transform"] = {
         value: uniform.value.matrix.clone()
@@ -6336,19 +6411,29 @@ function generateTransformUniforms(uniforms) {
   }
   return uniforms;
 }
+function typeCallbackArgs(s, value, args) {
+  return s === value;
+}
 function addCallback(material, name, callback) {
-  var oldOBC = material[name];
-  material[name] = function () {
-    if (oldOBC) {
+  var oldOCallback = material[name];
+  var newCallback = function newCallback() {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+    if (oldOCallback) {
       //@ts-expect-error 2556
-      oldOBC.apply(void 0, arguments);
+      oldOCallback.apply(void 0, args);
     }
     //@ts-expect-error 2556
-    callback.apply(void 0, arguments);
+    callback.apply(void 0, args);
+    if (material instanceof StandardShaderMaterial && typeCallbackArgs(name, "onBeforeCompile", args)) {
+      material.setVertexUvS(args[0]);
+    }
   };
+  material[name] = newCallback;
 }
 function hsl() {
-  var color = new three__WEBPACK_IMPORTED_MODULE_0__.Color();
+  var color = new three__WEBPACK_IMPORTED_MODULE_1__.Color();
   color.setHSL.apply(color, arguments);
   return color;
 }
@@ -6365,7 +6450,7 @@ function getPixelColor(uv, texture) {
   var ctx = getPixelColorCanvas.getContext("2d");
   ctx.drawImage(texture.image, uv.x, uv.y);
   var data = ctx.getImageData(0, 0, 1, 1).data;
-  return new three__WEBPACK_IMPORTED_MODULE_0__.Color(data[0], data[1], data[2]);
+  return new three__WEBPACK_IMPORTED_MODULE_1__.Color(data[0], data[1], data[2]);
 }
 function clipCanvas(canvas, aspectRatio) {
   var sourceAspectRatio = canvas.width / canvas.height;
@@ -23946,9 +24031,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/ConfIt/Mod.svelte.292.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.292.css!./src/ConfIt/Mod.svelte":
+/***/ "./src/ConfIt/Mod.svelte.314.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte":
 /*!*****************************************************************************************************************************************************************************!*\
-  !*** ./src/ConfIt/Mod.svelte.292.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.292.css!./src/ConfIt/Mod.svelte ***!
+  !*** ./src/ConfIt/Mod.svelte.314.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte ***!
   \*****************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -24472,23 +24557,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var svelte_transition__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! svelte/transition */ "../svelte/packages/svelte/src/runtime/transition/index.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
-/* harmony import */ var three_addons_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! three/addons/controls/OrbitControls.js */ "../three.js/examples/jsm/controls/OrbitControls.js");
-/* harmony import */ var three_addons_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! three/addons/loaders/GLTFLoader.js */ "../three.js/examples/jsm/loaders/GLTFLoader.js");
-/* harmony import */ var three_addons_loaders_DRACOLoader_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! three/addons/loaders/DRACOLoader.js */ "../three.js/examples/jsm/loaders/DRACOLoader.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
+/* harmony import */ var three_addons_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! three/addons/controls/OrbitControls.js */ "../three.js/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three_addons_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! three/addons/loaders/GLTFLoader.js */ "../three.js/examples/jsm/loaders/GLTFLoader.js");
+/* harmony import */ var three_addons_loaders_DRACOLoader_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! three/addons/loaders/DRACOLoader.js */ "../three.js/examples/jsm/loaders/DRACOLoader.js");
 /* harmony import */ var _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./three-helper.ts */ "./src/ConfIt/three-helper.ts");
 /* harmony import */ var _Lightbox_svelte__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Lightbox.svelte */ "./src/ConfIt/Lightbox.svelte");
 /* harmony import */ var _custom_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./custom.ts */ "./src/ConfIt/custom.ts");
 /* harmony import */ var _icons_index_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./icons/index.js */ "./src/ConfIt/icons/index.js");
 /* harmony import */ var _svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./svelte-helper.ts */ "./src/ConfIt/svelte-helper.ts");
-/* harmony import */ var three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! three/src/math/MathUtils.js */ "../three.js/src/math/MathUtils.js");
+/* harmony import */ var three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! three/src/math/MathUtils.js */ "../three.js/src/math/MathUtils.js");
 /* harmony import */ var _stores_ts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./stores.ts */ "./src/ConfIt/stores.ts");
-/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_292_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_292_css_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./src/ConfIt/Mod.svelte.292.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.292.css!./src/ConfIt/Mod.svelte */ "./src/ConfIt/Mod.svelte.292.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.292.css!./src/ConfIt/Mod.svelte");
+/* harmony import */ var _helper_ts__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./helper.ts */ "./src/ConfIt/helper.ts");
+/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_314_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_314_css_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./src/ConfIt/Mod.svelte.314.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte */ "./src/ConfIt/Mod.svelte.314.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte");
 /* src/ConfIt/Mod.svelte generated by Svelte v4.2.19 */
 
 
 const { Boolean: Boolean_1, Map: Map_1 } = svelte_internal__WEBPACK_IMPORTED_MODULE_0__.globals;
+
 
 
 
@@ -24558,7 +24645,7 @@ function get_if_ctx_2(ctx) {
 	return child_ctx;
 }
 
-// (797:2) {#if $selectedChoice}
+// (798:2) {#if $selectedChoice}
 function create_if_block(ctx) {
 	let previous_key = /*$selectedChoiceIndex*/ ctx[21];
 	let key_block_anchor;
@@ -24607,7 +24694,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (804:4) {:else}
+// (805:4) {:else}
 function create_else_block_2(ctx) {
 	let button0;
 	let arrowleft;
@@ -24740,7 +24827,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (802:4) {#if menuOn}
+// (803:4) {#if menuOn}
 function create_if_block_12(ctx) {
 	let h1;
 	let t0;
@@ -24776,7 +24863,7 @@ function create_if_block_12(ctx) {
 	};
 }
 
-// (812:47) {#if $selectedChoice.option}
+// (813:47) {#if $selectedChoice.option}
 function create_if_block_13(ctx) {
 	let t_value = ` (+ ${/*$selectedChoice*/ ctx[2].option.price} €)` + "";
 	let t;
@@ -24799,7 +24886,7 @@ function create_if_block_13(ctx) {
 	};
 }
 
-// (825:5) {:else}
+// (826:5) {:else}
 function create_else_block_1(ctx) {
 	let hamburger;
 	let span;
@@ -24837,7 +24924,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (823:5) {#if menuOn}
+// (824:5) {#if menuOn}
 function create_if_block_11(ctx) {
 	let close;
 	let current;
@@ -24866,7 +24953,7 @@ function create_if_block_11(ctx) {
 	};
 }
 
-// (863:4) {:else}
+// (864:4) {:else}
 function create_else_block(ctx) {
 	let div;
 	let current_block_type_index;
@@ -24982,7 +25069,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (835:4) {#if menuOn}
+// (836:4) {#if menuOn}
 function create_if_block_1(ctx) {
 	let each_1_anchor;
 	let current;
@@ -25071,7 +25158,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (893:37) 
+// (894:37) 
 function create_if_block_8(ctx) {
 	let div0;
 	let button0;
@@ -25210,7 +25297,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (870:4) {#if $selectedChoice.mesh}
+// (871:4) {#if $selectedChoice.mesh}
 function create_if_block_6(ctx) {
 	let each_blocks = [];
 	let each_1_lookup = new Map_1();
@@ -25261,7 +25348,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (903:6) {#if !option.chosen}
+// (904:6) {#if !option.chosen}
 function create_if_block_10(ctx) {
 	let div;
 
@@ -25282,7 +25369,7 @@ function create_if_block_10(ctx) {
 	};
 }
 
-// (915:6) {#if option.chosen}
+// (916:6) {#if option.chosen}
 function create_if_block_9(ctx) {
 	let div;
 
@@ -25303,7 +25390,7 @@ function create_if_block_9(ctx) {
 	};
 }
 
-// (886:6) {#if $selectedColor && color.name === $selectedColor.name}
+// (887:6) {#if $selectedColor && color.name === $selectedColor.name}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*color*/ ctx[118].displayName + "";
@@ -25330,7 +25417,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (871:4) {#each availableColors as color (color.name) }
+// (872:4) {#each availableColors as color (color.name) }
 function create_each_block_1(key_1, ctx) {
 	let div;
 	let button;
@@ -25409,7 +25496,7 @@ function create_each_block_1(key_1, ctx) {
 	};
 }
 
-// (849:30) 
+// (850:30) 
 function create_if_block_5(ctx) {
 	let div;
 	let pluscircle;
@@ -25447,7 +25534,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (846:6) {#if choice.mesh}
+// (847:6) {#if choice.mesh}
 function create_if_block_4(ctx) {
 	let div;
 
@@ -25481,7 +25568,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (854:62) {#if choice.option}
+// (855:62) {#if choice.option}
 function create_if_block_3(ctx) {
 	let t_value = ` (+${/*choice*/ ctx[115].option.price} €)` + "";
 	let t;
@@ -25504,7 +25591,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (856:5) {#if component.chosen !== null}
+// (857:5) {#if component.chosen !== null}
 function create_if_block_2(ctx) {
 	let div;
 	let check;
@@ -25541,7 +25628,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (836:4) {#each $choices as choice}
+// (837:4) {#each $choices as choice}
 function create_each_block(ctx) {
 	let button;
 	let div1;
@@ -25720,7 +25807,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (799:2) {#key $selectedChoiceIndex}
+// (800:2) {#key $selectedChoiceIndex}
 function create_key_block(ctx) {
 	let div2;
 	let div0;
@@ -26261,8 +26348,8 @@ function instance($$self, $$props, $$invalidate) {
 	};
 
 	let { product } = $$props;
-	(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("three version", three__WEBPACK_IMPORTED_MODULE_15__.REVISION);
-	three__WEBPACK_IMPORTED_MODULE_15__.Cache.enabled = true;
+	(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("three version", three__WEBPACK_IMPORTED_MODULE_16__.REVISION);
+	three__WEBPACK_IMPORTED_MODULE_16__.Cache.enabled = true;
 	let canvas;
 	const options = product.options.map(option => Object.assign(Object.assign({}, option), { chosen: null }));
 
@@ -26294,20 +26381,20 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	// SCENE
-	const scene = new three__WEBPACK_IMPORTED_MODULE_15__.Scene();
+	const scene = new three__WEBPACK_IMPORTED_MODULE_16__.Scene();
 
 	scene.background = _custom_ts__WEBPACK_IMPORTED_MODULE_11__.backgroundColor;
-	scene.fog = new three__WEBPACK_IMPORTED_MODULE_15__.Fog(_custom_ts__WEBPACK_IMPORTED_MODULE_11__.backgroundColor, 1, 5000);
+	scene.fog = new three__WEBPACK_IMPORTED_MODULE_16__.Fog(_custom_ts__WEBPACK_IMPORTED_MODULE_11__.backgroundColor, 1, 5000);
 	let width, height;
 	let lastMouseDown;
 	let stats;
 
 	// CAMERA
-	const camera = new three__WEBPACK_IMPORTED_MODULE_15__.PerspectiveCamera(70, 1, 0.01, 5000);
+	const camera = new three__WEBPACK_IMPORTED_MODULE_16__.PerspectiveCamera(70, 1, 0.01, 5000);
 
 	camera.fov = 60;
-	camera.position.copy(new three__WEBPACK_IMPORTED_MODULE_15__.Vector3(1.09, 0.33, 1.23));
-	camera.lookAt(new three__WEBPACK_IMPORTED_MODULE_15__.Vector3(0, 0.5, 0));
+	camera.position.copy(new three__WEBPACK_IMPORTED_MODULE_16__.Vector3(1.09, 0.33, 1.23));
+	camera.lookAt(new three__WEBPACK_IMPORTED_MODULE_16__.Vector3(0, 0.5, 0));
 
 	function moveCamera(
 		targetPosition,
@@ -26356,7 +26443,7 @@ function instance($$self, $$props, $$invalidate) {
 		});
 
 		// smooth average duration
-		_duration = three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_16__.MathUtils.lerp(_duration, smoothDuration, 0.5);
+		_duration = three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_17__.MathUtils.lerp(_duration, smoothDuration, 0.5);
 
 		if (duration >= 0) {
 			_duration = duration;
@@ -26394,8 +26481,8 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	new (konami__WEBPACK_IMPORTED_MODULE_2___default())(activateDevMode);
-	const raycaster = new three__WEBPACK_IMPORTED_MODULE_15__.Raycaster();
-	const mouse = new three__WEBPACK_IMPORTED_MODULE_15__.Vector2();
+	const raycaster = new three__WEBPACK_IMPORTED_MODULE_16__.Raycaster();
+	const mouse = new three__WEBPACK_IMPORTED_MODULE_16__.Vector2();
 	let texturesLoaded;
 
 	const initializeScene = (function () {
@@ -26411,21 +26498,20 @@ function instance($$self, $$props, $$invalidate) {
 					});
 			};
 
-			const gltfLoader = new three_addons_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_17__.GLTFLoader();
-			const dracoLoader = new three_addons_loaders_DRACOLoader_js__WEBPACK_IMPORTED_MODULE_18__.DRACOLoader();
+			const gltfLoader = new three_addons_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_18__.GLTFLoader();
+			const dracoLoader = new three_addons_loaders_DRACOLoader_js__WEBPACK_IMPORTED_MODULE_19__.DRACOLoader();
 			dracoLoader.setDecoderPath("build/draco/");
 			gltfLoader.setDRACOLoader(dracoLoader);
 			const model = yield gltfLoader.loadAsync($productPath + "model.gltf");
 			const shadowCatcherMap = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load($productPath + product.shadowCatcher.texture);
 			const occlusionMap = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load($productPath + product.assets.occlusionMap);
 
-			function addGlobalOcclusion(shader) {
-				const OUTGOINGLIGHT_DECLARATION = 'vec3 outgoingLight =';
-
-				shader.fragmentShader = shader.fragmentShader.replace(OUTGOINGLIGHT_DECLARATION, `
+			function addGlobalOcclusion(parameters) {
+				parameters.fragmentShader = parameters.fragmentShader.replace('vec3 outgoingLight =', `
 				totalDiffuse.rgb *= ambientOcclusion;
 				totalSpecular.rgb *= ambientOcclusion;
-				${OUTGOINGLIGHT_DECLARATION}`);
+				$&
+			`);
 			}
 
 			function getTextureForStandard(value, material) {
@@ -26452,7 +26538,7 @@ function instance($$self, $$props, $$invalidate) {
 									if (key.match(_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.ANY_MAP_REGEXP)) {
 										return getTextureForStandard(value, material);
 									} else if (key === "color") {
-										return new three__WEBPACK_IMPORTED_MODULE_15__.Color(Number("0x" + value));
+										return new three__WEBPACK_IMPORTED_MODULE_16__.Color(Number("0x" + value));
 									} else {
 										return value;
 									}
@@ -26471,18 +26557,18 @@ function instance($$self, $$props, $$invalidate) {
 
 			(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("materialData", materialData);
 
-			const nonCustomizableMaterial = new three__WEBPACK_IMPORTED_MODULE_15__.MeshBasicMaterial({
+			const nonCustomizableMaterial = new three__WEBPACK_IMPORTED_MODULE_16__.MeshBasicMaterial({
 					name: "nonCustomizable",
-					color: new three__WEBPACK_IMPORTED_MODULE_15__.Color(0x00ff00)
+					color: new three__WEBPACK_IMPORTED_MODULE_16__.Color(0x00ff00)
 				});
 
 			model.scene.traverse(function (object) {
 				return __awaiter(this, void 0, void 0, function* () {
 					var _a;
 
-					if (object instanceof three__WEBPACK_IMPORTED_MODULE_15__.Group && object.parent === scene) {
-						const boundings = new three__WEBPACK_IMPORTED_MODULE_15__.Box3().setFromObject(object);
-						object.add(new three__WEBPACK_IMPORTED_MODULE_15__.Box3Helper(boundings));
+					if (object instanceof three__WEBPACK_IMPORTED_MODULE_16__.Group && object.parent === scene) {
+						const boundings = new three__WEBPACK_IMPORTED_MODULE_16__.Box3().setFromObject(object);
+						object.add(new three__WEBPACK_IMPORTED_MODULE_16__.Box3Helper(boundings));
 					} else if (isMesh(object)) {
 						object.name = object.name.replace(/\d+$/, '');
 
@@ -26498,10 +26584,10 @@ function instance($$self, $$props, $$invalidate) {
 								const material = _material.clone();
 
 								if (component.hex) {
-									material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color().setStyle("#" + component.hex);
+									material.color = new three__WEBPACK_IMPORTED_MODULE_16__.Color().setStyle("#" + component.hex);
 								} else if (component.customColor) {
 									const color = product.colors.find(_color => _color.name === component.customColor);
-									material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color().setStyle("#" + color.hex);
+									material.color = new three__WEBPACK_IMPORTED_MODULE_16__.Color().setStyle("#" + color.hex);
 								} else if (component.map) {
 									const map = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load(component.map.startsWith("/")
 									? component.map.replace(/^\//, "")
@@ -26515,17 +26601,17 @@ function instance($$self, $$props, $$invalidate) {
 							}
 
 							object.material.name = object.name;
-							const perObjectSetup = object.material.perObjectSetup;
 
-							if (perObjectSetup) {
-								perObjectSetup(object.material, (_a = component.materialParams) !== null && _a !== void 0
+							if ((0,_helper_ts__WEBPACK_IMPORTED_MODULE_15__.type)(object.material) && object.material.perObjectSetup) {
+								// @ts-expect-error 2345 no idea why union becomes intersection
+								object.material.perObjectSetup(object.material, (_a = component.materialParams) !== null && _a !== void 0
 								? _a
 								: {});
 							}
 
 							object.visible = !component.option || component.option.chosen === true;
 						} else if (object.name === product.shadowCatcher.part) {
-							const mat = new three__WEBPACK_IMPORTED_MODULE_15__.MeshStandardMaterial({
+							const mat = new three__WEBPACK_IMPORTED_MODULE_16__.MeshStandardMaterial({
 									name: "shadow catcher",
 									alphaMap: shadowCatcherMap,
 									color: "#555",
@@ -26572,14 +26658,14 @@ function instance($$self, $$props, $$invalidate) {
 		var _a, _b;
 
 		if (color.hex) {
-			material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color().setStyle("#" + color.hex);
+			material.color = new three__WEBPACK_IMPORTED_MODULE_16__.Color().setStyle("#" + color.hex);
 			material.map = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load("build/colors/white.png");
 		} else {
-			material.color = new three__WEBPACK_IMPORTED_MODULE_15__.Color(0xffffff);
+			material.color = new three__WEBPACK_IMPORTED_MODULE_16__.Color(0xffffff);
 			const map = _three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.textureLoader.load("build/colors/" + color.map);
 			(0,_three_helper_ts__WEBPACK_IMPORTED_MODULE_9__.tileTexture)(map, color.repeat);
 
-			map.rotation = (0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_16__.degToRad)((_a = component.mapRotation) !== null && _a !== void 0
+			map.rotation = (0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_17__.degToRad)((_a = component.mapRotation) !== null && _a !== void 0
 			? _a
 			: 0);
 
@@ -26590,7 +26676,7 @@ function instance($$self, $$props, $$invalidate) {
 		? _b
 		: 0;
 
-		if (material instanceof three__WEBPACK_IMPORTED_MODULE_15__.ShaderMaterial) {
+		if (material instanceof three__WEBPACK_IMPORTED_MODULE_16__.ShaderMaterial) {
 			material.uniformsNeedUpdate = true;
 		}
 	}
@@ -26602,10 +26688,10 @@ function instance($$self, $$props, $$invalidate) {
 
 	(0,svelte__WEBPACK_IMPORTED_MODULE_3__.onMount)(() => {
 		(0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.logg)("onMount");
-		$$invalidate(6, renderer = new three__WEBPACK_IMPORTED_MODULE_19__.WebGLRenderer({ antialias: true, canvas }));
+		$$invalidate(6, renderer = new three__WEBPACK_IMPORTED_MODULE_20__.WebGLRenderer({ antialias: true, canvas }));
 
 		// CONTROLS
-		$$invalidate(7, controls = new three_addons_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_20__.OrbitControls(camera, canvas));
+		$$invalidate(7, controls = new three_addons_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_21__.OrbitControls(camera, canvas));
 
 		$$invalidate(7, controls.enablePan = false, controls);
 		$$invalidate(7, controls.minDistance = location.hostname === '127.0.0.1' ? 0.3 : 1, controls);
@@ -26635,10 +26721,10 @@ function instance($$self, $$props, $$invalidate) {
 				if (mesh === undefined) return;
 				stopSelectionAnimationIfAny();
 				const component = components.get(mesh.name);
-				const { duration: moveCameraPositionDuration } = moveCamera(new three__WEBPACK_IMPORTED_MODULE_15__.Vector3(...component.cameraPosition), camera.position);
+				const { duration: moveCameraPositionDuration } = moveCamera(new three__WEBPACK_IMPORTED_MODULE_16__.Vector3(...component.cameraPosition), camera.position);
 
 				// only uses the Y component to allow centered panning and zooming then
-				moveCamera(new three__WEBPACK_IMPORTED_MODULE_15__.Vector3(0, component.cameraTarget[1], 0), controls.target, { duration: moveCameraPositionDuration });
+				moveCamera(new three__WEBPACK_IMPORTED_MODULE_16__.Vector3(0, component.cameraTarget[1], 0), controls.target, { duration: moveCameraPositionDuration });
 
 				actualMaterial = mesh.material;
 
@@ -26757,20 +26843,20 @@ function instance($$self, $$props, $$invalidate) {
 
 	let previousSelectedMesh;
 	let selectedMeshMaterial;
-	const selectMeshMaterialClock = new three__WEBPACK_IMPORTED_MODULE_15__.Clock();
+	const selectMeshMaterialClock = new three__WEBPACK_IMPORTED_MODULE_16__.Clock();
 	const selectMeshMaterialEase = (0,_svelte_helper_ts__WEBPACK_IMPORTED_MODULE_13__.symEase)(svelte_easing__WEBPACK_IMPORTED_MODULE_4__.quadOut);
 	let selectMeshMaterialTask;
 
 	function selectMeshMaterialTick(progress) {
-		const white = new three__WEBPACK_IMPORTED_MODULE_15__.Color(0xffffff);
+		const white = new three__WEBPACK_IMPORTED_MODULE_16__.Color(0xffffff);
 
 		// determine a glow color which works with bright base color
-		const glowColor = new three__WEBPACK_IMPORTED_MODULE_15__.Vector3().setFromColor(actualMaterial.color).distanceTo(new three__WEBPACK_IMPORTED_MODULE_15__.Vector3().setFromColor(white)) > 0.25
+		const glowColor = new three__WEBPACK_IMPORTED_MODULE_16__.Vector3().setFromColor(actualMaterial.color).distanceTo(new three__WEBPACK_IMPORTED_MODULE_16__.Vector3().setFromColor(white)) > 0.25
 		? white
-		: new three__WEBPACK_IMPORTED_MODULE_15__.Color(0xdbebff);
+		: new three__WEBPACK_IMPORTED_MODULE_16__.Color(0xdbebff);
 
 		selectedMeshMaterial.color.lerpColors(actualMaterial.color, glowColor, selectMeshMaterialEase(progress));
-		selectedMeshMaterial.metalness = three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_16__.MathUtils.lerp(selectedMeshMaterial.metalness, actualMaterial.metalness, progress);
+		selectedMeshMaterial.metalness = three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_17__.MathUtils.lerp(selectedMeshMaterial.metalness, actualMaterial.metalness, progress);
 	}
 
 	function stopSelectionAnimationIfAny() {
@@ -26780,7 +26866,7 @@ function instance($$self, $$props, $$invalidate) {
 		}
 	}
 
-	const renderClock = new three__WEBPACK_IMPORTED_MODULE_15__.Clock();
+	const renderClock = new three__WEBPACK_IMPORTED_MODULE_16__.Clock();
 	let renderRequested = false;
 
 	function render() {
@@ -26844,7 +26930,7 @@ function instance($$self, $$props, $$invalidate) {
 	function onMouseUp(event) {
 		return __awaiter(this, void 0, void 0, function* () {
 			// avoids the undesired select due to `click` event triggered after dragging
-			if (!lastMouseDown || new three__WEBPACK_IMPORTED_MODULE_15__.Vector2(event.x, event.y).distanceTo(new three__WEBPACK_IMPORTED_MODULE_15__.Vector2(lastMouseDown.x, lastMouseDown.y)) > 5 || event.timeStamp - lastMouseDown.timeStamp > 1000) {
+			if (!lastMouseDown || new three__WEBPACK_IMPORTED_MODULE_16__.Vector2(event.x, event.y).distanceTo(new three__WEBPACK_IMPORTED_MODULE_16__.Vector2(lastMouseDown.x, lastMouseDown.y)) > 5 || event.timeStamp - lastMouseDown.timeStamp > 1000) {
 				return;
 			}
 
