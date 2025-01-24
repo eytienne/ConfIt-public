@@ -24018,10 +24018,10 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./src/ConfIt/Launcher.svelte.129.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.129.css!./src/ConfIt/Launcher.svelte":
-/*!********************************************************************************************************************************************************************************************!*\
-  !*** ./src/ConfIt/Launcher.svelte.129.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.129.css!./src/ConfIt/Launcher.svelte ***!
-  \********************************************************************************************************************************************************************************************/
+/***/ "./src/ConfIt/Launcher.svelte.0.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.0.css!./src/ConfIt/Launcher.svelte":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./src/ConfIt/Launcher.svelte.0.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.0.css!./src/ConfIt/Launcher.svelte ***!
+  \****************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -24031,10 +24031,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/ConfIt/Mod.svelte.314.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte":
-/*!*****************************************************************************************************************************************************************************!*\
-  !*** ./src/ConfIt/Mod.svelte.314.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte ***!
-  \*****************************************************************************************************************************************************************************/
+/***/ "./src/ConfIt/Mod.svelte.4.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.4.css!./src/ConfIt/Mod.svelte":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./src/ConfIt/Mod.svelte.4.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.4.css!./src/ConfIt/Mod.svelte ***!
+  \*************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -24065,7 +24065,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _icons_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./icons/index.js */ "./src/ConfIt/icons/index.js");
 /* harmony import */ var _stores_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stores.ts */ "./src/ConfIt/stores.ts");
 /* harmony import */ var _custom_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./custom.ts */ "./src/ConfIt/custom.ts");
-/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Launcher_svelte_129_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Launcher_svelte_129_css_home_eytienne_workspace_ConfIt_src_ConfIt_Launcher_svelte__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./src/ConfIt/Launcher.svelte.129.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.129.css!./src/ConfIt/Launcher.svelte */ "./src/ConfIt/Launcher.svelte.129.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.129.css!./src/ConfIt/Launcher.svelte");
+/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Launcher_svelte_0_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Launcher_svelte_0_css_home_eytienne_workspace_ConfIt_src_ConfIt_Launcher_svelte__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./src/ConfIt/Launcher.svelte.0.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.0.css!./src/ConfIt/Launcher.svelte */ "./src/ConfIt/Launcher.svelte.0.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.0.css!./src/ConfIt/Launcher.svelte");
 /* src/ConfIt/Launcher.svelte generated by Svelte v4.2.19 */
 
 
@@ -24570,7 +24570,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! three/src/math/MathUtils.js */ "../three.js/src/math/MathUtils.js");
 /* harmony import */ var _stores_ts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./stores.ts */ "./src/ConfIt/stores.ts");
 /* harmony import */ var _helper_ts__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./helper.ts */ "./src/ConfIt/helper.ts");
-/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_314_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_314_css_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./src/ConfIt/Mod.svelte.314.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte */ "./src/ConfIt/Mod.svelte.314.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.314.css!./src/ConfIt/Mod.svelte");
+/* harmony import */ var _home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_4_css_svelte_loader_cssPath_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte_4_css_home_eytienne_workspace_ConfIt_src_ConfIt_Mod_svelte__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./src/ConfIt/Mod.svelte.4.css!=!svelte-loader?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.4.css!./src/ConfIt/Mod.svelte */ "./src/ConfIt/Mod.svelte.4.css!=!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.4.css!./src/ConfIt/Mod.svelte");
 /* src/ConfIt/Mod.svelte generated by Svelte v4.2.19 */
 
 
@@ -24645,7 +24645,7 @@ function get_if_ctx_2(ctx) {
 	return child_ctx;
 }
 
-// (798:2) {#if $selectedChoice}
+// (799:2) {#if $selectedChoice}
 function create_if_block(ctx) {
 	let previous_key = /*$selectedChoiceIndex*/ ctx[21];
 	let key_block_anchor;
@@ -24694,7 +24694,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (805:4) {:else}
+// (806:4) {:else}
 function create_else_block_2(ctx) {
 	let button0;
 	let arrowleft;
@@ -24827,7 +24827,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (803:4) {#if menuOn}
+// (804:4) {#if menuOn}
 function create_if_block_12(ctx) {
 	let h1;
 	let t0;
@@ -24863,7 +24863,7 @@ function create_if_block_12(ctx) {
 	};
 }
 
-// (813:47) {#if $selectedChoice.option}
+// (814:47) {#if $selectedChoice.option}
 function create_if_block_13(ctx) {
 	let t_value = ` (+ ${/*$selectedChoice*/ ctx[2].option.price} €)` + "";
 	let t;
@@ -24886,7 +24886,7 @@ function create_if_block_13(ctx) {
 	};
 }
 
-// (826:5) {:else}
+// (827:5) {:else}
 function create_else_block_1(ctx) {
 	let hamburger;
 	let span;
@@ -24924,7 +24924,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (824:5) {#if menuOn}
+// (825:5) {#if menuOn}
 function create_if_block_11(ctx) {
 	let close;
 	let current;
@@ -24953,7 +24953,7 @@ function create_if_block_11(ctx) {
 	};
 }
 
-// (864:4) {:else}
+// (865:4) {:else}
 function create_else_block(ctx) {
 	let div;
 	let current_block_type_index;
@@ -25069,7 +25069,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (836:4) {#if menuOn}
+// (837:4) {#if menuOn}
 function create_if_block_1(ctx) {
 	let each_1_anchor;
 	let current;
@@ -25158,7 +25158,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (894:37) 
+// (895:37) 
 function create_if_block_8(ctx) {
 	let div0;
 	let button0;
@@ -25297,7 +25297,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (871:4) {#if $selectedChoice.mesh}
+// (872:4) {#if $selectedChoice.mesh}
 function create_if_block_6(ctx) {
 	let each_blocks = [];
 	let each_1_lookup = new Map_1();
@@ -25348,7 +25348,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (904:6) {#if !option.chosen}
+// (905:6) {#if !option.chosen}
 function create_if_block_10(ctx) {
 	let div;
 
@@ -25369,7 +25369,7 @@ function create_if_block_10(ctx) {
 	};
 }
 
-// (916:6) {#if option.chosen}
+// (917:6) {#if option.chosen}
 function create_if_block_9(ctx) {
 	let div;
 
@@ -25390,7 +25390,7 @@ function create_if_block_9(ctx) {
 	};
 }
 
-// (887:6) {#if $selectedColor && color.name === $selectedColor.name}
+// (888:6) {#if $selectedColor && color.name === $selectedColor.name}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*color*/ ctx[118].displayName + "";
@@ -25417,7 +25417,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (872:4) {#each availableColors as color (color.name) }
+// (873:4) {#each availableColors as color (color.name) }
 function create_each_block_1(key_1, ctx) {
 	let div;
 	let button;
@@ -25496,7 +25496,7 @@ function create_each_block_1(key_1, ctx) {
 	};
 }
 
-// (850:30) 
+// (851:30) 
 function create_if_block_5(ctx) {
 	let div;
 	let pluscircle;
@@ -25534,7 +25534,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (847:6) {#if choice.mesh}
+// (848:6) {#if choice.mesh}
 function create_if_block_4(ctx) {
 	let div;
 
@@ -25568,7 +25568,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (855:62) {#if choice.option}
+// (856:62) {#if choice.option}
 function create_if_block_3(ctx) {
 	let t_value = ` (+${/*choice*/ ctx[115].option.price} €)` + "";
 	let t;
@@ -25591,7 +25591,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (857:5) {#if component.chosen !== null}
+// (858:5) {#if component.chosen !== null}
 function create_if_block_2(ctx) {
 	let div;
 	let check;
@@ -25628,7 +25628,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (837:4) {#each $choices as choice}
+// (838:4) {#each $choices as choice}
 function create_each_block(ctx) {
 	let button;
 	let div1;
@@ -25807,7 +25807,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (800:2) {#key $selectedChoiceIndex}
+// (801:2) {#key $selectedChoiceIndex}
 function create_key_block(ctx) {
 	let div2;
 	let div0;
@@ -26628,8 +26628,8 @@ function instance($$self, $$props, $$invalidate) {
 				});
 			});
 
-			const _componentMeshes = Array.from(components.values().// filters customizable components (thos having a displayName) and those who are not optional
-			filter(component => component.displayName !== undefined && (!component.option || component.option.chosen))).map(component => ({
+			const _componentMeshes = Array.from(components.values()).// filters customizable components (thos having a displayName) and those who are not optional
+			filter(component => component.displayName !== undefined && (!component.option || component.option.chosen)).map(component => ({
 				mesh: model.scene.getObjectByName(component.part)
 			}));
 
@@ -28473,7 +28473,7 @@ function parse (uri, opts) {
         isIP = true
       }
     }
-    if (parsed.scheme === undefined && parsed.userinfo === undefined && parsed.host === undefined && parsed.port === undefined && !parsed.path && parsed.query === undefined) {
+    if (parsed.scheme === undefined && parsed.userinfo === undefined && parsed.host === undefined && parsed.port === undefined && parsed.query === undefined && !parsed.path) {
       parsed.reference = 'same-document'
     } else if (parsed.scheme === undefined) {
       parsed.reference = 'relative'
@@ -28512,10 +28512,10 @@ function parse (uri, opts) {
       if (gotEncoding && parsed.host !== undefined) {
         parsed.host = unescape(parsed.host)
       }
-      if (parsed.path && parsed.path.length) {
+      if (parsed.path) {
         parsed.path = escape(unescape(parsed.path))
       }
-      if (parsed.fragment && parsed.fragment.length) {
+      if (parsed.fragment) {
         parsed.fragment = encodeURI(decodeURIComponent(parsed.fragment))
       }
     }
@@ -28556,7 +28556,7 @@ module.exports.fastUri = fastUri
 "use strict";
 
 
-const UUID_REG = /^[\da-f]{8}\b-[\da-f]{4}\b-[\da-f]{4}\b-[\da-f]{4}\b-[\da-f]{12}$/iu
+const UUID_REG = /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu
 const URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu
 
 function isSecure (wsComponents) {
