@@ -319,9 +319,6 @@ body > img {
   padding: 8px 12px;
   transition: all 200ms;
 }
-#fake-header .inner > ul li:hover {
-  box-shadow: 0px 0px 8px 2px #C1C1C1;
-}
 #fake-header .inner > ul li a {
   cursor: pointer;
 }
