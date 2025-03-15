@@ -13270,6 +13270,33 @@ function Close($$anchor) {
 
 /***/ }),
 
+/***/ "./src/ConfIt/icons/Cross.svelte":
+/*!***************************************!*\
+  !*** ./src/ConfIt/icons/Cross.svelte ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Cross)
+/* harmony export */ });
+/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
+/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
+/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
+
+
+
+
+var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Icon-Set-Filled" transform="translate(-469.000000, -1041.000000)" fill="#000000"><path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross"></path></g></g></g></svg>`);
+
+function Cross($$anchor) {
+	var svg = root();
+
+	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
+}
+
+/***/ }),
+
 /***/ "./src/ConfIt/icons/Cube.svelte":
 /*!**************************************!*\
   !*** ./src/ConfIt/icons/Cube.svelte ***!
@@ -13314,7 +13341,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg xmlns="http://www.w3.org/2000/svg" width="30" height="4" version="1.1"><rect width="30" height="4" fill="#cccccc" rx="2" ry="1"></rect></svg>`);
+var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><g id="Interface / Line_L"><path id="Vector" d="M12 19V5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></g></svg>`);
 
 function DragLine($$anchor) {
 	var svg = root();
@@ -13501,24 +13528,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Check: () => (/* reexport safe */ _Check_svelte__WEBPACK_IMPORTED_MODULE_2__["default"]),
 /* harmony export */   CheckCircle: () => (/* reexport safe */ _CheckCircle_svelte__WEBPACK_IMPORTED_MODULE_3__["default"]),
 /* harmony export */   Close: () => (/* reexport safe */ _Close_svelte__WEBPACK_IMPORTED_MODULE_4__["default"]),
-/* harmony export */   Cube: () => (/* reexport safe */ _Cube_svelte__WEBPACK_IMPORTED_MODULE_5__["default"]),
-/* harmony export */   DragLine: () => (/* reexport safe */ _DragLine_svelte__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   Forbidden: () => (/* reexport safe */ _Forbidden_svelte__WEBPACK_IMPORTED_MODULE_7__["default"]),
-/* harmony export */   Hamburger: () => (/* reexport safe */ _Hamburger_svelte__WEBPACK_IMPORTED_MODULE_8__["default"]),
-/* harmony export */   PenNewRound: () => (/* reexport safe */ _PenNewRound_svelte__WEBPACK_IMPORTED_MODULE_9__["default"]),
-/* harmony export */   PlusCircle: () => (/* reexport safe */ _PlusCircle_svelte__WEBPACK_IMPORTED_MODULE_10__["default"])
+/* harmony export */   Cross: () => (/* reexport safe */ _Cross_svelte__WEBPACK_IMPORTED_MODULE_5__["default"]),
+/* harmony export */   Cube: () => (/* reexport safe */ _Cube_svelte__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   DragLine: () => (/* reexport safe */ _DragLine_svelte__WEBPACK_IMPORTED_MODULE_7__["default"]),
+/* harmony export */   Forbidden: () => (/* reexport safe */ _Forbidden_svelte__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   Hamburger: () => (/* reexport safe */ _Hamburger_svelte__WEBPACK_IMPORTED_MODULE_9__["default"]),
+/* harmony export */   PenNewRound: () => (/* reexport safe */ _PenNewRound_svelte__WEBPACK_IMPORTED_MODULE_10__["default"]),
+/* harmony export */   PlusCircle: () => (/* reexport safe */ _PlusCircle_svelte__WEBPACK_IMPORTED_MODULE_11__["default"])
 /* harmony export */ });
 /* harmony import */ var _ArrowLeft_svelte__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ArrowLeft.svelte */ "./src/ConfIt/icons/ArrowLeft.svelte");
 /* harmony import */ var _ArrowRight_svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ArrowRight.svelte */ "./src/ConfIt/icons/ArrowRight.svelte");
 /* harmony import */ var _Check_svelte__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Check.svelte */ "./src/ConfIt/icons/Check.svelte");
 /* harmony import */ var _CheckCircle_svelte__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CheckCircle.svelte */ "./src/ConfIt/icons/CheckCircle.svelte");
 /* harmony import */ var _Close_svelte__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Close.svelte */ "./src/ConfIt/icons/Close.svelte");
-/* harmony import */ var _Cube_svelte__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Cube.svelte */ "./src/ConfIt/icons/Cube.svelte");
-/* harmony import */ var _DragLine_svelte__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DragLine.svelte */ "./src/ConfIt/icons/DragLine.svelte");
-/* harmony import */ var _Forbidden_svelte__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Forbidden.svelte */ "./src/ConfIt/icons/Forbidden.svelte");
-/* harmony import */ var _Hamburger_svelte__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Hamburger.svelte */ "./src/ConfIt/icons/Hamburger.svelte");
-/* harmony import */ var _PenNewRound_svelte__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PenNewRound.svelte */ "./src/ConfIt/icons/PenNewRound.svelte");
-/* harmony import */ var _PlusCircle_svelte__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PlusCircle.svelte */ "./src/ConfIt/icons/PlusCircle.svelte");
+/* harmony import */ var _Cross_svelte__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Cross.svelte */ "./src/ConfIt/icons/Cross.svelte");
+/* harmony import */ var _Cube_svelte__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Cube.svelte */ "./src/ConfIt/icons/Cube.svelte");
+/* harmony import */ var _DragLine_svelte__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./DragLine.svelte */ "./src/ConfIt/icons/DragLine.svelte");
+/* harmony import */ var _Forbidden_svelte__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Forbidden.svelte */ "./src/ConfIt/icons/Forbidden.svelte");
+/* harmony import */ var _Hamburger_svelte__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Hamburger.svelte */ "./src/ConfIt/icons/Hamburger.svelte");
+/* harmony import */ var _PenNewRound_svelte__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PenNewRound.svelte */ "./src/ConfIt/icons/PenNewRound.svelte");
+/* harmony import */ var _PlusCircle_svelte__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./PlusCircle.svelte */ "./src/ConfIt/icons/PlusCircle.svelte");
+
 
 
 

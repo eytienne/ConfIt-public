@@ -12681,276 +12681,6 @@ function createBubbler() {
 
 /***/ }),
 
-/***/ "../svelte/packages/svelte/src/reactivity/create-subscriber.js":
-/*!*********************************************************************!*\
-  !*** ../svelte/packages/svelte/src/reactivity/create-subscriber.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   createSubscriber: () => (/* binding */ createSubscriber)
-/* harmony export */ });
-/* harmony import */ var _internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/client/runtime.js */ "../svelte/packages/svelte/src/internal/client/runtime.js");
-/* harmony import */ var _internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../internal/client/reactivity/effects.js */ "../svelte/packages/svelte/src/internal/client/reactivity/effects.js");
-/* harmony import */ var _internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../internal/client/reactivity/sources.js */ "../svelte/packages/svelte/src/internal/client/reactivity/sources.js");
-/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils.js */ "../svelte/packages/svelte/src/reactivity/utils.js");
-
-
-
-
-
-/**
- * Returns a `subscribe` function that, if called in an effect (including expressions in the template),
- * calls its `start` callback with an `update` function. Whenever `update` is called, the effect re-runs.
- *
- * If `start` returns a function, it will be called when the effect is destroyed.
- *
- * If `subscribe` is called in multiple effects, `start` will only be called once as long as the effects
- * are active, and the returned teardown function will only be called when all effects are destroyed.
- *
- * It's best understood with an example. Here's an implementation of [`MediaQuery`](https://svelte.dev/docs/svelte/svelte-reactivity#MediaQuery):
- *
- * ```js
- * import { createSubscriber } from 'svelte/reactivity';
- * import { on } from 'svelte/events';
- *
- * export class MediaQuery {
- * 	#query;
- * 	#subscribe;
- *
- * 	constructor(query) {
- * 		this.#query = window.matchMedia(`(${query})`);
- *
- * 		this.#subscribe = createSubscriber((update) => {
- * 			// when the `change` event occurs, re-run any effects that read `this.current`
- * 			const off = on(this.#query, 'change', update);
- *
- * 			// stop listening when all the effects are destroyed
- * 			return () => off();
- * 		});
- * 	}
- *
- * 	get current() {
- * 		this.#subscribe();
- *
- * 		// Return the current state of the query, whether or not we're in an effect
- * 		return this.#query.matches;
- * 	}
- * }
- * ```
- * @param {(update: () => void) => (() => void) | void} start
- * @since 5.7.0
- */
-function createSubscriber(start) {
-  let subscribers = 0;
-  let version = (0,_internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_2__.source)(0);
-  /** @type {(() => void) | void} */
-  let stop;
-  return () => {
-    if ((0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_1__.effect_tracking)()) {
-      (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.get)(version);
-      (0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_1__.render_effect)(() => {
-        if (subscribers === 0) {
-          stop = (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.untrack)(() => start(() => (0,_utils_js__WEBPACK_IMPORTED_MODULE_3__.increment)(version)));
-        }
-        subscribers += 1;
-        return () => {
-          (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.tick)().then(() => {
-            // Only count down after timeout, else we would reach 0 before our own render effect reruns,
-            // but reach 1 again when the tick callback of the prior teardown runs. That would mean we
-            // re-subcribe unnecessarily and create a memory leak because the old subscription is never cleaned up.
-            subscribers -= 1;
-            if (subscribers === 0) {
-              stop?.();
-              stop = undefined;
-            }
-          });
-        };
-      });
-    }
-  };
-}
-
-/***/ }),
-
-/***/ "../svelte/packages/svelte/src/reactivity/utils.js":
-/*!*********************************************************!*\
-  !*** ../svelte/packages/svelte/src/reactivity/utils.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   increment: () => (/* binding */ increment)
-/* harmony export */ });
-/* harmony import */ var _internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/client/reactivity/sources.js */ "../svelte/packages/svelte/src/internal/client/reactivity/sources.js");
-/** @import { Source } from '#client' */
-
-
-/** @param {Source<number>} source */
-function increment(source) {
-  (0,_internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_0__.set)(source, source.v + 1);
-}
-
-/***/ }),
-
-/***/ "../svelte/packages/svelte/src/store/index-client.js":
-/*!***********************************************************!*\
-  !*** ../svelte/packages/svelte/src/store/index-client.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   derived: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.derived),
-/* harmony export */   fromStore: () => (/* binding */ fromStore),
-/* harmony export */   get: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.get),
-/* harmony export */   readable: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.readable),
-/* harmony export */   readonly: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.readonly),
-/* harmony export */   toStore: () => (/* binding */ toStore),
-/* harmony export */   writable: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.writable)
-/* harmony export */ });
-/* harmony import */ var _internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/client/reactivity/effects.js */ "../svelte/packages/svelte/src/internal/client/reactivity/effects.js");
-/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shared/index.js */ "../svelte/packages/svelte/src/store/shared/index.js");
-/* harmony import */ var _reactivity_create_subscriber_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reactivity/create-subscriber.js */ "../svelte/packages/svelte/src/reactivity/create-subscriber.js");
-/** @import { Readable, Writable } from './public.js' */
-
-
-
-
-
-/**
- * @template V
- * @overload
- * @param {() => V} get
- * @param {(v: V) => void} set
- * @returns {Writable<V>}
- */
-/**
- * @template V
- * @overload
- * @param {() => V} get
- * @returns {Readable<V>}
- */
-/**
- * Create a store from a function that returns state, and (to make a writable store), an
- * optional second function that sets state.
- *
- * ```ts
- * import { toStore } from 'svelte/store';
- *
- * let count = $state(0);
- *
- * const store = toStore(() => count, (v) => (count = v));
- * ```
- * @template V
- * @param {() => V} get
- * @param {(v: V) => void} [set]
- * @returns {Writable<V> | Readable<V>}
- */
-function toStore(get, set) {
-  let init_value = get();
-  const store = (0,_shared_index_js__WEBPACK_IMPORTED_MODULE_1__.writable)(init_value, set => {
-    // If the value has changed before we call subscribe, then
-    // we need to treat the value as already having run
-    let ran = init_value !== get();
-
-    // TODO do we need a different implementation on the server?
-    const teardown = (0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__.effect_root)(() => {
-      (0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__.render_effect)(() => {
-        const value = get();
-        if (ran) set(value);
-      });
-    });
-    ran = true;
-    return teardown;
-  });
-  if (set) {
-    return {
-      set,
-      update: fn => set(fn(get())),
-      subscribe: store.subscribe
-    };
-  }
-  return {
-    subscribe: store.subscribe
-  };
-}
-
-/**
- * @template V
- * @overload
- * @param {Writable<V>} store
- * @returns {{ current: V }}
- */
-/**
- * @template V
- * @overload
- * @param {Readable<V>} store
- * @returns {{ readonly current: V }}
- */
-/**
- * Convert a store to an object with a reactive `current` property. If `store`
- * is a readable store, `current` will be a readonly property.
- *
- * ```ts
- * import { fromStore, get, writable } from 'svelte/store';
- *
- * const store = writable(0);
- *
- * const count = fromStore(store);
- *
- * count.current; // 0;
- * store.set(1);
- * count.current; // 1
- *
- * count.current += 1;
- * get(store); // 2
- * ```
- * @template V
- * @param {Writable<V> | Readable<V>} store
- */
-function fromStore(store) {
-  let value = /** @type {V} */undefined;
-  const subscribe = (0,_reactivity_create_subscriber_js__WEBPACK_IMPORTED_MODULE_2__.createSubscriber)(update => {
-    let ran = false;
-    const unsubscribe = store.subscribe(v => {
-      value = v;
-      if (ran) update();
-    });
-    ran = true;
-    return unsubscribe;
-  });
-  function current() {
-    if ((0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__.effect_tracking)()) {
-      subscribe();
-      return value;
-    }
-    return (0,_shared_index_js__WEBPACK_IMPORTED_MODULE_1__.get)(store);
-  }
-  if ('set' in store) {
-    return {
-      get current() {
-        return current();
-      },
-      set current(v) {
-        store.set(v);
-      }
-    };
-  }
-  return {
-    get current() {
-      return current();
-    }
-  };
-}
-
-/***/ }),
-
 /***/ "../svelte/packages/svelte/src/store/shared/index.js":
 /*!***********************************************************!*\
   !*** ../svelte/packages/svelte/src/store/shared/index.js ***!
@@ -34448,40 +34178,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./src/ConfIt/helper.ts":
-/*!******************************!*\
-  !*** ./src/ConfIt/helper.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   AppOptions: () => (/* binding */ AppOptions),
-/* harmony export */   sum: () => (/* binding */ sum),
-/* harmony export */   time: () => (/* binding */ time),
-/* harmony export */   type: () => (/* binding */ type)
-/* harmony export */ });
-/* harmony import */ var _svelte_helper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./svelte-helper */ "./src/ConfIt/svelte-helper.ts");
-
-function type(variable) {
-  return true;
-}
-function time(callback) {
-  var label = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "callback";
-  var start = performance.now();
-  callback();
-  (0,_svelte_helper__WEBPACK_IMPORTED_MODULE_0__.logg)("".concat(label, " took"), performance.now() - start);
-}
-var AppOptions = {
-  devMode: location.hostname === '127.0.0.1'
-};
-var sum = [function (prev, current) {
-  return prev + current;
-}, 0];
-
-/***/ }),
-
 /***/ "./src/ConfIt/shading.ts":
 /*!*******************************!*\
   !*** ./src/ConfIt/shading.ts ***!
@@ -34499,193 +34195,115 @@ function rotate(material) {
 
 /***/ }),
 
-/***/ "./src/ConfIt/stores.ts":
-/*!******************************!*\
-  !*** ./src/ConfIt/stores.ts ***!
-  \******************************/
+/***/ "./src/ConfIt/state.svelte.ts":
+/*!************************************!*\
+  !*** ./src/ConfIt/state.svelte.ts ***!
+  \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   opened: () => (/* binding */ opened),
-/* harmony export */   productPath: () => (/* binding */ productPath),
-/* harmony export */   snapshots: () => (/* binding */ snapshots)
+/* harmony export */   Media: () => (/* binding */ Media),
+/* harmony export */   myGlobalState: () => (/* binding */ myGlobalState),
+/* harmony export */   setMedia: () => (/* binding */ setMedia)
 /* harmony export */ });
-/* harmony import */ var svelte_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/store */ "../svelte/packages/svelte/src/store/index-client.js");
-
-var productPath = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)();
-var opened = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
-var snapshots = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
-
-/***/ }),
-
-/***/ "./src/ConfIt/svelte-helper.ts":
-/*!*************************************!*\
-  !*** ./src/ConfIt/svelte-helper.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   clamp: () => (/* binding */ clamp),
-/* harmony export */   createSelectedStores: () => (/* binding */ createSelectedStores),
-/* harmony export */   elasticClamp: () => (/* binding */ elasticClamp),
-/* harmony export */   logg: () => (/* binding */ logg),
-/* harmony export */   loop: () => (/* binding */ loop),
-/* harmony export */   sleep: () => (/* binding */ sleep),
-/* harmony export */   symEase: () => (/* binding */ symEase)
-/* harmony export */ });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var svelte_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/store */ "../svelte/packages/svelte/src/store/index-client.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
-function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
-function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
-function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
-function _wrapNativeSuper(t) { var r = "function" == typeof Map ? new Map() : void 0; return _wrapNativeSuper = function _wrapNativeSuper(t) { if (null === t || !_isNativeFunction(t)) return t; if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function"); if (void 0 !== r) { if (r.has(t)) return r.get(t); r.set(t, Wrapper); } function Wrapper() { return _construct(t, arguments, _getPrototypeOf(this).constructor); } return Wrapper.prototype = Object.create(t.prototype, { constructor: { value: Wrapper, enumerable: !1, writable: !0, configurable: !0 } }), _setPrototypeOf(Wrapper, t); }, _wrapNativeSuper(t); }
-function _construct(t, e, r) { if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments); var o = [null]; o.push.apply(o, e); var p = new (t.bind.apply(t, o))(); return r && _setPrototypeOf(p, r.prototype), p; }
-function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
-function _isNativeFunction(t) { try { return -1 !== Function.toString.call(t).indexOf("[native code]"); } catch (n) { return "function" == typeof t; } }
-function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
+/* state.svelte.ts generated by Svelte v5.20.2 */
 
 
-var NoOptionError = /*#__PURE__*/function (_Error) {
-  function NoOptionError() {
-    _classCallCheck(this, NoOptionError);
-    return _callSuper(this, NoOptionError, arguments);
-  }
-  _inherits(NoOptionError, _Error);
-  return _createClass(NoOptionError);
-}(/*#__PURE__*/_wrapNativeSuper(Error));
-function createSelectedStores() {
-  var _options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var _index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-  var _selected = _options[_index];
-  var s_options = (0,svelte_store__WEBPACK_IMPORTED_MODULE_1__.writable)(_options);
-  var s_selected = (0,svelte_store__WEBPACK_IMPORTED_MODULE_1__.writable)(_selected);
-  var s_index = (0,svelte_store__WEBPACK_IMPORTED_MODULE_1__.writable)(_index);
-  var options = {
-    subscribe: s_options.subscribe,
-    set: function set(v) {
-      _options = v;
-      s_options.set(v);
-      if (_selected) {
-        var __index = _options.indexOf(_selected);
-        index.set(__index);
-        if (__index === -1) {
-          selected.set(undefined);
-        }
-      }
-    },
-    update: function update(cb) {
-      options.set(cb(_options));
-    }
-  };
-  var selected = {
-    subscribe: s_selected.subscribe,
-    set: function set(v) {
-      var __index = _options.indexOf(v);
-      if (__index === -1) {
-        console.error("NoOptionError", _options, v);
-        throw new NoOptionError();
-      }
-      _selected = v;
-      // avoid loop between `selected` and `index` stores
-      if (__index !== _index) {
-        index.set(__index);
-      }
-      s_selected.set(v);
-    }
-  };
-  var index = {
-    subscribe: s_index.subscribe,
-    set: function set(v) {
-      v = (v + _options.length) % _options.length;
-      if (_options[v] === undefined) {
-        console.error("NoOptionError", _options, v);
-        throw new NoOptionError();
-      }
-      _index = v;
-      // avoid loop between `selected` and `index` stores
-      if (_options[v] !== _selected) {
-        selected.set(_options[v]);
-      }
-      s_index.set(v);
-    },
-    update: function update(cb) {
-      index.set(cb(_index));
-    }
-  };
-  return [options, selected, index];
-}
-function clamp(value) {
-  var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  if (min !== null && value < min) {
-    return min;
-  }
-  if (max !== null && value > max) {
-    return max;
-  }
-  return value;
-}
-function elasticClamp(value) {
-  var min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var clampStiffness = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.5;
-  if (min !== null && value < min) {
-    return min - elasticClampEase(min - value, clampStiffness);
-  }
-  if (max !== null && value > max) {
-    return max + elasticClampEase(value - max, clampStiffness);
-  }
-  return value;
-}
-function elasticClampEase(value, clampStiffness) {
-  return Math.pow(Math.sqrt(value), 2 - clampStiffness);
-}
-function sleep(ms) {
-  return new Promise(function (res, _rej) {
-    setTimeout(res, ms);
-  });
-}
-function symEase(easing) {
-  return function (t) {
-    t *= 2;
-    if (t < 1) return easing(t);else return easing(-t + 2);
-  };
+function _slicedToArray(r, e) {
+	return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
 }
 
-// process.env.NODE_ENV === "development"
-var LOG = true;
-var logg = LOG ? console.log : (lodash__WEBPACK_IMPORTED_MODULE_0___default().noop);
-function loop(callback) {
-  var abortController = new AbortController();
-  var promise = new Promise(function (resolve, reject) {
-    var _looping = function looping(now) {
-      if (abortController.signal.aborted || !callback(now)) {
-        resolve();
-        return;
-      }
-      requestAnimationFrame(_looping);
-    };
-    requestAnimationFrame(_looping);
-  });
-  return {
-    abort: function abort() {
-      return abortController.abort();
-    },
-    promise: promise
-  };
+function _nonIterableRest() {
+	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _unsupportedIterableToArray(r, a) {
+	if (r) {
+		if ("string" == typeof r) return _arrayLikeToArray(r, a);
+
+		var t = ({}).toString.call(r).slice(8, -1);
+
+		return (
+			"Object" === t && r.constructor && (t = r.constructor.name),
+			"Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || (/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/).test(t) ? _arrayLikeToArray(r, a) : void 0
+		);
+	}
+}
+
+function _arrayLikeToArray(r, a) {
+	(null == a || a > r.length) && (a = r.length);
+	for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+	return n;
+}
+
+function _iterableToArrayLimit(r, l) {
+	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+
+	if (null != t) {
+		var e, n, i, u, a = [], f = !0, o = !1;
+
+		try {
+			if ((i = (t = t.call(r)).next, 0 === l)) {
+				if (Object(t) !== t) return;
+				f = !1;
+			} else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) ;
+		} catch(r) {
+			(o = !0, n = r);
+		} finally {
+			try {
+				if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
+			} finally {
+				if (o) throw n;
+			}
+		}
+
+		return a;
+	}
+}
+
+function _arrayWithHoles(r) {
+	if (Array.isArray(r)) return r;
+}
+
+// keep the same as in bootstrap.scss
+var Media = /*#__PURE__*/ (function (Media) {
+	Media[Media["Phone"] = 0] = "Phone";
+	Media[Media["Tablet"] = 768] = "Tablet";
+	Media[Media["Desktop"] = 992] = "Desktop";
+	Media[Media["LargeDesktop"] = 1200] = "LargeDesktop";
+	return Media;
+})({});
+
+var myGlobalState = svelte_internal_client__WEBPACK_IMPORTED_MODULE_0__.proxy({
+	productPath: "",
+	opened: false,
+	snapshots: [],
+	inspirations: [],
+	myModels: [],
+	previewEncoded: undefined,
+	media: Media.Phone
+});
+
+function setMedia() {
+	var media;
+
+	for (var _i = 0,
+		_Object$entries = Object.entries(Media); _i < _Object$entries.length; _i++) {
+		var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+			_key = _Object$entries$_i[0],
+			value = _Object$entries$_i[1];
+
+		if (typeof value === "string") continue;
+		if (visualViewport.width < value) break;
+		media = value;
+	}
+
+	if (media !== myGlobalState.media) {
+		myGlobalState.media = media;
+	}
 }
 
 /***/ }),
@@ -34720,12 +34338,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   textureLoader: () => (/* binding */ textureLoader),
 /* harmony export */   tileTexture: () => (/* binding */ tileTexture)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three */ "../three.js/build/three.module.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _shading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shading */ "./src/ConfIt/shading.ts");
-/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper */ "./src/ConfIt/helper.ts");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -34761,7 +34378,6 @@ function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !==
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
 function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
-
 
 
 
@@ -34878,11 +34494,11 @@ var MeshStandardMaterial = /*#__PURE__*/function (_CopyCallbacksMixin) {
   }
   _inherits(MeshStandardMaterial, _CopyCallbacksMixin);
   return _createClass(MeshStandardMaterial);
-}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_3__.MeshStandardMaterial)));
+}(CopyCallbacksMixin(ComponentMeshMaterialMixin(three__WEBPACK_IMPORTED_MODULE_2__.MeshStandardMaterial)));
 var ANY_MAP_REGEXP = /[mM]ap$/;
-var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_4__.UniformsLib.lights, {
+var STANDARD_UNIFORMS = [three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.common, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.envmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.aomap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.lightmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.emissivemap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.bumpmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.normalmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.displacementmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.roughnessmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.metalnessmap, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.fog, three__WEBPACK_IMPORTED_MODULE_3__.UniformsLib.lights, {
   emissive: {
-    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_3__.Color(0x000000)
+    value: /*@__PURE__*/new three__WEBPACK_IMPORTED_MODULE_2__.Color(0x000000)
   },
   roughness: {
     value: 1.0
@@ -34910,9 +34526,9 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
     var parameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     _classCallCheck(this, StandardShaderMaterial);
     _this2 = _callSuper(this, StandardShaderMaterial, [_objectSpread(_objectSpread({}, parameters), {}, {
-      uniforms: three__WEBPACK_IMPORTED_MODULE_3__.UniformsUtils.clone(three__WEBPACK_IMPORTED_MODULE_4__.ShaderLib.physical.uniforms),
-      vertexShader: three__WEBPACK_IMPORTED_MODULE_4__.ShaderLib.physical.vertexShader,
-      fragmentShader: three__WEBPACK_IMPORTED_MODULE_4__.ShaderLib.physical.fragmentShader,
+      uniforms: three__WEBPACK_IMPORTED_MODULE_2__.UniformsUtils.clone(three__WEBPACK_IMPORTED_MODULE_3__.ShaderLib.physical.uniforms),
+      vertexShader: three__WEBPACK_IMPORTED_MODULE_3__.ShaderLib.physical.vertexShader,
+      fragmentShader: three__WEBPACK_IMPORTED_MODULE_3__.ShaderLib.physical.fragmentShader,
       lights: true
     })]);
     _defineProperty(_this2, "_activeChannels", new Set());
@@ -34926,7 +34542,7 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
     addCallback(_this2, "perObjectSetup", function (material, _ref) {
       var _ref$negativeRotate = _ref.negativeRotate90,
         negativeRotate90 = _ref$negativeRotate === void 0 ? false : _ref$negativeRotate;
-      material.uniforms.negativeRotate90 = new three__WEBPACK_IMPORTED_MODULE_3__.Uniform(negativeRotate90);
+      material.uniforms.negativeRotate90 = new three__WEBPACK_IMPORTED_MODULE_2__.Uniform(negativeRotate90);
     });
 
     // texture set up
@@ -34980,7 +34596,7 @@ var StandardShaderMaterial = /*#__PURE__*/function (_CopyTexturesByRefMix) {
       return "uv".concat(value);
     }
   }]);
-}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(MapUniformsMixin(three__WEBPACK_IMPORTED_MODULE_3__.ShaderMaterial, StandardShaderProps)))));
+}(CopyTexturesByRefMixin(CopyCallbacksMixin(ComponentMeshMaterialMixin(MapUniformsMixin(three__WEBPACK_IMPORTED_MODULE_2__.ShaderMaterial, StandardShaderProps)))));
 var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
   function CustomTextureLoader() {
     _classCallCheck(this, CustomTextureLoader);
@@ -34998,11 +34614,11 @@ var CustomTextureLoader = /*#__PURE__*/function (_THREE$TextureLoader) {
       }, onProgress, onError]);
     }
   }]);
-}(three__WEBPACK_IMPORTED_MODULE_3__.TextureLoader);
-var loadingManager = new three__WEBPACK_IMPORTED_MODULE_3__.LoadingManager();
+}(three__WEBPACK_IMPORTED_MODULE_2__.TextureLoader);
+var loadingManager = new three__WEBPACK_IMPORTED_MODULE_2__.LoadingManager();
 var textureLoader = new CustomTextureLoader(loadingManager);
 function tileTexture(texture, repeat) {
-  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_3__.RepeatWrapping;
+  texture.wrapS = texture.wrapT = three__WEBPACK_IMPORTED_MODULE_2__.RepeatWrapping;
   texture.repeat.setScalar(repeat);
   return texture;
 }
@@ -35012,7 +34628,7 @@ function getUniforms(uniformObject) {
     var _ref3 = _slicedToArray(_ref2, 2),
       uniform = _ref3[0],
       value = _ref3[1];
-    return [uniform, new three__WEBPACK_IMPORTED_MODULE_3__.Uniform(value)];
+    return [uniform, new three__WEBPACK_IMPORTED_MODULE_2__.Uniform(value)];
   }));
 }
 function generateTransformUniforms(uniforms) {
@@ -35020,7 +34636,7 @@ function generateTransformUniforms(uniforms) {
     var _Object$entries4$_i = _slicedToArray(_Object$entries4[_i5], 2),
       name = _Object$entries4$_i[0],
       uniform = _Object$entries4$_i[1];
-    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_3__.Texture) {
+    if (uniform.value instanceof three__WEBPACK_IMPORTED_MODULE_2__.Texture) {
       uniform.value.updateMatrix();
       uniforms[name + "Transform"] = {
         value: uniform.value.matrix.clone()
@@ -35051,7 +34667,7 @@ function addCallback(material, name, callback) {
   material[name] = newCallback;
 }
 function hsl() {
-  var color = new three__WEBPACK_IMPORTED_MODULE_3__.Color();
+  var color = new three__WEBPACK_IMPORTED_MODULE_2__.Color();
   color.setHSL.apply(color, arguments);
   return color;
 }
@@ -35068,7 +34684,7 @@ function getPixelColor(uv, texture) {
   var ctx = getPixelColorCanvas.getContext("2d");
   ctx.drawImage(texture.image, uv.x, uv.y);
   var data = ctx.getImageData(0, 0, 1, 1).data;
-  return new three__WEBPACK_IMPORTED_MODULE_3__.Color(data[0], data[1], data[2]);
+  return new three__WEBPACK_IMPORTED_MODULE_2__.Color(data[0], data[1], data[2]);
 }
 function clipCanvas(canvas, aspectRatio) {
   var sourceAspectRatio = canvas.width / canvas.height;
@@ -35092,9 +34708,9 @@ function pixel(color) {
   canvas.width = 1;
   canvas.height = 1;
   var context = canvas.getContext('2d');
-  context.fillStyle = new three__WEBPACK_IMPORTED_MODULE_3__.Color(color).getStyle();
+  context.fillStyle = new three__WEBPACK_IMPORTED_MODULE_2__.Color(color).getStyle();
   context.fillRect(0, 0, 1, 1);
-  return new three__WEBPACK_IMPORTED_MODULE_3__.CanvasTexture(canvas);
+  return new three__WEBPACK_IMPORTED_MODULE_2__.CanvasTexture(canvas);
 }
 var Axis = /*#__PURE__*/function (Axis) {
   Axis[Axis["X"] = 0] = "X";
@@ -35135,20 +34751,20 @@ function _project() {
         case 0:
           offset = _args.length > 3 && _args[3] !== undefined ? _args[3] : 0;
           process = _args.length > 4 ? _args[4] : undefined;
-          raycaster = new three__WEBPACK_IMPORTED_MODULE_3__.Raycaster();
+          raycaster = new three__WEBPACK_IMPORTED_MODULE_2__.Raycaster();
           raycaster.firstHitOnly = true;
           raycaster.near = 0.0001;
           raycaster.far = 2;
           positionAttribute = mesh.geometry.attributes.position;
           mesh.updateMatrixWorld();
           matrixWorld = mesh.matrixWorld;
-          inverseMatrixWorld = new three__WEBPACK_IMPORTED_MODULE_3__.Matrix4().copy(matrixWorld).invert();
+          inverseMatrixWorld = new three__WEBPACK_IMPORTED_MODULE_2__.Matrix4().copy(matrixWorld).invert();
           ii = 0;
           _context.next = 13;
           return split(process, 0, function (check) {
             while (ii < positionAttribute.count) {
-              var localVertex = new three__WEBPACK_IMPORTED_MODULE_3__.Vector3().fromBufferAttribute(positionAttribute, ii);
-              raycaster.set(localVertex.clone().applyMatrix4(matrixWorld), new three__WEBPACK_IMPORTED_MODULE_3__.Vector3().setComponent(axis, -1));
+              var localVertex = new three__WEBPACK_IMPORTED_MODULE_2__.Vector3().fromBufferAttribute(positionAttribute, ii);
+              raycaster.set(localVertex.clone().applyMatrix4(matrixWorld), new three__WEBPACK_IMPORTED_MODULE_2__.Vector3().setComponent(axis, -1));
               var intersections = raycaster.intersectObject(object, true);
               if (intersections.length > 0) {
                 var newLocalVertex = intersections[0].point.clone().addScaledVector(intersections[0].normal, offset).applyMatrix4(inverseMatrixWorld);
@@ -35173,7 +34789,7 @@ function bend(geometry) {
   var angle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 45;
   var axis = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Axis.X;
   if (angle === 0) return;
-  angle = three__WEBPACK_IMPORTED_MODULE_3__.MathUtils.degToRad(angle);
+  angle = three__WEBPACK_IMPORTED_MODULE_2__.MathUtils.degToRad(angle);
   var positionAttribute = geometry.attributes.position;
   var _axis = _slicedToArray([[Axis.Z, Axis.Y], [Axis.X, Axis.Z], [Axis.X, Axis.Y]][axis], 2),
     axisA = _axis[0],
@@ -35184,7 +34800,7 @@ function bend(geometry) {
   var radius = Math.abs(bbox.max.getComponent(axisFactor) - bbox.min.getComponent(axisFactor));
   var factor = angle / radius;
   for (var i = 0; i < positionAttribute.count; i++) {
-    var position = new three__WEBPACK_IMPORTED_MODULE_3__.Vector3().fromBufferAttribute(positionAttribute, i).toArray();
+    var position = new three__WEBPACK_IMPORTED_MODULE_2__.Vector3().fromBufferAttribute(positionAttribute, i).toArray();
     var theta = position[axisFactor] * factor;
     var cost = Math.cos(theta);
     var sint = Math.sin(theta);
@@ -35210,7 +34826,7 @@ var Text = /*#__PURE__*/function (_THREE$Mesh) {
       polygonOffsetUnits: -20
     });
     material.transparent = true;
-    _this3 = _callSuper(this, Text, [new three__WEBPACK_IMPORTED_MODULE_3__.PlaneGeometry(), material]);
+    _this3 = _callSuper(this, Text, [new three__WEBPACK_IMPORTED_MODULE_2__.PlaneGeometry(), material]);
     _defineProperty(_this3, "fillStyle", "#fff");
     _defineProperty(_this3, "fontFamily", "sans-serif");
     _defineProperty(_this3, "heightCenterRatio", 1);
@@ -35218,28 +34834,29 @@ var Text = /*#__PURE__*/function (_THREE$Mesh) {
     _defineProperty(_this3, "textHeight", 256);
     _defineProperty(_this3, "canvas", document.createElement("canvas"));
     _defineProperty(_this3, "context", _this3.canvas.getContext("2d"));
-    _defineProperty(_this3, "texture", new three__WEBPACK_IMPORTED_MODULE_3__.CanvasTexture(_this3.canvas));
+    _defineProperty(_this3, "texture", new three__WEBPACK_IMPORTED_MODULE_2__.CanvasTexture(_this3.canvas));
     Object.assign(_this3, Object.fromEntries(Object.entries(parameters).filter(function (e) {
       return e[1] !== undefined;
     })));
-    _this3.texture.colorSpace = three__WEBPACK_IMPORTED_MODULE_3__.SRGBColorSpace;
+    _this3.texture.colorSpace = three__WEBPACK_IMPORTED_MODULE_2__.SRGBColorSpace;
     material.map = _this3.texture;
     _this3.canvas.width = _this3.textHeight * _this3.dpr;
     _this3.canvas.height = _this3.textHeight * _this3.dpr;
     _this3.context.scale(_this3.dpr, _this3.dpr);
     _this3.text = parameters.text; // redundant with Object.assign but requires canvas dimensions being set
-
-    if (_helper__WEBPACK_IMPORTED_MODULE_2__.AppOptions.devMode) {
-      _this3.canvas.style.maxHeight = "720px";
-      _this3.canvas.style.maxWidth = "100vw";
-      _this3.canvas.style.marginBottom = "20px";
-      _this3.canvas.style.border = "1px dashed black";
-      document.body.appendChild(_this3.canvas);
-    }
     return _this3;
   }
   _inherits(Text, _THREE$Mesh);
   return _createClass(Text, [{
+    key: "debug",
+    value: function debug() {
+      this.canvas.style.maxHeight = "720px";
+      this.canvas.style.maxWidth = "100vw";
+      this.canvas.style.marginBottom = "20px";
+      this.canvas.style.border = "1px dashed black";
+      document.body.appendChild(this.canvas);
+    }
+  }, {
     key: "text",
     get: function get() {
       return this._text;
@@ -35252,7 +34869,7 @@ var Text = /*#__PURE__*/function (_THREE$Mesh) {
       this.canvas.height = this.textHeight * this.dpr;
       this.context.scale(this.dpr, this.dpr);
       var widthRatio = this.canvas.width / this.canvas.height;
-      this.geometry = new three__WEBPACK_IMPORTED_MODULE_3__.PlaneGeometry(widthRatio, 1, Math.ceil(widthRatio * this.heightSegments), this.heightSegments);
+      this.geometry = new three__WEBPACK_IMPORTED_MODULE_2__.PlaneGeometry(widthRatio, 1, Math.ceil(widthRatio * this.heightSegments), this.heightSegments);
       this.sync();
     }
   }, {
@@ -35282,7 +34899,7 @@ var Text = /*#__PURE__*/function (_THREE$Mesh) {
       return window.devicePixelRatio || 1;
     }
   }]);
-}(three__WEBPACK_IMPORTED_MODULE_3__.Mesh);
+}(three__WEBPACK_IMPORTED_MODULE_2__.Mesh);
 var SplitProcessException = /*#__PURE__*/function (_Error) {
   function SplitProcessException() {
     _classCallCheck(this, SplitProcessException);
@@ -35453,10 +35070,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ leather)
 /* harmony export */ });
 /* harmony import */ var _three_helper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../three-helper */ "./src/ConfIt/three-helper.ts");
-/* harmony import */ var _stores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stores */ "./src/ConfIt/stores.ts");
-/* harmony import */ var svelte_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/store */ "../svelte/packages/svelte/src/store/index-client.js");
-/* harmony import */ var three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/src/math/MathUtils.js */ "../three.js/src/math/MathUtils.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
+/* harmony import */ var _state_svelte_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../state.svelte.ts */ "./src/ConfIt/state.svelte.ts");
+/* harmony import */ var three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/src/math/MathUtils.js */ "../three.js/src/math/MathUtils.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three */ "../three.js/build/three.core.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -35466,7 +35082,6 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-
 
 
 
@@ -35482,7 +35097,7 @@ function _leather() {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           mask = _ref.mask, _ref$leatherRepeat = _ref.leatherRepeat, leatherRepeat = _ref$leatherRepeat === void 0 ? 30 : _ref$leatherRepeat, _ref$perforationsRepe = _ref.perforationsRepeat, perforationsRepeat = _ref$perforationsRepe === void 0 ? 30 : _ref$perforationsRepe, _ref$springRepeat = _ref.springRepeat, springRepeat = _ref$springRepeat === void 0 ? 80 : _ref$springRepeat;
-          _ref2 = [_three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "2K-Leather_23_Roughness.jpg"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "2K-Leather_23_Normal.jpg"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "Perforations.png"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "Spring.png"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load((0,svelte_store__WEBPACK_IMPORTED_MODULE_2__.get)(_stores__WEBPACK_IMPORTED_MODULE_1__.productPath) + mask)], leatherRoughness = _ref2[0], leatherNormal = _ref2[1], perforations = _ref2[2], spring = _ref2[3], maskMap = _ref2[4];
+          _ref2 = [_three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "2K-Leather_23_Roughness.jpg"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "2K-Leather_23_Normal.jpg"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "Perforations.png"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(LEATHER_PATH + "Spring.png"), _three_helper__WEBPACK_IMPORTED_MODULE_0__.textureLoader.load(_state_svelte_ts__WEBPACK_IMPORTED_MODULE_1__.myGlobalState.productPath + mask)], leatherRoughness = _ref2[0], leatherNormal = _ref2[1], perforations = _ref2[2], spring = _ref2[3], maskMap = _ref2[4];
           material = new _three_helper__WEBPACK_IMPORTED_MODULE_0__.StandardShaderMaterial();
           material.uniforms = _objectSpread(_objectSpread({}, material.uniforms), (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.generateTransformUniforms)((0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.getUniforms)({
             roughnessMap: (0,_three_helper__WEBPACK_IMPORTED_MODULE_0__.tileTexture)(leatherRoughness, leatherRepeat),
@@ -35508,9 +35123,9 @@ function _leather() {
               perforationsRotation = _ref3$perforationsRot === void 0 ? 0 : _ref3$perforationsRot,
               _ref3$negativeRotateO = _ref3.negativeRotateOpposite,
               negativeRotateOpposite = _ref3$negativeRotateO === void 0 ? false : _ref3$negativeRotateO;
-            _material.uniforms.springRotation = new three__WEBPACK_IMPORTED_MODULE_3__.Uniform((0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_4__.degToRad)(springRotation));
-            _material.uniforms.perforationsRotation = new three__WEBPACK_IMPORTED_MODULE_3__.Uniform((0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_4__.degToRad)(perforationsRotation));
-            _material.uniforms.negativeRotateOpposite = new three__WEBPACK_IMPORTED_MODULE_3__.Uniform(negativeRotateOpposite);
+            _material.uniforms.springRotation = new three__WEBPACK_IMPORTED_MODULE_2__.Uniform((0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_3__.degToRad)(springRotation));
+            _material.uniforms.perforationsRotation = new three__WEBPACK_IMPORTED_MODULE_2__.Uniform((0,three_src_math_MathUtils_js__WEBPACK_IMPORTED_MODULE_3__.degToRad)(perforationsRotation));
+            _material.uniforms.negativeRotateOpposite = new three__WEBPACK_IMPORTED_MODULE_2__.Uniform(negativeRotateOpposite);
           });
           return _context.abrupt("return", material);
         case 11:

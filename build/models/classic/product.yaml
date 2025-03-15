@@ -1,24 +1,30 @@
+version: 1
+
 price: 900
 options:
-  - price: 20
+  - id: chest_band
+    price: 20
     displayName: Bandes poitrine
     enabled: false
-    ids:
+    componentIds:
       - chest_band_top
       - chest_band_bottom
-  - price: 20
+  - id: arm_band
+    price: 20
     displayName: Bandes bras
-    ids:
+    componentIds:
       - arm_band_front
       - arm_band_rear
-  - price: 20
+  - id: back_band
+    price: 20
     displayName: Bandes dos
-    ids:
+    componentIds:
       - back_band_top
       - back_band_bottom
-  - price: 30
+  - id: side_band_edges
+    price: 30
     displayName: Bandes latérales
-    ids:
+    componentIds:
       - side_band_edges
 
 components:
@@ -197,6 +203,7 @@ components:
     material: black-fabric
 
 materialForColors: leather
+defaultColor: White
 colors:
   - name: Black
     hex: '040200'
@@ -294,12 +301,201 @@ shadowCatcher:
   part: 'shadow_catcher'
   texture: 'Shadow catcher.png'
 
-restrictions:
-  maxColors: 3
-
+preview:
+  cameraPosition: [1.169, 1.291, -0.021]
+inspirations:
+  - preview: 'Preview1.jpeg'
+    options:
+    - id: chest_band
+      enabled: false
+    - id: arm_band
+      enabled: false
+    - id: back_band
+      enabled: false
+    - id: side_band_edges
+      enabled: false
+    components:
+    - id: chest
+      color: FluoOrange
+    - id: front_face
+      color: FluoOrange
+    - id: arm
+      color: FluoYellow
+    - id: buttock
+      color: FluoOrange
+    - id: logo_spring
+      color: Black
+    - id: back
+      color: FluoYellow
+    - id: upper_back
+      color: FluoOrange
+    - id: armpit
+      color: FluoYellow
+    - id: underarm
+      color: FluoOrange
+    - id: chest_band_top
+      color: FluoYellow
+    - id: chest_text
+      color: FluoYellow
+      textValue: ELITIST
+    - id: chest_band_bottom
+      color: FluoYellow
+    - id: arm_band_front
+      color: FluoYellow
+    - id: arm_band_rear
+      color: FluoYellow
+    - id: back_band_bottom
+      color: FluoYellow
+    - id: back_band_top
+      color: FluoYellow
+    - id: side_band_edges
+      color: FluoYellow
+  - preview: 'Preview2.jpeg'
+    options:
+    - id: chest_band
+      enabled: false
+    - id: arm_band
+      enabled: false
+    - id: back_band
+      enabled: false
+    - id: side_band_edges
+      enabled: false
+    components:
+    - id: chest
+      color: FluoPink
+    - id: front_face
+      color: White
+    - id: arm
+      color: HyBlue
+    - id: buttock
+      color: HyBlue
+    - id: logo_spring
+      color: White
+    - id: back
+      color: FluoPink
+    - id: upper_back
+      color: White
+    - id: armpit
+      color: White
+    - id: underarm
+      color: FluoPink
+    - id: chest_band_top
+      color: White
+    - id: chest_text
+      color: HyBlue
+      textValue: ELITIST
+    - id: chest_band_bottom
+      color: White
+    - id: arm_band_front
+      color: White
+    - id: arm_band_rear
+      color: White
+    - id: back_band_bottom
+      color: White
+    - id: back_band_top
+      color: White
+    - id: side_band_edges
+      color: White
+  - preview: 'Preview3.jpeg'
+    options:
+    - id: chest_band
+      enabled: false
+    - id: arm_band
+      enabled: false
+    - id: back_band
+      enabled: false
+    - id: side_band_edges
+      enabled: false
+    components:
+    - id: chest
+      color: Red
+    - id: front_face
+      color: Red
+    - id: arm
+      color: Red
+    - id: buttock
+      color: Red
+    - id: logo_spring
+      color: Red
+    - id: back
+      color: Red
+    - id: upper_back
+      color: Red
+    - id: armpit
+      color: Red
+    - id: underarm
+      color: Red
+    - id: chest_band_top
+      color: Red
+    - id: chest_text
+      color: Chrome
+      textValue: ELITIST
+    - id: chest_band_bottom
+      color: Red
+    - id: arm_band_front
+      color: Red
+    - id: arm_band_rear
+      color: Red
+    - id: back_band_bottom
+      color: Red
+    - id: back_band_top
+      color: Red
+    - id: side_band_edges
+      color: Red
+  - preview: 'Preview4.jpeg'
+    options:
+    - id: chest_band
+      enabled: false
+    - id: arm_band
+      enabled: false
+    - id: back_band
+      enabled: false
+    - id: side_band_edges
+      enabled: false
+    components:
+    - id: chest
+      color: Violet
+    - id: front_face
+      color: Gold
+    - id: arm
+      color: Gold
+    - id: buttock
+      color: Violet
+    - id: logo_spring
+      color: Black
+    - id: back
+      color: Violet
+    - id: upper_back
+      color: Gold
+    - id: armpit
+      color: Black
+    - id: underarm
+      color: Violet
+    - id: chest_band_top
+      color: Red
+    - id: chest_text
+      color: Black
+      textValue: ELITIST
+    - id: chest_band_bottom
+      color: Red
+    - id: arm_band_front
+      color: Red
+    - id: arm_band_rear
+      color: Red
+    - id: back_band_bottom
+      color: Red
+    - id: back_band_top
+      color: Red
+    - id: side_band_edges
+      color: Red
 snapshots:
-  - default: './Snapshot1.jpeg'
+  - default: 'Snapshot1.jpeg'
     cameraPosition: [0.720, 0.560, 1.358]
-  - default: './Snapshot2.jpeg'
-    cameraPosition: [0.612, 0.521, -1.485]
-    cameraTarget: [0.098, 0.062, -0.189]
+  - default: 'Snapshot2.jpeg'
+    cameraPosition: [1.360, 0.295, -0.886]
+  - default: 'Snapshot3.jpeg'
+    cameraPosition: [0, 1.056, 1.252]
+    cameraTarget: [0, 0.1, 0]
+  - default: 'Snapshot4.jpeg'
+    cameraPosition: [0, 1.140, -1.133]
+    cameraTarget: [0, 0.1,  0]
