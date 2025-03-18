@@ -11821,23 +11821,6 @@ function transition_slide_display(value) {
 
 /***/ }),
 
-/***/ "../svelte/packages/svelte/src/internal/disclose-version.js":
-/*!******************************************************************!*\
-  !*** ../svelte/packages/svelte/src/internal/disclose-version.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../version.js */ "../svelte/packages/svelte/src/version.js");
-
-if (typeof window !== 'undefined')
-  // @ts-ignore
-  (window.__svelte ||= {
-    v: new Set()
-  }).v.add(_version_js__WEBPACK_IMPORTED_MODULE_0__.PUBLIC_VERSION);
-
-/***/ }),
-
 /***/ "../svelte/packages/svelte/src/internal/flags/index.js":
 /*!*************************************************************!*\
   !*** ../svelte/packages/svelte/src/internal/flags/index.js ***!
@@ -11859,19 +11842,6 @@ function enable_legacy_mode_flag() {
 function enable_tracing_mode_flag() {
   tracing_mode_flag = true;
 }
-
-/***/ }),
-
-/***/ "../svelte/packages/svelte/src/internal/flags/legacy.js":
-/*!**************************************************************!*\
-  !*** ../svelte/packages/svelte/src/internal/flags/legacy.js ***!
-  \**************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "../svelte/packages/svelte/src/internal/flags/index.js");
-
-(0,_index_js__WEBPACK_IMPORTED_MODULE_0__.enable_legacy_mode_flag)();
 
 /***/ }),
 
@@ -12630,6 +12600,273 @@ function createBubbler() {
 
 /***/ }),
 
+/***/ "../svelte/packages/svelte/src/reactivity/create-subscriber.js":
+/*!*********************************************************************!*\
+  !*** ../svelte/packages/svelte/src/reactivity/create-subscriber.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createSubscriber: () => (/* binding */ createSubscriber)
+/* harmony export */ });
+/* harmony import */ var _internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/client/runtime.js */ "../svelte/packages/svelte/src/internal/client/runtime.js");
+/* harmony import */ var _internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../internal/client/reactivity/effects.js */ "../svelte/packages/svelte/src/internal/client/reactivity/effects.js");
+/* harmony import */ var _internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../internal/client/reactivity/sources.js */ "../svelte/packages/svelte/src/internal/client/reactivity/sources.js");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils.js */ "../svelte/packages/svelte/src/reactivity/utils.js");
+
+
+
+
+
+/**
+ * Returns a `subscribe` function that, if called in an effect (including expressions in the template),
+ * calls its `start` callback with an `update` function. Whenever `update` is called, the effect re-runs.
+ *
+ * If `start` returns a function, it will be called when the effect is destroyed.
+ *
+ * If `subscribe` is called in multiple effects, `start` will only be called once as long as the effects
+ * are active, and the returned teardown function will only be called when all effects are destroyed.
+ *
+ * It's best understood with an example. Here's an implementation of [`MediaQuery`](https://svelte.dev/docs/svelte/svelte-reactivity#MediaQuery):
+ *
+ * ```js
+ * import { createSubscriber } from 'svelte/reactivity';
+ * import { on } from 'svelte/events';
+ *
+ * export class MediaQuery {
+ * 	#query;
+ * 	#subscribe;
+ *
+ * 	constructor(query) {
+ * 		this.#query = window.matchMedia(`(${query})`);
+ *
+ * 		this.#subscribe = createSubscriber((update) => {
+ * 			// when the `change` event occurs, re-run any effects that read `this.current`
+ * 			const off = on(this.#query, 'change', update);
+ *
+ * 			// stop listening when all the effects are destroyed
+ * 			return () => off();
+ * 		});
+ * 	}
+ *
+ * 	get current() {
+ * 		this.#subscribe();
+ *
+ * 		// Return the current state of the query, whether or not we're in an effect
+ * 		return this.#query.matches;
+ * 	}
+ * }
+ * ```
+ * @param {(update: () => void) => (() => void) | void} start
+ * @since 5.7.0
+ */
+function createSubscriber(start) {
+  let subscribers = 0;
+  let version = (0,_internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_2__.source)(0);
+  /** @type {(() => void) | void} */
+  let stop;
+  return () => {
+    if ((0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_1__.effect_tracking)()) {
+      (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.get)(version);
+      (0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_1__.render_effect)(() => {
+        if (subscribers === 0) {
+          stop = (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.untrack)(() => start(() => (0,_utils_js__WEBPACK_IMPORTED_MODULE_3__.increment)(version)));
+        }
+        subscribers += 1;
+        return () => {
+          (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.tick)().then(() => {
+            // Only count down after timeout, else we would reach 0 before our own render effect reruns,
+            // but reach 1 again when the tick callback of the prior teardown runs. That would mean we
+            // re-subcribe unnecessarily and create a memory leak because the old subscription is never cleaned up.
+            subscribers -= 1;
+            if (subscribers === 0) {
+              stop?.();
+              stop = undefined;
+            }
+          });
+        };
+      });
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "../svelte/packages/svelte/src/reactivity/utils.js":
+/*!*********************************************************!*\
+  !*** ../svelte/packages/svelte/src/reactivity/utils.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   increment: () => (/* binding */ increment)
+/* harmony export */ });
+/* harmony import */ var _internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/client/reactivity/sources.js */ "../svelte/packages/svelte/src/internal/client/reactivity/sources.js");
+/** @import { Source } from '#client' */
+
+
+/** @param {Source<number>} source */
+function increment(source) {
+  (0,_internal_client_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_0__.set)(source, source.v + 1);
+}
+
+/***/ }),
+
+/***/ "../svelte/packages/svelte/src/store/index-client.js":
+/*!***********************************************************!*\
+  !*** ../svelte/packages/svelte/src/store/index-client.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   derived: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.derived),
+/* harmony export */   fromStore: () => (/* binding */ fromStore),
+/* harmony export */   get: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.get),
+/* harmony export */   readable: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.readable),
+/* harmony export */   readonly: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.readonly),
+/* harmony export */   toStore: () => (/* binding */ toStore),
+/* harmony export */   writable: () => (/* reexport safe */ _shared_index_js__WEBPACK_IMPORTED_MODULE_1__.writable)
+/* harmony export */ });
+/* harmony import */ var _internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/client/reactivity/effects.js */ "../svelte/packages/svelte/src/internal/client/reactivity/effects.js");
+/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shared/index.js */ "../svelte/packages/svelte/src/store/shared/index.js");
+/* harmony import */ var _reactivity_create_subscriber_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reactivity/create-subscriber.js */ "../svelte/packages/svelte/src/reactivity/create-subscriber.js");
+/** @import { Readable, Writable } from './public.js' */
+
+
+
+
+
+/**
+ * @template V
+ * @overload
+ * @param {() => V} get
+ * @param {(v: V) => void} set
+ * @returns {Writable<V>}
+ */
+/**
+ * @template V
+ * @overload
+ * @param {() => V} get
+ * @returns {Readable<V>}
+ */
+/**
+ * Create a store from a function that returns state, and (to make a writable store), an
+ * optional second function that sets state.
+ *
+ * ```ts
+ * import { toStore } from 'svelte/store';
+ *
+ * let count = $state(0);
+ *
+ * const store = toStore(() => count, (v) => (count = v));
+ * ```
+ * @template V
+ * @param {() => V} get
+ * @param {(v: V) => void} [set]
+ * @returns {Writable<V> | Readable<V>}
+ */
+function toStore(get, set) {
+  let init_value = get();
+  const store = (0,_shared_index_js__WEBPACK_IMPORTED_MODULE_1__.writable)(init_value, set => {
+    // If the value has changed before we call subscribe, then
+    // we need to treat the value as already having run
+    let ran = init_value !== get();
+
+    // TODO do we need a different implementation on the server?
+    const teardown = (0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__.effect_root)(() => {
+      (0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__.render_effect)(() => {
+        const value = get();
+        if (ran) set(value);
+      });
+    });
+    ran = true;
+    return teardown;
+  });
+  if (set) {
+    return {
+      set,
+      update: fn => set(fn(get())),
+      subscribe: store.subscribe
+    };
+  }
+  return {
+    subscribe: store.subscribe
+  };
+}
+
+/**
+ * @template V
+ * @overload
+ * @param {Writable<V>} store
+ * @returns {{ current: V }}
+ */
+/**
+ * @template V
+ * @overload
+ * @param {Readable<V>} store
+ * @returns {{ readonly current: V }}
+ */
+/**
+ * Convert a store to an object with a reactive `current` property. If `store`
+ * is a readable store, `current` will be a readonly property.
+ *
+ * ```ts
+ * import { fromStore, get, writable } from 'svelte/store';
+ *
+ * const store = writable(0);
+ *
+ * const count = fromStore(store);
+ *
+ * count.current; // 0;
+ * store.set(1);
+ * count.current; // 1
+ *
+ * count.current += 1;
+ * get(store); // 2
+ * ```
+ * @template V
+ * @param {Writable<V> | Readable<V>} store
+ */
+function fromStore(store) {
+  let value = /** @type {V} */undefined;
+  const subscribe = (0,_reactivity_create_subscriber_js__WEBPACK_IMPORTED_MODULE_2__.createSubscriber)(update => {
+    let ran = false;
+    const unsubscribe = store.subscribe(v => {
+      value = v;
+      if (ran) update();
+    });
+    ran = true;
+    return unsubscribe;
+  });
+  function current() {
+    if ((0,_internal_client_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_0__.effect_tracking)()) {
+      subscribe();
+      return value;
+    }
+    return (0,_shared_index_js__WEBPACK_IMPORTED_MODULE_1__.get)(store);
+  }
+  if ('set' in store) {
+    return {
+      get current() {
+        return current();
+      },
+      set current(v) {
+        store.set(v);
+      }
+    };
+  }
+  return {
+    get current() {
+      return current();
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "../svelte/packages/svelte/src/store/shared/index.js":
 /*!***********************************************************!*\
   !*** ../svelte/packages/svelte/src/store/shared/index.js ***!
@@ -13111,325 +13348,6 @@ function sanitize_location(location) {
   return location?.replace(/\//g, '/\u200b');
 }
 
-/***/ }),
-
-/***/ "../svelte/packages/svelte/src/version.js":
-/*!************************************************!*\
-  !*** ../svelte/packages/svelte/src/version.js ***!
-  \************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   PUBLIC_VERSION: () => (/* binding */ PUBLIC_VERSION),
-/* harmony export */   VERSION: () => (/* binding */ VERSION)
-/* harmony export */ });
-// generated during release, do not modify
-
-/**
- * The current version, as set in package.json.
- * @type {string}
- */
-const VERSION = '5.20.2';
-const PUBLIC_VERSION = '5';
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/ArrowLeft.svelte":
-/*!*******************************************!*\
-  !*** ./src/ConfIt/icons/ArrowLeft.svelte ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ArrowLeft)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Arrow / Arrow_Left_MD"><path id="Vector" d="M19 12H5M5 12L11 18M5 12L11 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>`);
-
-function ArrowLeft($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/ArrowRight.svelte":
-/*!********************************************!*\
-  !*** ./src/ConfIt/icons/ArrowRight.svelte ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ArrowRight)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Arrow / Arrow_Right_MD"><path id="Vector" d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>`);
-
-function ArrowRight($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/Check.svelte":
-/*!***************************************!*\
-  !*** ./src/ConfIt/icons/Check.svelte ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Check)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Interface / Check"><path id="Vector" d="M6 12L10.2426 16.2426L18.727 7.75732" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>`);
-
-function Check($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/CheckCircle.svelte":
-/*!*********************************************!*\
-  !*** ./src/ConfIt/icons/CheckCircle.svelte ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ CheckCircle)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#1C274C" stroke-width="1.5"></circle><path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`);
-
-function CheckCircle($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/Close.svelte":
-/*!***************************************!*\
-  !*** ./src/ConfIt/icons/Close.svelte ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Close)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Menu / Close_MD"><path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>`);
-
-function Close($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/Cube.svelte":
-/*!**************************************!*\
-  !*** ./src/ConfIt/icons/Cube.svelte ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Cube)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21L10 20M12 21L14 20M12 21V18.5M6 18L4 17V14.5M4 9.5V7M4 7L6 6M4 7L6 8M10 4L12 3L14 4M18 6L20 7M20 7L18 8M20 7V9.5M12 11L10 10M12 11L14 10M12 11V13.5M18 18L20 17V14.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>`);
-
-function Cube($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/DragLine.svelte":
-/*!******************************************!*\
-  !*** ./src/ConfIt/icons/DragLine.svelte ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ DragLine)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><g id="Interface / Line_L"><path id="Vector" d="M12 19V5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></g></svg>`);
-
-function DragLine($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/Forbidden.svelte":
-/*!*******************************************!*\
-  !*** ./src/ConfIt/icons/Forbidden.svelte ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Forbidden)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 52 52" xml:space="preserve" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M44.385,7.615C39.475,2.705,32.945,0,26,0S12.525,2.705,7.615,7.615S0,19.055,0,26s2.705,13.475,7.615,18.385 S19.055,52,26,52s13.475-2.705,18.385-7.615S52,32.945,52,26S49.295,12.525,44.385,7.615z M9.029,9.029C13.562,4.496,19.589,2,26,2 c5.739,0,11.167,2.006,15.494,5.677L7.677,41.494C4.006,37.167,2,31.74,2,26C2,19.589,4.496,13.563,9.029,9.029z M42.971,42.971 C38.437,47.504,32.411,50,26,50c-5.739,0-11.167-2.006-15.494-5.677l33.817-33.817C47.994,14.833,50,20.26,50,26 C50,32.411,47.504,38.438,42.971,42.971z"></path></g></svg>`);
-
-function Forbidden($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/Hamburger.svelte":
-/*!*******************************************!*\
-  !*** ./src/ConfIt/icons/Hamburger.svelte ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Hamburger)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Menu / Hamburger_MD"><path id="Vector" d="M5 17H19M5 12H19M5 7H19" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>`);
-
-function Hamburger($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/PenNewRound.svelte":
-/*!*********************************************!*\
-  !*** ./src/ConfIt/icons/PenNewRound.svelte ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PenNewRound)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><circle opacity="0.5" cx="12" cy="12" r="10" fill="#1C274C"></circle><path d="M13.9261 14.3018C14.1711 14.1107 14.3933 13.8885 14.8377 13.4441L20.378 7.90374C20.512 7.7698 20.4507 7.53909 20.2717 7.477C19.6178 7.25011 18.767 6.82414 17.9713 6.02835C17.1755 5.23257 16.7495 4.38186 16.5226 3.72788C16.4605 3.54892 16.2298 3.48761 16.0959 3.62156L10.5555 9.16192C10.1111 9.60634 9.88888 9.82854 9.69778 10.0736C9.47235 10.3626 9.27908 10.6753 9.12139 11.0062C8.98771 11.2867 8.88834 11.5848 8.68959 12.181L8.43278 12.9515L8.02443 14.1765L7.64153 15.3252C7.54373 15.6186 7.6201 15.9421 7.8388 16.1608C8.0575 16.3795 8.38099 16.4559 8.67441 16.3581L9.82308 15.9752L11.0481 15.5668L11.8186 15.31L11.8186 15.31C12.4148 15.1113 12.7129 15.0119 12.9934 14.8782C13.3243 14.7205 13.637 14.5273 13.9261 14.3018Z" fill="#1C274C"></path><path d="M22.1127 6.16905C23.2952 4.98656 23.2952 3.06936 22.1127 1.88687C20.9302 0.704377 19.013 0.704377 17.8306 1.88687L17.6524 2.06499C17.4806 2.23687 17.4027 2.47695 17.4456 2.7162C17.4726 2.8667 17.5227 3.08674 17.6138 3.3493C17.796 3.87439 18.14 4.56368 18.788 5.21165C19.4359 5.85961 20.1252 6.20364 20.6503 6.38581C20.9129 6.4769 21.1329 6.52697 21.2834 6.55399C21.5227 6.59693 21.7627 6.51905 21.9346 6.34717L22.1127 6.16905Z" fill="#1C274C"></path></g></svg>`);
-
-function PenNewRound($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
-/***/ }),
-
-/***/ "./src/ConfIt/icons/PlusCircle.svelte":
-/*!********************************************!*\
-  !*** ./src/ConfIt/icons/PlusCircle.svelte ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PlusCircle)
-/* harmony export */ });
-/* harmony import */ var svelte_internal_disclose_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/disclose-version */ "../svelte/packages/svelte/src/internal/disclose-version.js");
-/* harmony import */ var svelte_internal_flags_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte/internal/flags/legacy */ "../svelte/packages/svelte/src/internal/flags/legacy.js");
-/* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-
-
-
-
-var root = svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.ns_template(`<svg width="800px" height="800px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"><title>plus-circle</title><desc>Created with Sketch Beta.</desc><defs></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Icon-Set" transform="translate(-464.000000, -1087.000000)" fill="#000000"><path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle"></path></g></g></svg>`);
-
-function PlusCircle($$anchor) {
-	var svg = root();
-
-	svelte_internal_client__WEBPACK_IMPORTED_MODULE_2__.append($$anchor, svg);
-}
-
 /***/ })
 
 /******/ 	});
@@ -13491,48 +13409,22 @@ function PlusCircle($$anchor) {
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!***********************************!*\
-  !*** ./src/ConfIt/icons/index.js ***!
-  \***********************************/
+/*!******************************!*\
+  !*** ./src/ConfIt/stores.ts ***!
+  \******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ArrowLeft: () => (/* reexport safe */ _ArrowLeft_svelte__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   ArrowRight: () => (/* reexport safe */ _ArrowRight_svelte__WEBPACK_IMPORTED_MODULE_1__["default"]),
-/* harmony export */   Check: () => (/* reexport safe */ _Check_svelte__WEBPACK_IMPORTED_MODULE_2__["default"]),
-/* harmony export */   CheckCircle: () => (/* reexport safe */ _CheckCircle_svelte__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   Close: () => (/* reexport safe */ _Close_svelte__WEBPACK_IMPORTED_MODULE_4__["default"]),
-/* harmony export */   Cube: () => (/* reexport safe */ _Cube_svelte__WEBPACK_IMPORTED_MODULE_5__["default"]),
-/* harmony export */   DragLine: () => (/* reexport safe */ _DragLine_svelte__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   Forbidden: () => (/* reexport safe */ _Forbidden_svelte__WEBPACK_IMPORTED_MODULE_7__["default"]),
-/* harmony export */   Hamburger: () => (/* reexport safe */ _Hamburger_svelte__WEBPACK_IMPORTED_MODULE_8__["default"]),
-/* harmony export */   PenNewRound: () => (/* reexport safe */ _PenNewRound_svelte__WEBPACK_IMPORTED_MODULE_9__["default"]),
-/* harmony export */   PlusCircle: () => (/* reexport safe */ _PlusCircle_svelte__WEBPACK_IMPORTED_MODULE_10__["default"])
+/* harmony export */   opened: () => (/* binding */ opened),
+/* harmony export */   productPath: () => (/* binding */ productPath),
+/* harmony export */   snapshots: () => (/* binding */ snapshots)
 /* harmony export */ });
-/* harmony import */ var _ArrowLeft_svelte__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ArrowLeft.svelte */ "./src/ConfIt/icons/ArrowLeft.svelte");
-/* harmony import */ var _ArrowRight_svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ArrowRight.svelte */ "./src/ConfIt/icons/ArrowRight.svelte");
-/* harmony import */ var _Check_svelte__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Check.svelte */ "./src/ConfIt/icons/Check.svelte");
-/* harmony import */ var _CheckCircle_svelte__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CheckCircle.svelte */ "./src/ConfIt/icons/CheckCircle.svelte");
-/* harmony import */ var _Close_svelte__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Close.svelte */ "./src/ConfIt/icons/Close.svelte");
-/* harmony import */ var _Cube_svelte__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Cube.svelte */ "./src/ConfIt/icons/Cube.svelte");
-/* harmony import */ var _DragLine_svelte__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DragLine.svelte */ "./src/ConfIt/icons/DragLine.svelte");
-/* harmony import */ var _Forbidden_svelte__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Forbidden.svelte */ "./src/ConfIt/icons/Forbidden.svelte");
-/* harmony import */ var _Hamburger_svelte__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Hamburger.svelte */ "./src/ConfIt/icons/Hamburger.svelte");
-/* harmony import */ var _PenNewRound_svelte__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PenNewRound.svelte */ "./src/ConfIt/icons/PenNewRound.svelte");
-/* harmony import */ var _PlusCircle_svelte__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PlusCircle.svelte */ "./src/ConfIt/icons/PlusCircle.svelte");
+/* harmony import */ var svelte_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/store */ "../svelte/packages/svelte/src/store/index-client.js");
 
-
-
-
-
-
-
-
-
-
-
-
+var productPath = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)();
+var opened = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)(false);
+var snapshots = (0,svelte_store__WEBPACK_IMPORTED_MODULE_0__.writable)([]);
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.js.js.map
+//# sourceMappingURL=stores.ts.js.map

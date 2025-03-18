@@ -1,5 +1,5 @@
 /*!***********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.453.css!./src/ConfIt/Mod.svelte ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Mod.svelte.509.css!./src/ConfIt/Mod.svelte ***!
   \***********************************************************************************************************************************************************************************************************************************************************/
 .confit-mod.svelte-1573hsu {
   height: 100%;
@@ -413,11 +413,11 @@
   top: 48px;
   transform: translateX(-50%);
 }
-/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW9kLnN2ZWx0ZSIsIm1hcHBpbmdzIjoiQUFzdENrQiIsIm5hbWVzIjpbXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiTW9kLnN2ZWx0ZSJdfQ==*/
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW9kLnN2ZWx0ZSIsIm1hcHBpbmdzIjoiQUFvdENrQiIsIm5hbWVzIjpbXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiTW9kLnN2ZWx0ZSJdfQ==*/
 /*!*********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.454.css!./src/ConfIt/Launcher.svelte ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js!./node_modules/svelte-loader/index.js?cssPath=/home/eytienne/workspace/ConfIt/src/ConfIt/Launcher.svelte.545.css!./src/ConfIt/Launcher.svelte ***!
   \*********************************************************************************************************************************************************************************************************************************************************************/
-.confit.svelte-1ou0z2i {
+.confit.svelte-ujee90 {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -425,36 +425,54 @@
   max-width: 1440px;
 }
 @media (min-width: 992px) {
-  .confit.svelte-1ou0z2i {
+  .confit.svelte-ujee90 {
     flex-direction: row;
   }
 }
-.confit__snapshots.svelte-1ou0z2i img:where(.svelte-1ou0z2i) {
-  aspect-ratio: 1;
+.confit__snapshots.svelte-ujee90 .image-wrapper:where(.svelte-ujee90) {
   background-color: var(--bg-color);
-  object-fit: contain;
+  position: relative;
   width: 100%;
 }
 @media (min-width: 992px) {
-  .confit__snapshots.svelte-1ou0z2i img:where(.svelte-1ou0z2i) {
+  .confit__snapshots.svelte-ujee90 .image-wrapper:where(.svelte-ujee90) {
     display: inline-block;
     margin: 0 10px 10px 10px;
     width: calc(50% - 20px);
   }
 }
-.confit.svelte-1ou0z2i .embla:where(.svelte-1ou0z2i) {
+.confit__snapshots.svelte-ujee90 .image-wrapper:where(.svelte-ujee90) .secondary-configure:where(.svelte-ujee90) {
+  --pad: 10px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  height: auto;
+  left: var(--pad);
+  padding: 4px;
+  position: absolute;
+  top: var(--pad);
+  width: 45px;
+}
+.confit__snapshots.svelte-ujee90 .image-wrapper:where(.svelte-ujee90) .secondary-configure:where(.svelte-ujee90) svg {
+  height: auto;
+  width: 100%;
+}
+.confit__snapshots.svelte-ujee90 .image-wrapper:where(.svelte-ujee90) img:where(.svelte-ujee90) {
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+.confit.svelte-ujee90 .embla:where(.svelte-ujee90) {
   overflow: hidden;
   position: relative;
 }
-.confit.svelte-1ou0z2i .embla__container:where(.svelte-1ou0z2i) {
+.confit.svelte-ujee90 .embla__container:where(.svelte-ujee90) {
   display: flex;
 }
-.confit.svelte-1ou0z2i .embla__slide:where(.svelte-1ou0z2i) {
+.confit.svelte-ujee90 .embla__slide:where(.svelte-ujee90) {
   flex: 0 0 100%;
   min-width: 0;
   max-width: 100vw;
 }
-.confit.svelte-1ou0z2i .embla__progress-bar:where(.svelte-1ou0z2i) {
+.confit.svelte-ujee90 .embla__progress-bar:where(.svelte-ujee90) {
   background-color: #333;
   bottom: 0;
   height: 5px;
@@ -463,62 +481,62 @@
   left: calc(var(--progress) * (100% - var(--width)));
   width: var(--width);
 }
-.confit__overview.svelte-1ou0z2i {
+.confit__overview.svelte-ujee90 {
   padding: 20px;
 }
 @media (min-width: 992px) {
-  .confit__overview.svelte-1ou0z2i {
+  .confit__overview.svelte-ujee90 {
     flex: 1 0 456px;
   }
 }
-.confit__overview.svelte-1ou0z2i h3:where(.svelte-1ou0z2i) {
+.confit__overview.svelte-ujee90 h3:where(.svelte-ujee90) {
   font-weight: 600;
 }
-.confit__overview.svelte-1ou0z2i .config-item:not(.empty-item) {
+.confit__overview.svelte-ujee90 .config-item:not(.empty-item) {
   display: flex;
   gap: 10px;
   overflow-x: scroll;
 }
 @media (min-width: 992px) {
-  .confit__overview.svelte-1ou0z2i .config-item:not(.empty-item) {
+  .confit__overview.svelte-ujee90 .config-item:not(.empty-item) {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 4px;
     overflow-x: initial;
   }
 }
-.confit__overview.svelte-1ou0z2i .config-item img {
+.confit__overview.svelte-ujee90 .config-item img {
   display: inline-block;
   width: 125px;
 }
 @media (min-width: 992px) {
-  .confit__overview.svelte-1ou0z2i .config-item img {
+  .confit__overview.svelte-ujee90 .config-item img {
     width: initial;
   }
 }
-.confit__overview.svelte-1ou0z2i .config-item__preview {
+.confit__overview.svelte-ujee90 .config-item__preview {
   flex-shrink: 0;
   position: relative;
   width: fit-content;
 }
-.confit__overview.svelte-1ou0z2i .config-item__preview:has(.config-preview__cross:hover) {
-  animation: svelte-1ou0z2i-delete-shake 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+.confit__overview.svelte-ujee90 .config-item__preview:has(.config-preview__cross:hover) {
+  animation: svelte-ujee90-delete-shake 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
 }
-.confit__overview.svelte-1ou0z2i .config-item__preview__cross {
+.confit__overview.svelte-ujee90 .config-item__preview__cross {
   position: absolute;
   padding: 3px;
-  width: 26px;
+  width: 30px;
   right: 5px;
   top: 5px;
   opacity: 0.5;
 }
-.confit__overview.svelte-1ou0z2i .config-item__preview__cross * {
+.confit__overview.svelte-ujee90 .config-item__preview__cross * {
   fill: #bbb;
 }
-.confit__overview.svelte-1ou0z2i .config-item__empty {
+.confit__overview.svelte-ujee90 .config-item__empty {
   text-align: center;
 }
-.confit__overview.svelte-1ou0z2i .launch:where(.svelte-1ou0z2i) {
+.confit__overview.svelte-ujee90 .launch:where(.svelte-ujee90) {
   align-items: center;
   background-color: #f00;
   border: 1px solid #ccc;
@@ -529,20 +547,20 @@
   outline: none;
   padding: 15px;
 }
-.confit__overview.svelte-1ou0z2i .launch:where(.svelte-1ou0z2i):hover {
+.confit__overview.svelte-ujee90 .launch:where(.svelte-ujee90):hover {
   background-color: #111;
   color: #fff;
 }
-.confit__overview.svelte-1ou0z2i .launch:where(.svelte-1ou0z2i):hover svg circle, .confit__overview.svelte-1ou0z2i .launch:where(.svelte-1ou0z2i):hover svg path {
+.confit__overview.svelte-ujee90 .launch:where(.svelte-ujee90):hover svg circle, .confit__overview.svelte-ujee90 .launch:where(.svelte-ujee90):hover svg path {
   fill: #fff;
 }
-.confit__overview.svelte-1ou0z2i .launch:where(.svelte-1ou0z2i) svg {
+.confit__overview.svelte-ujee90 .launch:where(.svelte-ujee90) svg {
   height: 20px;
   margin-top: 2px;
   width: auto;
 }
 
-@keyframes svelte-1ou0z2i-delete-shake {
+@keyframes svelte-ujee90-delete-shake {
   0%, 100% {
     transform: translateX(0);
     rotate: 0;
@@ -564,6 +582,6 @@
     rotate: -3deg;
   }
 }
-/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTGF1bmNoZXIuc3ZlbHRlIiwibWFwcGluZ3MiOiJBQTBLa0IiLCJuYW1lcyI6W10sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkxhdW5jaGVyLnN2ZWx0ZSJdfQ==*/
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTGF1bmNoZXIuc3ZlbHRlIiwibWFwcGluZ3MiOiJBQXdNa0IiLCJuYW1lcyI6W10sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkxhdW5jaGVyLnN2ZWx0ZSJdfQ==*/
 
 /*# sourceMappingURL=suit.ts.css.map*/
