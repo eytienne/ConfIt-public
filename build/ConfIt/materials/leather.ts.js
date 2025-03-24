@@ -95,6 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   HYDRATION_START: () => (/* binding */ HYDRATION_START),
 /* harmony export */   HYDRATION_START_ELSE: () => (/* binding */ HYDRATION_START_ELSE),
 /* harmony export */   IGNORABLE_RUNTIME_WARNINGS: () => (/* binding */ IGNORABLE_RUNTIME_WARNINGS),
+/* harmony export */   NAMESPACE_HTML: () => (/* binding */ NAMESPACE_HTML),
 /* harmony export */   NAMESPACE_MATHML: () => (/* binding */ NAMESPACE_MATHML),
 /* harmony export */   NAMESPACE_SVG: () => (/* binding */ NAMESPACE_SVG),
 /* harmony export */   PROPS_IS_BINDABLE: () => (/* binding */ PROPS_IS_BINDABLE),
@@ -137,6 +138,7 @@ const UNINITIALIZED = Symbol();
 // Dev-time component properties
 const FILENAME = Symbol('filename');
 const HMR = Symbol('hmr');
+const NAMESPACE_HTML = 'http://www.w3.org/1999/xhtml';
 const NAMESPACE_SVG = 'http://www.w3.org/2000/svg';
 const NAMESPACE_MATHML = 'http://www.w3.org/1998/Math/MathML';
 
@@ -203,7 +205,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   beforeUpdate: () => (/* binding */ beforeUpdate),
 /* harmony export */   createEventDispatcher: () => (/* binding */ createEventDispatcher),
 /* harmony export */   createRawSnippet: () => (/* reexport safe */ _internal_client_dom_blocks_snippet_js__WEBPACK_IMPORTED_MODULE_9__.createRawSnippet),
-/* harmony export */   flushSync: () => (/* binding */ flushSync),
+/* harmony export */   flushSync: () => (/* reexport safe */ _internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.flushSync),
 /* harmony export */   getAllContexts: () => (/* reexport safe */ _internal_client_context_js__WEBPACK_IMPORTED_MODULE_6__.getAllContexts),
 /* harmony export */   getContext: () => (/* reexport safe */ _internal_client_context_js__WEBPACK_IMPORTED_MODULE_6__.getContext),
 /* harmony export */   hasContext: () => (/* reexport safe */ _internal_client_context_js__WEBPACK_IMPORTED_MODULE_6__.hasContext),
@@ -270,13 +272,14 @@ if (esm_env__WEBPACK_IMPORTED_MODULE_7__.DEV) {
 }
 
 /**
- * The `onMount` function schedules a callback to run as soon as the component has been mounted to the DOM.
- * It must be called during the component's initialisation (but doesn't need to live *inside* the component;
- * it can be called from an external module).
+ * `onMount`, like [`$effect`](https://svelte.dev/docs/svelte/$effect), schedules a function to run as soon as the component has been mounted to the DOM.
+ * Unlike `$effect`, the provided function only runs once.
  *
- * If a function is returned _synchronously_ from `onMount`, it will be called when the component is unmounted.
+ * It must be called during the component's initialisation (but doesn't need to live _inside_ the component;
+ * it can be called from an external module). If a function is returned _synchronously_ from `onMount`,
+ * it will be called when the component is unmounted.
  *
- * `onMount` does not run inside [server-side components](https://svelte.dev/docs/svelte/svelte-server#render).
+ * `onMount` functions do not run during [server-side rendering](https://svelte.dev/docs/svelte/svelte-server#render).
  *
  * @template T
  * @param {() => NotFunction<T> | Promise<NotFunction<T>> | (() => any)} fn
@@ -431,14 +434,6 @@ function init_update_callbacks(context) {
   };
 }
 
-/**
- * Synchronously flushes any pending state changes and those that result from it.
- * @param {() => void} [fn]
- * @returns {void}
- */
-function flushSync(fn) {
-  (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_0__.flush_sync)(fn);
-}
 
 
 
@@ -643,9 +638,10 @@ function getAllContexts() {
  * @returns {void}
  */
 function push(props, runes = false, fn) {
-  component_context = {
+  var ctx = component_context = {
     p: component_context,
     c: null,
+    d: false,
     e: null,
     m: false,
     s: props,
@@ -660,6 +656,9 @@ function push(props, runes = false, fn) {
       r2: (0,_reactivity_sources_js__WEBPACK_IMPORTED_MODULE_3__.source)(false)
     };
   }
+  (0,_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_5__.teardown)(() => {
+    /** @type {ComponentContext} */ctx.d = true;
+  });
   if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
     // component function
     component_context.function = fn;
@@ -1856,7 +1855,7 @@ function await_block(node, get_input, pending_fn, then_fn, catch_fn) {
 
         // without this, the DOM does not update until two ticks after the promise
         // resolves, which is unexpected behaviour (and somewhat irksome to test)
-        (0,_runtime_js__WEBPACK_IMPORTED_MODULE_4__.flush_sync)();
+        (0,_runtime_js__WEBPACK_IMPORTED_MODULE_4__.flushSync)();
       }
     }
   }
@@ -2732,12 +2731,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * @param {TemplateNode} node
- * @param {(branch: (fn: (anchor: Node) => void, flag?: boolean) => void) => void} fn
- * @param {boolean} [elseif] True if this is an `{:else if ...}` block rather than an `{#if ...}`, as that affects which transitions are considered 'local'
+ * @param {(branch: (fn: (anchor: Node, elseif?: [number,number]) => void, flag?: boolean) => void) => void} fn
+ * @param {[number,number]} [elseif]
  * @returns {void}
  */
-function if_block(node, fn, elseif = false) {
-  if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating) {
+function if_block(node, fn, [root_index, hydrate_index] = [0, 0]) {
+  if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating && root_index === 0) {
     (0,_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrate_next)();
   }
   var anchor = node;
@@ -2750,19 +2749,34 @@ function if_block(node, fn, elseif = false) {
 
   /** @type {UNINITIALIZED | boolean | null} */
   var condition = _constants_js__WEBPACK_IMPORTED_MODULE_3__.UNINITIALIZED;
-  var flags = elseif ? _constants_js__WEBPACK_IMPORTED_MODULE_0__.EFFECT_TRANSPARENT : 0;
+  var flags = root_index > 0 ? _constants_js__WEBPACK_IMPORTED_MODULE_0__.EFFECT_TRANSPARENT : 0;
   var has_branch = false;
-  const set_branch = (/** @type {(anchor: Node) => void} */fn, flag = true) => {
+  const set_branch = (/** @type {(anchor: Node, elseif?: [number,number]) => void} */fn, flag = true) => {
     has_branch = true;
     update_branch(flag, fn);
   };
-  const update_branch = (/** @type {boolean | null} */new_condition, /** @type {null | ((anchor: Node) => void)} */fn) => {
+  const update_branch = (/** @type {boolean | null} */new_condition, /** @type {null | ((anchor: Node, elseif?: [number,number]) => void)} */fn) => {
     if (condition === (condition = new_condition)) return;
 
     /** Whether or not there was a hydration mismatch. Needs to be a `let` or else it isn't treeshaken out */
     let mismatch = false;
-    if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating) {
-      const is_else = /** @type {Comment} */anchor.data === _constants_js__WEBPACK_IMPORTED_MODULE_3__.HYDRATION_START_ELSE;
+    if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating && hydrate_index !== -1) {
+      if (root_index === 0) {
+        const data = /** @type {Comment} */anchor.data;
+        if (data === _constants_js__WEBPACK_IMPORTED_MODULE_3__.HYDRATION_START) {
+          hydrate_index = 0;
+        } else if (data === _constants_js__WEBPACK_IMPORTED_MODULE_3__.HYDRATION_START_ELSE) {
+          hydrate_index = Infinity;
+        } else {
+          hydrate_index = parseInt(data.substring(1));
+          if (hydrate_index !== hydrate_index) {
+            // if hydrate_index is NaN
+            // we set an invalid index to force mismatch
+            hydrate_index = condition ? Infinity : -1;
+          }
+        }
+      }
+      const is_else = hydrate_index > root_index;
       if (!!condition === is_else) {
         // Hydration mismatch: remove everything inside the anchor and start fresh.
         // This could happen with `{#if browser}...{/if}`, for example
@@ -2770,6 +2784,7 @@ function if_block(node, fn, elseif = false) {
         (0,_hydration_js__WEBPACK_IMPORTED_MODULE_1__.set_hydrate_node)(anchor);
         (0,_hydration_js__WEBPACK_IMPORTED_MODULE_1__.set_hydrating)(false);
         mismatch = true;
+        hydrate_index = -1; // ignore hydration in next else if
       }
     }
     if (condition) {
@@ -2787,7 +2802,7 @@ function if_block(node, fn, elseif = false) {
       if (alternate_effect) {
         (0,_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_2__.resume_effect)(alternate_effect);
       } else if (fn) {
-        alternate_effect = (0,_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_2__.branch)(() => fn(anchor));
+        alternate_effect = (0,_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_2__.branch)(() => fn(anchor, [root_index + 1, hydrate_index]));
       }
       if (consequent_effect) {
         (0,_reactivity_effects_js__WEBPACK_IMPORTED_MODULE_2__.pause_effect)(consequent_effect, () => {
@@ -3460,6 +3475,8 @@ function action(dom, action, get_value) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CLASS: () => (/* binding */ CLASS),
+/* harmony export */   STYLE: () => (/* binding */ STYLE),
 /* harmony export */   remove_input_defaults: () => (/* binding */ remove_input_defaults),
 /* harmony export */   set_attribute: () => (/* binding */ set_attribute),
 /* harmony export */   set_attributes: () => (/* binding */ set_attributes),
@@ -3482,6 +3499,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../utils.js */ "../svelte/packages/svelte/src/utils.js");
 /* harmony import */ var _runtime_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../runtime.js */ "../svelte/packages/svelte/src/internal/client/runtime.js");
 /* harmony import */ var _shared_attributes_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../shared/attributes.js */ "../svelte/packages/svelte/src/internal/shared/attributes.js");
+/* harmony import */ var _class_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./class.js */ "../svelte/packages/svelte/src/internal/client/dom/elements/class.js");
+/* harmony import */ var _style_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./style.js */ "../svelte/packages/svelte/src/internal/client/dom/elements/style.js");
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../constants.js */ "../svelte/packages/svelte/src/constants.js");
 
 
 
@@ -3493,6 +3513,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+const CLASS = Symbol('class');
+const STYLE = Symbol('style');
+const IS_CUSTOM_ELEMENT = Symbol('is custom element');
+const IS_HTML = Symbol('is html');
 
 /**
  * The value/checked attribute in the template actually corresponds to the defaultValue property, so we need
@@ -3536,8 +3563,7 @@ function remove_input_defaults(input) {
  * @param {any} value
  */
 function set_value(element, value) {
-  // @ts-expect-error
-  var attributes = element.__attributes ??= {};
+  var attributes = get_attributes(element);
   if (attributes.value === (attributes.value =
   // treat null and undefined the same for the initial value
   value ?? undefined) ||
@@ -3556,8 +3582,7 @@ function set_value(element, value) {
  * @param {boolean} checked
  */
 function set_checked(element, checked) {
-  // @ts-expect-error
-  var attributes = element.__attributes ??= {};
+  var attributes = get_attributes(element);
   if (attributes.checked === (attributes.checked =
   // treat null and undefined the same for the initial value
   checked ?? undefined)) {
@@ -3616,8 +3641,7 @@ function set_default_value(element, value) {
  * @param {boolean} [skip_warning]
  */
 function set_attribute(element, attribute, value, skip_warning) {
-  // @ts-expect-error
-  var attributes = element.__attributes ??= {};
+  var attributes = get_attributes(element);
   if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating) {
     attributes[attribute] = element.getAttribute(attribute);
     if (attribute === 'src' || attribute === 'srcset' || attribute === 'href' && element.nodeName === 'LINK') {
@@ -3633,10 +3657,6 @@ function set_attribute(element, attribute, value, skip_warning) {
     }
   }
   if (attributes[attribute] === (attributes[attribute] = value)) return;
-  if (attribute === 'style' && '__styles' in element) {
-    // reset styles to force style: directive to update
-    element.__styles = {};
-  }
   if (attribute === 'loading') {
     // @ts-expect-error
     element[_constants_js__WEBPACK_IMPORTED_MODULE_6__.LOADING_ATTR_SYMBOL] = value;
@@ -3672,6 +3692,7 @@ function set_custom_element_data(node, prop, value) {
   // or effect
   var previous_reaction = _runtime_js__WEBPACK_IMPORTED_MODULE_9__.active_reaction;
   var previous_effect = _runtime_js__WEBPACK_IMPORTED_MODULE_9__.active_effect;
+
   // If we're hydrating but the custom element is from Svelte, and it already scaffolded,
   // then it might run block logic in hydration mode, which we have to prevent.
   let was_hydrating = _hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating;
@@ -3682,12 +3703,14 @@ function set_custom_element_data(node, prop, value) {
   (0,_runtime_js__WEBPACK_IMPORTED_MODULE_9__.set_active_effect)(null);
   try {
     if (
+    // `style` should use `set_attribute` rather than the setter
+    prop !== 'style' && (
     // Don't compute setters for custom elements while they aren't registered yet,
     // because during their upgrade/instantiation they might add more setters.
     // Instead, fall back to a simple "an object, then set as property" heuristic.
     setters_cache.has(node.nodeName) ||
     // customElements may not be available in browser extension contexts
-    !customElements || customElements.get(node.tagName.toLowerCase()) ? get_setters(node).includes(prop) : value && typeof value === 'object') {
+    !customElements || customElements.get(node.tagName.toLowerCase()) ? get_setters(node).includes(prop) : value && typeof value === 'object')) {
       // @ts-expect-error
       node[prop] = value;
     } else {
@@ -3708,15 +3731,17 @@ function set_custom_element_data(node, prop, value) {
 /**
  * Spreads attributes onto a DOM element, taking into account the currently set attributes
  * @param {Element & ElementCSSInlineStyle} element
- * @param {Record<string, any> | undefined} prev
- * @param {Record<string, any>} next New attributes - this function mutates this object
+ * @param {Record<string | symbol, any> | undefined} prev
+ * @param {Record<string | symbol, any>} next New attributes - this function mutates this object
  * @param {string} [css_hash]
- * @param {boolean} [preserve_attribute_case]
- * @param {boolean} [is_custom_element]
  * @param {boolean} [skip_warning]
  * @returns {Record<string, any>}
  */
-function set_attributes(element, prev, next, css_hash, preserve_attribute_case = false, is_custom_element = false, skip_warning = false) {
+function set_attributes(element, prev, next, css_hash, skip_warning = false) {
+  var attributes = get_attributes(element);
+  var is_custom_element = attributes[IS_CUSTOM_ELEMENT];
+  var preserve_attribute_case = !attributes[IS_HTML];
+
   // If we're hydrating but the custom element is from Svelte, and it already scaffolded,
   // then it might run block logic in hydration mode, which we have to prevent.
   let is_hydrating_custom_element = _hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating && is_custom_element;
@@ -3732,14 +3757,13 @@ function set_attributes(element, prev, next, css_hash, preserve_attribute_case =
   }
   if (next.class) {
     next.class = (0,_shared_attributes_js__WEBPACK_IMPORTED_MODULE_10__.clsx)(next.class);
+  } else if (css_hash || next[CLASS]) {
+    next.class = null; /* force call to set_class() */
   }
-  if (css_hash !== undefined) {
-    next.class = next.class ? next.class + ' ' + css_hash : css_hash;
+  if (next[STYLE]) {
+    next.style ??= null; /* force call to set_style() */
   }
   var setters = get_setters(element);
-
-  // @ts-expect-error
-  var attributes = /** @type {Record<string, unknown>} **/element.__attributes ??= {};
 
   // since key is captured we use const
   for (const key in next) {
@@ -3762,6 +3786,19 @@ function set_attributes(element, prev, next, css_hash, preserve_attribute_case =
       // @ts-ignore
       element.value = element.__value = '';
       current[key] = value;
+      continue;
+    }
+    if (key === 'class') {
+      var is_html = element.namespaceURI === 'http://www.w3.org/1999/xhtml';
+      (0,_class_js__WEBPACK_IMPORTED_MODULE_11__.set_class)(element, is_html, value, css_hash, prev?.[CLASS], next[CLASS]);
+      current[key] = value;
+      current[CLASS] = next[CLASS];
+      continue;
+    }
+    if (key === 'style') {
+      (0,_style_js__WEBPACK_IMPORTED_MODULE_12__.set_style)(element, value, prev?.[STYLE], next[STYLE]);
+      current[key] = value;
+      current[STYLE] = next[STYLE];
       continue;
     }
     var prev_value = current[key];
@@ -3807,8 +3844,9 @@ function set_attributes(element, prev, next, css_hash, preserve_attribute_case =
         // @ts-ignore
         element[`__${event_name}`] = undefined;
       }
-    } else if (key === 'style' && value != null) {
-      element.style.cssText = value + '';
+    } else if (key === 'style') {
+      // avoid using the setter
+      set_attribute(element, key, value);
     } else if (key === 'autofocus') {
       (0,_misc_js__WEBPACK_IMPORTED_MODULE_4__.autofocus)(/** @type {HTMLElement} */element, Boolean(value));
     } else if (!is_custom_element && (key === '__value' || key === 'value' && value != null)) {
@@ -3848,18 +3886,28 @@ function set_attributes(element, prev, next, css_hash, preserve_attribute_case =
         // @ts-ignore
         element[name] = value;
       } else if (typeof value !== 'function') {
-        set_attribute(element, name, value);
+        set_attribute(element, name, value, skip_warning);
       }
-    }
-    if (key === 'style' && '__styles' in element) {
-      // reset styles to force style: directive to update
-      element.__styles = {};
     }
   }
   if (is_hydrating_custom_element) {
     (0,_hydration_js__WEBPACK_IMPORTED_MODULE_1__.set_hydrating)(true);
   }
   return current;
+}
+
+/**
+ *
+ * @param {Element} element
+ */
+function get_attributes(element) {
+  return (/** @type {Record<string | symbol, unknown>} **/
+    // @ts-expect-error
+    element.__attributes ??= {
+      [IS_CUSTOM_ELEMENT]: element.nodeName.includes('-'),
+      [IS_HTML]: element.namespaceURI === _constants_js__WEBPACK_IMPORTED_MODULE_13__.NAMESPACE_HTML
+    }
+  );
 }
 
 /** @type {Map<string, string[]>} */
@@ -5119,119 +5167,52 @@ function bind_window_size(type, set) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   set_class: () => (/* binding */ set_class),
-/* harmony export */   set_mathml_class: () => (/* binding */ set_mathml_class),
-/* harmony export */   set_svg_class: () => (/* binding */ set_svg_class),
-/* harmony export */   toggle_class: () => (/* binding */ toggle_class)
+/* harmony export */   set_class: () => (/* binding */ set_class)
 /* harmony export */ });
-/* harmony import */ var _hydration_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../hydration.js */ "../svelte/packages/svelte/src/internal/client/dom/hydration.js");
+/* harmony import */ var _shared_attributes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../shared/attributes.js */ "../svelte/packages/svelte/src/internal/shared/attributes.js");
+/* harmony import */ var _hydration_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hydration.js */ "../svelte/packages/svelte/src/internal/client/dom/hydration.js");
 
 
-/**
- * @param {SVGElement} dom
- * @param {string} value
- * @param {string} [hash]
- * @returns {void}
- */
-function set_svg_class(dom, value, hash) {
-  // @ts-expect-error need to add __className to patched prototype
-  var prev_class_name = dom.__className;
-  var next_class_name = to_class(value, hash);
-  if (_hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && dom.getAttribute('class') === next_class_name) {
-    // In case of hydration don't reset the class as it's already correct.
-    // @ts-expect-error need to add __className to patched prototype
-    dom.__className = next_class_name;
-  } else if (prev_class_name !== next_class_name || _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && dom.getAttribute('class') !== next_class_name) {
-    if (next_class_name === '') {
-      dom.removeAttribute('class');
-    } else {
-      dom.setAttribute('class', next_class_name);
-    }
-
-    // @ts-expect-error need to add __className to patched prototype
-    dom.__className = next_class_name;
-  }
-}
-
-/**
- * @param {MathMLElement} dom
- * @param {string} value
- * @param {string} [hash]
- * @returns {void}
- */
-function set_mathml_class(dom, value, hash) {
-  // @ts-expect-error need to add __className to patched prototype
-  var prev_class_name = dom.__className;
-  var next_class_name = to_class(value, hash);
-  if (_hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && dom.getAttribute('class') === next_class_name) {
-    // In case of hydration don't reset the class as it's already correct.
-    // @ts-expect-error need to add __className to patched prototype
-    dom.__className = next_class_name;
-  } else if (prev_class_name !== next_class_name || _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && dom.getAttribute('class') !== next_class_name) {
-    if (next_class_name === '') {
-      dom.removeAttribute('class');
-    } else {
-      dom.setAttribute('class', next_class_name);
-    }
-
-    // @ts-expect-error need to add __className to patched prototype
-    dom.__className = next_class_name;
-  }
-}
-
-/**
- * @param {HTMLElement} dom
- * @param {string} value
- * @param {string} [hash]
- * @returns {void}
- */
-function set_class(dom, value, hash) {
-  // @ts-expect-error need to add __className to patched prototype
-  var prev_class_name = dom.__className;
-  var next_class_name = to_class(value, hash);
-  if (_hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && dom.className === next_class_name) {
-    // In case of hydration don't reset the class as it's already correct.
-    // @ts-expect-error need to add __className to patched prototype
-    dom.__className = next_class_name;
-  } else if (prev_class_name !== next_class_name || _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && dom.className !== next_class_name) {
-    // Removing the attribute when the value is only an empty string causes
-    // peformance issues vs simply making the className an empty string. So
-    // we should only remove the class if the the value is nullish.
-    if (value == null && !hash) {
-      dom.removeAttribute('class');
-    } else {
-      dom.className = next_class_name;
-    }
-
-    // @ts-expect-error need to add __className to patched prototype
-    dom.__className = next_class_name;
-  }
-}
-
-/**
- * @template V
- * @param {V} value
- * @param {string} [hash]
- * @returns {string | V}
- */
-function to_class(value, hash) {
-  return (value == null ? '' : value) + (hash ? ' ' + hash : '');
-}
 
 /**
  * @param {Element} dom
- * @param {string} class_name
- * @param {boolean} value
- * @returns {void}
+ * @param {boolean | number} is_html
+ * @param {string | null} value
+ * @param {string} [hash]
+ * @param {Record<string, any>} [prev_classes]
+ * @param {Record<string, any>} [next_classes]
+ * @returns {Record<string, boolean> | undefined}
  */
-function toggle_class(dom, class_name, value) {
-  if (value) {
-    if (dom.classList.contains(class_name)) return;
-    dom.classList.add(class_name);
-  } else {
-    if (!dom.classList.contains(class_name)) return;
-    dom.classList.remove(class_name);
+function set_class(dom, is_html, value, hash, prev_classes, next_classes) {
+  // @ts-expect-error need to add __className to patched prototype
+  var prev = dom.__className;
+  if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating || prev !== value) {
+    var next_class_name = (0,_shared_attributes_js__WEBPACK_IMPORTED_MODULE_0__.to_class)(value, hash, next_classes);
+    if (!_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating || next_class_name !== dom.getAttribute('class')) {
+      // Removing the attribute when the value is only an empty string causes
+      // performance issues vs simply making the className an empty string. So
+      // we should only remove the class if the the value is nullish
+      // and there no hash/directives :
+      if (next_class_name == null) {
+        dom.removeAttribute('class');
+      } else if (is_html) {
+        dom.className = next_class_name;
+      } else {
+        dom.setAttribute('class', next_class_name);
+      }
+    }
+
+    // @ts-expect-error need to add __className to patched prototype
+    dom.__className = value;
+  } else if (next_classes && prev_classes !== next_classes) {
+    for (var key in next_classes) {
+      var is_present = !!next_classes[key];
+      if (prev_classes == null || is_present !== !!prev_classes[key]) {
+        dom.classList.toggle(key, is_present);
+      }
+    }
   }
+  return next_classes;
 }
 
 /***/ }),
@@ -5814,7 +5795,7 @@ function handle_event_propagation(event) {
       try {
         // @ts-expect-error
         var delegated = current_target['__' + event_name];
-        if (delegated !== undefined && (!(/** @type {any} */current_target.disabled) ||
+        if (delegated != null && (!(/** @type {any} */current_target.disabled) ||
         // DOM could've been updated already by the time this is reached, so we check this as well
         // -> the target could not have been disabled because it emits the event in the first place
         event.target === current_target)) {
@@ -5874,12 +5855,11 @@ function apply(thunk, element, args, component, loc, has_side_effects = false, r
   } catch (e) {
     error = e;
   }
-  if (typeof handler === 'function') {
-    handler.apply(element, args);
-  } else if (has_side_effects || handler != null || error) {
+  if (typeof handler !== 'function' && (has_side_effects || handler != null || error)) {
     const filename = component?.[_constants_js__WEBPACK_IMPORTED_MODULE_4__.FILENAME];
     const location = loc ? ` at ${filename}:${loc[0]}:${loc[1]}` : ` in ${filename}`;
-    const event_name = args[0].type;
+    const phase = args[0]?.eventPhase < Event.BUBBLING_PHASE ? 'capture' : '';
+    const event_name = args[0]?.type + phase;
     const description = `\`${event_name}\` handler${location}`;
     const suggestion = remove_parens ? 'remove the trailing `()`' : 'add a leading `() =>`';
     _warnings_js__WEBPACK_IMPORTED_MODULE_5__.event_handler_invalid(description, suggestion);
@@ -5887,6 +5867,7 @@ function apply(thunk, element, args, component, loc, has_side_effects = false, r
       throw error;
     }
   }
+  handler?.apply(element, args);
 }
 
 /***/ }),
@@ -5975,24 +5956,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   set_style: () => (/* binding */ set_style)
 /* harmony export */ });
+/* harmony import */ var _shared_attributes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../shared/attributes.js */ "../svelte/packages/svelte/src/internal/shared/attributes.js");
+/* harmony import */ var _hydration_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hydration.js */ "../svelte/packages/svelte/src/internal/client/dom/hydration.js");
+
+
+
 /**
- * @param {HTMLElement} dom
- * @param {string} key
- * @param {string} value
- * @param {boolean} [important]
+ * @param {Element & ElementCSSInlineStyle} dom
+ * @param {Record<string, any>} prev
+ * @param {Record<string, any>} next
+ * @param {string} [priority]
  */
-function set_style(dom, key, value, important) {
+function update_styles(dom, prev = {}, next, priority) {
+  for (var key in next) {
+    var value = next[key];
+    if (prev[key] !== value) {
+      if (next[key] == null) {
+        dom.style.removeProperty(key);
+      } else {
+        dom.style.setProperty(key, value, priority);
+      }
+    }
+  }
+}
+
+/**
+ * @param {Element & ElementCSSInlineStyle} dom
+ * @param {string | null} value
+ * @param {Record<string, any> | [Record<string, any>, Record<string, any>]} [prev_styles]
+ * @param {Record<string, any> | [Record<string, any>, Record<string, any>]} [next_styles]
+ */
+function set_style(dom, value, prev_styles, next_styles) {
   // @ts-expect-error
-  var styles = dom.__styles ??= {};
-  if (styles[key] === value) {
-    return;
+  var prev = dom.__style;
+  if (_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating || prev !== value) {
+    var next_style_attr = (0,_shared_attributes_js__WEBPACK_IMPORTED_MODULE_0__.to_style)(value, next_styles);
+    if (!_hydration_js__WEBPACK_IMPORTED_MODULE_1__.hydrating || next_style_attr !== dom.getAttribute('style')) {
+      if (next_style_attr == null) {
+        dom.removeAttribute('style');
+      } else {
+        dom.style.cssText = next_style_attr;
+      }
+    }
+
+    // @ts-expect-error
+    dom.__style = value;
+  } else if (next_styles) {
+    if (Array.isArray(next_styles)) {
+      update_styles(dom, prev_styles?.[0], next_styles[0]);
+      update_styles(dom, prev_styles?.[1], next_styles[1], 'important');
+    } else {
+      update_styles(dom, prev_styles, next_styles);
+    }
   }
-  styles[key] = value;
-  if (value == null) {
-    dom.style.removeProperty(key);
-  } else {
-    dom.style.setProperty(key, value, important ? 'important' : '');
-  }
+  return next_styles;
 }
 
 /***/ }),
@@ -6959,11 +6976,11 @@ function init_operations() {
   // @ts-expect-error
   element_prototype.__click = undefined;
   // @ts-expect-error
-  element_prototype.__className = '';
+  element_prototype.__className = undefined;
   // @ts-expect-error
   element_prototype.__attributes = null;
   // @ts-expect-error
-  element_prototype.__styles = null;
+  element_prototype.__style = undefined;
   // @ts-expect-error
   element_prototype.__e = undefined;
 
@@ -7137,31 +7154,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   flush_tasks: () => (/* binding */ flush_tasks),
 /* harmony export */   queue_idle_task: () => (/* binding */ queue_idle_task),
-/* harmony export */   queue_micro_task: () => (/* binding */ queue_micro_task),
-/* harmony export */   request_idle_callback: () => (/* binding */ request_idle_callback)
+/* harmony export */   queue_micro_task: () => (/* binding */ queue_micro_task)
 /* harmony export */ });
 /* harmony import */ var _shared_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/utils.js */ "../svelte/packages/svelte/src/internal/shared/utils.js");
 
 
 // Fallback for when requestIdleCallback is not available
 const request_idle_callback = typeof requestIdleCallback === 'undefined' ? (/** @type {() => void} */cb) => setTimeout(cb, 1) : requestIdleCallback;
-let is_micro_task_queued = false;
-let is_idle_task_queued = false;
 
 /** @type {Array<() => void>} */
-let current_queued_micro_tasks = [];
+let micro_tasks = [];
+
 /** @type {Array<() => void>} */
-let current_queued_idle_tasks = [];
-function process_micro_tasks() {
-  is_micro_task_queued = false;
-  const tasks = current_queued_micro_tasks.slice();
-  current_queued_micro_tasks = [];
+let idle_tasks = [];
+function run_micro_tasks() {
+  var tasks = micro_tasks;
+  micro_tasks = [];
   (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.run_all)(tasks);
 }
-function process_idle_tasks() {
-  is_idle_task_queued = false;
-  const tasks = current_queued_idle_tasks.slice();
-  current_queued_idle_tasks = [];
+function run_idle_tasks() {
+  var tasks = idle_tasks;
+  idle_tasks = [];
   (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_0__.run_all)(tasks);
 }
 
@@ -7169,33 +7182,31 @@ function process_idle_tasks() {
  * @param {() => void} fn
  */
 function queue_micro_task(fn) {
-  if (!is_micro_task_queued) {
-    is_micro_task_queued = true;
-    queueMicrotask(process_micro_tasks);
+  if (micro_tasks.length === 0) {
+    queueMicrotask(run_micro_tasks);
   }
-  current_queued_micro_tasks.push(fn);
+  micro_tasks.push(fn);
 }
 
 /**
  * @param {() => void} fn
  */
 function queue_idle_task(fn) {
-  if (!is_idle_task_queued) {
-    is_idle_task_queued = true;
-    request_idle_callback(process_idle_tasks);
+  if (idle_tasks.length === 0) {
+    request_idle_callback(run_idle_tasks);
   }
-  current_queued_idle_tasks.push(fn);
+  idle_tasks.push(fn);
 }
 
 /**
  * Synchronously run any queued tasks.
  */
 function flush_tasks() {
-  if (is_micro_task_queued) {
-    process_micro_tasks();
+  if (micro_tasks.length > 0) {
+    run_micro_tasks();
   }
-  if (is_idle_task_queued) {
-    process_idle_tasks();
+  if (idle_tasks.length > 0) {
+    run_idle_tasks();
   }
 }
 
@@ -7216,7 +7227,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   mathml_template: () => (/* binding */ mathml_template),
 /* harmony export */   ns_template: () => (/* binding */ ns_template),
 /* harmony export */   props_id: () => (/* binding */ props_id),
-/* harmony export */   reset_props_id: () => (/* binding */ reset_props_id),
 /* harmony export */   svg_template_with_script: () => (/* binding */ svg_template_with_script),
 /* harmony export */   template: () => (/* binding */ template),
 /* harmony export */   template_with_script: () => (/* binding */ template_with_script),
@@ -7447,21 +7457,22 @@ function append(anchor, dom) {
   }
   anchor.before(/** @type {Node} */dom);
 }
-let uid = 1;
-function reset_props_id() {
-  uid = 1;
-}
 
 /**
  * Create (or hydrate) an unique UID for the component instance.
  */
 function props_id() {
-  if (_hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node && _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node.nodeType === 8 && _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node.textContent?.startsWith('#s')) {
+  if (_hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrating && _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node && _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node.nodeType === 8 && _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node.textContent?.startsWith(`#`)) {
     const id = _hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_node.textContent.substring(1);
     (0,_hydration_js__WEBPACK_IMPORTED_MODULE_0__.hydrate_next)();
     return id;
   }
-  return 'c' + uid++;
+
+  // @ts-expect-error This way we ensure the id is unique even across Svelte runtimes
+  (window.__svelte ??= {}).uid ??= 1;
+
+  // @ts-expect-error
+  return `c${window.__svelte.uid++}`;
 }
 
 /***/ }),
@@ -7828,9 +7839,11 @@ function state_unsafe_mutation() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ADD_OWNER: () => (/* reexport safe */ _dev_ownership_js__WEBPACK_IMPORTED_MODULE_6__.ADD_OWNER),
+/* harmony export */   CLASS: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.CLASS),
 /* harmony export */   FILENAME: () => (/* reexport safe */ _constants_js__WEBPACK_IMPORTED_MODULE_0__.FILENAME),
 /* harmony export */   HMR: () => (/* reexport safe */ _constants_js__WEBPACK_IMPORTED_MODULE_0__.HMR),
 /* harmony export */   NAMESPACE_SVG: () => (/* reexport safe */ _constants_js__WEBPACK_IMPORTED_MODULE_0__.NAMESPACE_SVG),
+/* harmony export */   STYLE: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.STYLE),
 /* harmony export */   action: () => (/* reexport safe */ _dom_elements_actions_js__WEBPACK_IMPORTED_MODULE_22__.action),
 /* harmony export */   add_legacy_event_listener: () => (/* reexport safe */ _dom_legacy_misc_js__WEBPACK_IMPORTED_MODULE_42__.add_legacy_event_listener),
 /* harmony export */   add_locations: () => (/* reexport safe */ _dev_elements_js__WEBPACK_IMPORTED_MODULE_4__.add_locations),
@@ -7901,7 +7914,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   exclude_from_object: () => (/* reexport safe */ _runtime_js__WEBPACK_IMPORTED_MODULE_51__.exclude_from_object),
 /* harmony export */   fallback: () => (/* reexport safe */ _shared_utils_js__WEBPACK_IMPORTED_MODULE_59__.fallback),
 /* harmony export */   first_child: () => (/* reexport safe */ _dom_operations_js__WEBPACK_IMPORTED_MODULE_56__.first_child),
-/* harmony export */   flush_sync: () => (/* reexport safe */ _runtime_js__WEBPACK_IMPORTED_MODULE_51__.flush_sync),
+/* harmony export */   flush: () => (/* reexport safe */ _runtime_js__WEBPACK_IMPORTED_MODULE_51__.flushSync),
 /* harmony export */   get: () => (/* reexport safe */ _runtime_js__WEBPACK_IMPORTED_MODULE_51__.get),
 /* harmony export */   head: () => (/* reexport safe */ _dom_blocks_svelte_head_js__WEBPACK_IMPORTED_MODULE_20__.head),
 /* harmony export */   hmr: () => (/* reexport safe */ _dev_hmr_js__WEBPACK_IMPORTED_MODULE_5__.hmr),
@@ -7957,10 +7970,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   set_custom_element_data: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.set_custom_element_data),
 /* harmony export */   set_default_checked: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.set_default_checked),
 /* harmony export */   set_default_value: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.set_default_value),
-/* harmony export */   set_mathml_class: () => (/* reexport safe */ _dom_elements_class_js__WEBPACK_IMPORTED_MODULE_24__.set_mathml_class),
 /* harmony export */   set_selected: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.set_selected),
 /* harmony export */   set_style: () => (/* reexport safe */ _dom_elements_style_js__WEBPACK_IMPORTED_MODULE_27__.set_style),
-/* harmony export */   set_svg_class: () => (/* reexport safe */ _dom_elements_class_js__WEBPACK_IMPORTED_MODULE_24__.set_svg_class),
 /* harmony export */   set_text: () => (/* reexport safe */ _render_js__WEBPACK_IMPORTED_MODULE_50__.set_text),
 /* harmony export */   set_value: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.set_value),
 /* harmony export */   set_xlink_attribute: () => (/* reexport safe */ _dom_elements_attributes_js__WEBPACK_IMPORTED_MODULE_23__.set_xlink_attribute),
@@ -7985,7 +7996,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   template_with_script: () => (/* reexport safe */ _dom_template_js__WEBPACK_IMPORTED_MODULE_43__.template_with_script),
 /* harmony export */   text: () => (/* reexport safe */ _dom_template_js__WEBPACK_IMPORTED_MODULE_43__.text),
 /* harmony export */   tick: () => (/* reexport safe */ _runtime_js__WEBPACK_IMPORTED_MODULE_51__.tick),
-/* harmony export */   toggle_class: () => (/* reexport safe */ _dom_elements_class_js__WEBPACK_IMPORTED_MODULE_24__.toggle_class),
 /* harmony export */   trace: () => (/* reexport safe */ _dev_tracing_js__WEBPACK_IMPORTED_MODULE_8__.trace),
 /* harmony export */   transition: () => (/* reexport safe */ _dom_elements_transitions_js__WEBPACK_IMPORTED_MODULE_28__.transition),
 /* harmony export */   trusted: () => (/* reexport safe */ _dom_legacy_event_modifiers_js__WEBPACK_IMPORTED_MODULE_40__.trusted),
@@ -8522,7 +8532,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   derived: () => (/* binding */ derived),
 /* harmony export */   derived_safe_equal: () => (/* binding */ derived_safe_equal),
 /* harmony export */   destroy_derived_effects: () => (/* binding */ destroy_derived_effects),
-/* harmony export */   execute_derived: () => (/* binding */ execute_derived),
 /* harmony export */   update_derived: () => (/* binding */ update_derived)
 /* harmony export */ });
 /* harmony import */ var esm_env__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! esm-env */ "../svelte/node_modules/.pnpm/esm-env@1.2.1/node_modules/esm-env/index.js");
@@ -8775,12 +8784,11 @@ function push_effect(effect, parent_effect) {
  * @returns {Effect}
  */
 function create_effect(type, fn, sync, push = true) {
-  var is_root = (type & _constants_js__WEBPACK_IMPORTED_MODULE_1__.ROOT_EFFECT) !== 0;
-  var parent_effect = _runtime_js__WEBPACK_IMPORTED_MODULE_0__.active_effect;
+  var parent = _runtime_js__WEBPACK_IMPORTED_MODULE_0__.active_effect;
   if (esm_env__WEBPACK_IMPORTED_MODULE_4__.DEV) {
     // Ensure the parent is never an inspect effect
-    while (parent_effect !== null && (parent_effect.f & _constants_js__WEBPACK_IMPORTED_MODULE_1__.INSPECT_EFFECT) !== 0) {
-      parent_effect = parent_effect.parent;
+    while (parent !== null && (parent.f & _constants_js__WEBPACK_IMPORTED_MODULE_1__.INSPECT_EFFECT) !== 0) {
+      parent = parent.parent;
     }
   }
 
@@ -8795,7 +8803,7 @@ function create_effect(type, fn, sync, push = true) {
     fn,
     last: null,
     next: null,
-    parent: is_root ? null : parent_effect,
+    parent,
     prev: null,
     teardown: null,
     transitions: null,
@@ -8805,16 +8813,12 @@ function create_effect(type, fn, sync, push = true) {
     effect.component_function = _context_js__WEBPACK_IMPORTED_MODULE_8__.dev_current_component_function;
   }
   if (sync) {
-    var previously_flushing_effect = _runtime_js__WEBPACK_IMPORTED_MODULE_0__.is_flushing_effect;
     try {
-      (0,_runtime_js__WEBPACK_IMPORTED_MODULE_0__.set_is_flushing_effect)(true);
       (0,_runtime_js__WEBPACK_IMPORTED_MODULE_0__.update_effect)(effect);
       effect.f |= _constants_js__WEBPACK_IMPORTED_MODULE_1__.EFFECT_RAN;
     } catch (e) {
       destroy_effect(effect);
       throw e;
-    } finally {
-      (0,_runtime_js__WEBPACK_IMPORTED_MODULE_0__.set_is_flushing_effect)(previously_flushing_effect);
     }
   } else if (fn !== null) {
     (0,_runtime_js__WEBPACK_IMPORTED_MODULE_0__.schedule_effect)(effect);
@@ -8823,9 +8827,9 @@ function create_effect(type, fn, sync, push = true) {
   // if an effect has no dependencies, no DOM and no teardown function,
   // don't bother adding it to the effect tree
   var inert = sync && effect.deps === null && effect.first === null && effect.nodes_start === null && effect.teardown === null && (effect.f & (_constants_js__WEBPACK_IMPORTED_MODULE_1__.EFFECT_HAS_DERIVED | _constants_js__WEBPACK_IMPORTED_MODULE_1__.BOUNDARY_EFFECT)) === 0;
-  if (!inert && !is_root && push) {
-    if (parent_effect !== null) {
-      push_effect(effect, parent_effect);
+  if (!inert && push) {
+    if (parent !== null) {
+      push_effect(effect, parent);
     }
 
     // if we're in a derived, add the effect there too
@@ -9062,7 +9066,12 @@ function destroy_effect_children(signal, remove_dom = false) {
   signal.first = signal.last = null;
   while (effect !== null) {
     var next = effect.next;
-    destroy_effect(effect, remove_dom);
+    if ((effect.f & _constants_js__WEBPACK_IMPORTED_MODULE_1__.ROOT_EFFECT) !== 0) {
+      // this is now an independent root
+      effect.parent = null;
+    } else {
+      destroy_effect(effect, remove_dom);
+    }
     effect = next;
   }
 }
@@ -9328,7 +9337,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _proxy_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../proxy.js */ "../svelte/packages/svelte/src/internal/client/proxy.js");
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./store.js */ "../svelte/packages/svelte/src/internal/client/reactivity/store.js");
 /* harmony import */ var _flags_index_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../flags/index.js */ "../svelte/packages/svelte/src/internal/flags/index.js");
-/** @import { Source } from './types.js' */
+/** @import { Derived, Source } from './types.js' */
 
 
 
@@ -9563,6 +9572,14 @@ function spread_props(...props) {
 }
 
 /**
+ * @param {Derived} current_value
+ * @returns {boolean}
+ */
+function has_destroyed_component_ctx(current_value) {
+  return current_value.ctx?.d ?? false;
+}
+
+/**
  * This function is responsible for synchronizing a possibly bound prop with the inner component state.
  * It is used whenever the compiler sees that the component writes to the prop, or when it has a default prop_value.
  * @template V
@@ -9679,6 +9696,11 @@ function prop(props, key, flags, fallback) {
     was_from_child = false;
     return inner_current_value.v = parent_value;
   });
+
+  // Ensure we eagerly capture the initial value if it's bindable
+  if (bindable) {
+    (0,_runtime_js__WEBPACK_IMPORTED_MODULE_5__.get)(current_value);
+  }
   if (!immutable) current_value.equals = _equality_js__WEBPACK_IMPORTED_MODULE_6__.safe_equals;
   return function (/** @type {any} */value, /** @type {boolean} */mutation) {
     // legacy nonsense — need to ensure the source is invalidated when necessary
@@ -9702,9 +9724,15 @@ function prop(props, key, flags, fallback) {
         if (fallback_used && fallback_value !== undefined) {
           fallback_value = new_value;
         }
+        if (has_destroyed_component_ctx(current_value)) {
+          return value;
+        }
         (0,_runtime_js__WEBPACK_IMPORTED_MODULE_5__.untrack)(() => (0,_runtime_js__WEBPACK_IMPORTED_MODULE_5__.get)(current_value)); // force a synchronisation immediately
       }
       return value;
+    }
+    if (has_destroyed_component_ctx(current_value)) {
+      return current_value.v;
     }
     return (0,_runtime_js__WEBPACK_IMPORTED_MODULE_5__.get)(current_value);
   };
@@ -9726,6 +9754,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   mutable_source: () => (/* binding */ mutable_source),
 /* harmony export */   mutable_state: () => (/* binding */ mutable_state),
 /* harmony export */   mutate: () => (/* binding */ mutate),
+/* harmony export */   old_values: () => (/* binding */ old_values),
 /* harmony export */   set: () => (/* binding */ set),
 /* harmony export */   set_inspect_effects: () => (/* binding */ set_inspect_effects),
 /* harmony export */   source: () => (/* binding */ source),
@@ -9751,6 +9780,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let inspect_effects = new Set();
+const old_values = new Map();
 
 /**
  * @param {Set<any>} v
@@ -9873,6 +9903,11 @@ function set(source, value) {
 function internal_set(source, value) {
   if (!source.equals(value)) {
     var old_value = source.v;
+    if (_runtime_js__WEBPACK_IMPORTED_MODULE_1__.is_destroying_effect) {
+      old_values.set(source, value);
+    } else {
+      old_values.set(source, old_value);
+    }
     source.v = value;
     source.wv = (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.increment_write_version)();
     if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV && _flags_index_js__WEBPACK_IMPORTED_MODULE_5__.tracing_mode_flag) {
@@ -9897,21 +9932,15 @@ function internal_set(source, value) {
     }
     if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV && inspect_effects.size > 0) {
       const inspects = Array.from(inspect_effects);
-      var previously_flushing_effect = _runtime_js__WEBPACK_IMPORTED_MODULE_1__.is_flushing_effect;
-      (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.set_is_flushing_effect)(true);
-      try {
-        for (const effect of inspects) {
-          // Mark clean inspect-effects as maybe dirty and then check their dirtiness
-          // instead of just updating the effects - this way we avoid overfiring.
-          if ((effect.f & _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN) !== 0) {
-            (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.set_signal_status)(effect, _constants_js__WEBPACK_IMPORTED_MODULE_3__.MAYBE_DIRTY);
-          }
-          if ((0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.check_dirtiness)(effect)) {
-            (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.update_effect)(effect);
-          }
+      for (const effect of inspects) {
+        // Mark clean inspect-effects as maybe dirty and then check their dirtiness
+        // instead of just updating the effects - this way we avoid overfiring.
+        if ((effect.f & _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN) !== 0) {
+          (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.set_signal_status)(effect, _constants_js__WEBPACK_IMPORTED_MODULE_3__.MAYBE_DIRTY);
         }
-      } finally {
-        (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.set_is_flushing_effect)(previously_flushing_effect);
+        if ((0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.check_dirtiness)(effect)) {
+          (0,_runtime_js__WEBPACK_IMPORTED_MODULE_1__.update_effect)(effect);
+        }
       }
       inspect_effects.clear();
     }
@@ -10515,22 +10544,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   active_effect: () => (/* binding */ active_effect),
 /* harmony export */   active_reaction: () => (/* binding */ active_reaction),
-/* harmony export */   capture_signals: () => (/* binding */ capture_signals),
 /* harmony export */   captured_signals: () => (/* binding */ captured_signals),
 /* harmony export */   check_dirtiness: () => (/* binding */ check_dirtiness),
 /* harmony export */   deep_read: () => (/* binding */ deep_read),
 /* harmony export */   deep_read_state: () => (/* binding */ deep_read_state),
 /* harmony export */   derived_sources: () => (/* binding */ derived_sources),
 /* harmony export */   exclude_from_object: () => (/* binding */ exclude_from_object),
-/* harmony export */   flush_sync: () => (/* binding */ flush_sync),
+/* harmony export */   flushSync: () => (/* binding */ flushSync),
 /* harmony export */   get: () => (/* binding */ get),
 /* harmony export */   handle_error: () => (/* binding */ handle_error),
 /* harmony export */   increment_write_version: () => (/* binding */ increment_write_version),
 /* harmony export */   invalidate_inner_signals: () => (/* binding */ invalidate_inner_signals),
 /* harmony export */   is_destroying_effect: () => (/* binding */ is_destroying_effect),
-/* harmony export */   is_flushing_effect: () => (/* binding */ is_flushing_effect),
-/* harmony export */   is_throwing_error: () => (/* binding */ is_throwing_error),
-/* harmony export */   new_deps: () => (/* binding */ new_deps),
 /* harmony export */   remove_reactions: () => (/* binding */ remove_reactions),
 /* harmony export */   reset_is_throwing_error: () => (/* binding */ reset_is_throwing_error),
 /* harmony export */   safe_get: () => (/* binding */ safe_get),
@@ -10540,7 +10565,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   set_captured_signals: () => (/* binding */ set_captured_signals),
 /* harmony export */   set_derived_sources: () => (/* binding */ set_derived_sources),
 /* harmony export */   set_is_destroying_effect: () => (/* binding */ set_is_destroying_effect),
-/* harmony export */   set_is_flushing_effect: () => (/* binding */ set_is_flushing_effect),
 /* harmony export */   set_signal_status: () => (/* binding */ set_signal_status),
 /* harmony export */   set_untracked_writes: () => (/* binding */ set_untracked_writes),
 /* harmony export */   skip_reaction: () => (/* binding */ skip_reaction),
@@ -10578,27 +10602,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const FLUSH_MICROTASK = 0;
-const FLUSH_SYNC = 1;
+
 // Used for DEV time error handling
 /** @param {WeakSet<Error>} value */
 const handled_errors = new WeakSet();
 let is_throwing_error = false;
-
-// Used for controlling the flush of effects.
-let scheduler_mode = FLUSH_MICROTASK;
-// Used for handling scheduling
-let is_micro_task_queued = false;
+let is_flushing = false;
 
 /** @type {Effect | null} */
 let last_scheduled_effect = null;
-let is_flushing_effect = false;
+let is_updating_effect = false;
 let is_destroying_effect = false;
-
-/** @param {boolean} value */
-function set_is_flushing_effect(value) {
-  is_flushing_effect = value;
-}
 
 /** @param {boolean} value */
 function set_is_destroying_effect(value) {
@@ -10609,7 +10623,7 @@ function set_is_destroying_effect(value) {
 
 /** @type {Effect[]} */
 let queued_root_effects = [];
-let flush_count = 0;
+
 /** @type {Effect[]} Stack of effects, dev only */
 let dev_effect_stack = [];
 // Handle signal reactivity tree dependencies and reactions
@@ -10904,8 +10918,8 @@ function update_reaction(reaction) {
   new_deps = /** @type {null | Value[]} */null;
   skipped_deps = 0;
   untracked_writes = null;
+  skip_reaction = (flags & _constants_js__WEBPACK_IMPORTED_MODULE_3__.UNOWNED) !== 0 && (untracking || !is_updating_effect || active_reaction === null);
   active_reaction = (flags & (_constants_js__WEBPACK_IMPORTED_MODULE_3__.BRANCH_EFFECT | _constants_js__WEBPACK_IMPORTED_MODULE_3__.ROOT_EFFECT)) === 0 ? reaction : null;
-  skip_reaction = (flags & _constants_js__WEBPACK_IMPORTED_MODULE_3__.UNOWNED) !== 0 && (!is_flushing_effect || previous_reaction === null || previous_untracking);
   derived_sources = null;
   (0,_context_js__WEBPACK_IMPORTED_MODULE_11__.set_component_context)(reaction.ctx);
   untracking = false;
@@ -10949,6 +10963,13 @@ function update_reaction(reaction) {
     // the same version
     if (previous_reaction !== null) {
       read_version++;
+      if (untracked_writes !== null) {
+        if (previous_untracked_writes === null) {
+          previous_untracked_writes = untracked_writes;
+        } else {
+          previous_untracked_writes.push(...(/** @type {Source[]} */untracked_writes));
+        }
+      }
     }
     return result;
   } finally {
@@ -11028,7 +11049,9 @@ function update_effect(effect) {
   set_signal_status(effect, _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN);
   var previous_effect = active_effect;
   var previous_component_context = _context_js__WEBPACK_IMPORTED_MODULE_11__.component_context;
+  var was_updating_effect = is_updating_effect;
   active_effect = effect;
+  is_updating_effect = true;
   if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
     var previous_component_fn = _context_js__WEBPACK_IMPORTED_MODULE_11__.dev_current_component_function;
     (0,_context_js__WEBPACK_IMPORTED_MODULE_11__.set_dev_current_component_function)(effect.component_function);
@@ -11065,6 +11088,7 @@ function update_effect(effect) {
   } catch (error) {
     handle_error(error, effect, previous_effect, previous_component_context || effect.ctx);
   } finally {
+    is_updating_effect = was_updating_effect;
     active_effect = previous_effect;
     if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
       (0,_context_js__WEBPACK_IMPORTED_MODULE_11__.set_dev_current_component_function)(previous_component_fn);
@@ -11077,65 +11101,62 @@ function log_effect_stack() {
   dev_effect_stack = [];
 }
 function infinite_loop_guard() {
-  if (flush_count > 1000) {
-    flush_count = 0;
-    try {
-      _errors_js__WEBPACK_IMPORTED_MODULE_7__.effect_update_depth_exceeded();
-    } catch (error) {
+  try {
+    _errors_js__WEBPACK_IMPORTED_MODULE_7__.effect_update_depth_exceeded();
+  } catch (error) {
+    if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
+      // stack is garbage, ignore. Instead add a console.error message.
+      (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.define_property)(error, 'stack', {
+        value: ''
+      });
+    }
+    // Try and handle the error so it can be caught at a boundary, that's
+    // if there's an effect available from when it was last scheduled
+    if (last_scheduled_effect !== null) {
       if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
-        // stack is garbage, ignore. Instead add a console.error message.
-        (0,_shared_utils_js__WEBPACK_IMPORTED_MODULE_1__.define_property)(error, 'stack', {
-          value: ''
-        });
-      }
-      // Try and handle the error so it can be caught at a boundary, that's
-      // if there's an effect available from when it was last scheduled
-      if (last_scheduled_effect !== null) {
-        if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
-          try {
-            handle_error(error, last_scheduled_effect, null, null);
-          } catch (e) {
-            // Only log the effect stack if the error is re-thrown
-            log_effect_stack();
-            throw e;
-          }
-        } else {
+        try {
           handle_error(error, last_scheduled_effect, null, null);
+        } catch (e) {
+          // Only log the effect stack if the error is re-thrown
+          log_effect_stack();
+          throw e;
         }
       } else {
-        if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
-          log_effect_stack();
-        }
-        throw error;
+        handle_error(error, last_scheduled_effect, null, null);
       }
+    } else {
+      if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
+        log_effect_stack();
+      }
+      throw error;
     }
   }
-  flush_count++;
 }
-
-/**
- * @param {Array<Effect>} root_effects
- * @returns {void}
- */
-function flush_queued_root_effects(root_effects) {
-  var length = root_effects.length;
-  if (length === 0) {
-    return;
-  }
-  infinite_loop_guard();
-  var previously_flushing_effect = is_flushing_effect;
-  is_flushing_effect = true;
+function flush_queued_root_effects() {
+  var was_updating_effect = is_updating_effect;
   try {
-    for (var i = 0; i < length; i++) {
-      var effect = root_effects[i];
-      if ((effect.f & _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN) === 0) {
-        effect.f ^= _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN;
+    var flush_count = 0;
+    is_updating_effect = true;
+    while (queued_root_effects.length > 0) {
+      if (flush_count++ > 1000) {
+        infinite_loop_guard();
       }
-      var collected_effects = process_effects(effect);
-      flush_queued_effects(collected_effects);
+      var root_effects = queued_root_effects;
+      var length = root_effects.length;
+      queued_root_effects = [];
+      for (var i = 0; i < length; i++) {
+        var collected_effects = process_effects(root_effects[i]);
+        flush_queued_effects(collected_effects);
+      }
     }
   } finally {
-    is_flushing_effect = previously_flushing_effect;
+    is_flushing = false;
+    is_updating_effect = was_updating_effect;
+    last_scheduled_effect = null;
+    if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
+      dev_effect_stack = [];
+    }
+    _reactivity_sources_js__WEBPACK_IMPORTED_MODULE_5__.old_values.clear();
   }
 }
 
@@ -11174,36 +11195,17 @@ function flush_queued_effects(effects) {
     }
   }
 }
-function process_deferred() {
-  is_micro_task_queued = false;
-  if (flush_count > 1001) {
-    return;
-  }
-  const previous_queued_root_effects = queued_root_effects;
-  queued_root_effects = [];
-  flush_queued_root_effects(previous_queued_root_effects);
-  if (!is_micro_task_queued) {
-    flush_count = 0;
-    last_scheduled_effect = null;
-    if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
-      dev_effect_stack = [];
-    }
-  }
-}
 
 /**
  * @param {Effect} signal
  * @returns {void}
  */
 function schedule_effect(signal) {
-  if (scheduler_mode === FLUSH_MICROTASK) {
-    if (!is_micro_task_queued) {
-      is_micro_task_queued = true;
-      queueMicrotask(process_deferred);
-    }
+  if (!is_flushing) {
+    is_flushing = true;
+    queueMicrotask(flush_queued_root_effects);
   }
-  last_scheduled_effect = signal;
-  var effect = signal;
+  var effect = last_scheduled_effect = signal;
   while (effect.parent !== null) {
     effect = effect.parent;
     var flags = effect.f;
@@ -11222,97 +11224,79 @@ function schedule_effect(signal) {
  * bitwise flag passed in only. The collected effects array will be populated with all the user
  * effects to be flushed.
  *
- * @param {Effect} effect
+ * @param {Effect} root
  * @returns {Effect[]}
  */
-function process_effects(effect) {
+function process_effects(root) {
   /** @type {Effect[]} */
   var effects = [];
-  var current_effect = effect.first;
-  main_loop: while (current_effect !== null) {
-    var flags = current_effect.f;
-    var is_branch = (flags & _constants_js__WEBPACK_IMPORTED_MODULE_3__.BRANCH_EFFECT) !== 0;
+
+  /** @type {Effect | null} */
+  var effect = root;
+  while (effect !== null) {
+    var flags = effect.f;
+    var is_branch = (flags & (_constants_js__WEBPACK_IMPORTED_MODULE_3__.BRANCH_EFFECT | _constants_js__WEBPACK_IMPORTED_MODULE_3__.ROOT_EFFECT)) !== 0;
     var is_skippable_branch = is_branch && (flags & _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN) !== 0;
-    var sibling = current_effect.next;
     if (!is_skippable_branch && (flags & _constants_js__WEBPACK_IMPORTED_MODULE_3__.INERT) === 0) {
       if ((flags & _constants_js__WEBPACK_IMPORTED_MODULE_3__.EFFECT) !== 0) {
-        effects.push(current_effect);
+        effects.push(effect);
       } else if (is_branch) {
-        current_effect.f ^= _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN;
+        effect.f ^= _constants_js__WEBPACK_IMPORTED_MODULE_3__.CLEAN;
       } else {
         // Ensure we set the effect to be the active reaction
         // to ensure that unowned deriveds are correctly tracked
         // because we're flushing the current effect
         var previous_active_reaction = active_reaction;
         try {
-          active_reaction = current_effect;
-          if (check_dirtiness(current_effect)) {
-            update_effect(current_effect);
+          active_reaction = effect;
+          if (check_dirtiness(effect)) {
+            update_effect(effect);
           }
         } catch (error) {
-          handle_error(error, current_effect, null, current_effect.ctx);
+          handle_error(error, effect, null, effect.ctx);
         } finally {
           active_reaction = previous_active_reaction;
         }
       }
-      var child = current_effect.first;
+
+      /** @type {Effect | null} */
+      var child = effect.first;
       if (child !== null) {
-        current_effect = child;
+        effect = child;
         continue;
       }
     }
-    if (sibling === null) {
-      let parent = current_effect.parent;
-      while (parent !== null) {
-        if (effect === parent) {
-          break main_loop;
-        }
-        var parent_sibling = parent.next;
-        if (parent_sibling !== null) {
-          current_effect = parent_sibling;
-          continue main_loop;
-        }
-        parent = parent.parent;
-      }
+    var parent = effect.parent;
+    effect = effect.next;
+    while (effect === null && parent !== null) {
+      effect = parent.next;
+      parent = parent.parent;
     }
-    current_effect = sibling;
   }
   return effects;
 }
 
 /**
- * Internal version of `flushSync` with the option to not flush previous effects.
- * Returns the result of the passed function, if given.
- * @param {() => any} [fn]
- * @returns {any}
+ * Synchronously flush any pending updates.
+ * Returns void if no callback is provided, otherwise returns the result of calling the callback.
+ * @template [T=void]
+ * @param {(() => T) | undefined} [fn]
+ * @returns {T}
  */
-function flush_sync(fn) {
-  var previous_scheduler_mode = scheduler_mode;
-  var previous_queued_root_effects = queued_root_effects;
-  try {
-    infinite_loop_guard();
-
-    /** @type {Effect[]} */
-    const root_effects = [];
-    scheduler_mode = FLUSH_SYNC;
-    queued_root_effects = root_effects;
-    is_micro_task_queued = false;
-    flush_queued_root_effects(previous_queued_root_effects);
-    var result = fn?.();
-    (0,_dom_task_js__WEBPACK_IMPORTED_MODULE_4__.flush_tasks)();
-    if (queued_root_effects.length > 0 || root_effects.length > 0) {
-      flush_sync();
-    }
-    flush_count = 0;
-    last_scheduled_effect = null;
-    if (esm_env__WEBPACK_IMPORTED_MODULE_0__.DEV) {
-      dev_effect_stack = [];
-    }
-    return result;
-  } finally {
-    scheduler_mode = previous_scheduler_mode;
-    queued_root_effects = previous_queued_root_effects;
+function flushSync(fn) {
+  var result;
+  if (fn) {
+    is_flushing = true;
+    flush_queued_root_effects();
+    result = fn();
   }
+  (0,_dom_task_js__WEBPACK_IMPORTED_MODULE_4__.flush_tasks)();
+  while (queued_root_effects.length > 0) {
+    is_flushing = true;
+    flush_queued_root_effects();
+    (0,_dom_task_js__WEBPACK_IMPORTED_MODULE_4__.flush_tasks)();
+  }
+  return /** @type {T} */result;
 }
 
 /**
@@ -11321,9 +11305,9 @@ function flush_sync(fn) {
  */
 async function tick() {
   await Promise.resolve();
-  // By calling flush_sync we guarantee that any pending state changes are applied after one tick.
+  // By calling flushSync we guarantee that any pending state changes are applied after one tick.
   // TODO look into whether we can make flushing subsequent updates synchronously in the future.
-  flush_sync();
+  flushSync();
 }
 
 /**
@@ -11390,6 +11374,9 @@ function get(signal) {
       }
       entry.read.push((0,_dev_tracing_js__WEBPACK_IMPORTED_MODULE_10__.get_stack)('TracedAt'));
     }
+  }
+  if (is_destroying_effect && _reactivity_sources_js__WEBPACK_IMPORTED_MODULE_5__.old_values.has(signal)) {
+    return _reactivity_sources_js__WEBPACK_IMPORTED_MODULE_5__.old_values.get(signal);
   }
   return signal.v;
 }
@@ -11929,7 +11916,9 @@ function enable_tracing_mode_flag() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   attr: () => (/* binding */ attr),
-/* harmony export */   clsx: () => (/* binding */ clsx)
+/* harmony export */   clsx: () => (/* binding */ clsx),
+/* harmony export */   to_class: () => (/* binding */ to_class),
+/* harmony export */   to_style: () => (/* binding */ to_style)
 /* harmony export */ });
 /* harmony import */ var _escaping_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../escaping.js */ "../svelte/packages/svelte/src/escaping.js");
 /* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! clsx */ "../svelte/node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs");
@@ -11954,7 +11943,7 @@ const replacements = {
  * @returns {string}
  */
 function attr(name, value, is_boolean = false) {
-  if (value == null || !value && is_boolean || value === '' && name === 'class') return '';
+  if (value == null || !value && is_boolean) return '';
   const normalized = name in replacements && replacements[name].get(value) || value;
   const assignment = is_boolean ? '' : `="${(0,_escaping_js__WEBPACK_IMPORTED_MODULE_0__.escape_html)(normalized, true)}"`;
   return ` ${name}${assignment}`;
@@ -11971,6 +11960,155 @@ function clsx(value) {
   } else {
     return value ?? '';
   }
+}
+const whitespace = [...' \t\n\r\f\u00a0\u000b\ufeff'];
+
+/**
+ * @param {any} value
+ * @param {string | null} [hash]
+ * @param {Record<string, boolean>} [directives]
+ * @returns {string | null}
+ */
+function to_class(value, hash, directives) {
+  var classname = value == null ? '' : '' + value;
+  if (hash) {
+    classname = classname ? classname + ' ' + hash : hash;
+  }
+  if (directives) {
+    for (var key in directives) {
+      if (directives[key]) {
+        classname = classname ? classname + ' ' + key : key;
+      } else if (classname.length) {
+        var len = key.length;
+        var a = 0;
+        while ((a = classname.indexOf(key, a)) >= 0) {
+          var b = a + len;
+          if ((a === 0 || whitespace.includes(classname[a - 1])) && (b === classname.length || whitespace.includes(classname[b]))) {
+            classname = (a === 0 ? '' : classname.substring(0, a)) + classname.substring(b + 1);
+          } else {
+            a = b;
+          }
+        }
+      }
+    }
+  }
+  return classname === '' ? null : classname;
+}
+
+/**
+ *
+ * @param {Record<string,any>} styles
+ * @param {boolean} important
+ */
+function append_styles(styles, important = false) {
+  var separator = important ? ' !important;' : ';';
+  var css = '';
+  for (var key in styles) {
+    var value = styles[key];
+    if (value != null && value !== '') {
+      css += ' ' + key + ': ' + value + separator;
+    }
+  }
+  return css;
+}
+
+/**
+ * @param {string} name
+ * @returns {string}
+ */
+function to_css_name(name) {
+  if (name[0] !== '-' || name[1] !== '-') {
+    return name.toLowerCase();
+  }
+  return name;
+}
+
+/**
+ * @param {any} value
+ * @param {Record<string, any> | [Record<string, any>, Record<string, any>]} [styles]
+ * @returns {string | null}
+ */
+function to_style(value, styles) {
+  if (styles) {
+    var new_style = '';
+
+    /** @type {Record<string,any> | undefined} */
+    var normal_styles;
+
+    /** @type {Record<string,any> | undefined} */
+    var important_styles;
+    if (Array.isArray(styles)) {
+      normal_styles = styles[0];
+      important_styles = styles[1];
+    } else {
+      normal_styles = styles;
+    }
+    if (value) {
+      value = String(value).replaceAll(/\s*\/\*.*?\*\/\s*/g, '').trim();
+
+      /** @type {boolean | '"' | "'"} */
+      var in_str = false;
+      var in_apo = 0;
+      var in_comment = false;
+      var reserved_names = [];
+      if (normal_styles) {
+        reserved_names.push(...Object.keys(normal_styles).map(to_css_name));
+      }
+      if (important_styles) {
+        reserved_names.push(...Object.keys(important_styles).map(to_css_name));
+      }
+      var start_index = 0;
+      var name_index = -1;
+      const len = value.length;
+      for (var i = 0; i < len; i++) {
+        var c = value[i];
+        if (in_comment) {
+          if (c === '/' && value[i - 1] === '*') {
+            in_comment = false;
+          }
+        } else if (in_str) {
+          if (in_str === c) {
+            in_str = false;
+          }
+        } else if (c === '/' && value[i + 1] === '*') {
+          in_comment = true;
+        } else if (c === '"' || c === "'") {
+          in_str = c;
+        } else if (c === '(') {
+          in_apo++;
+        } else if (c === ')') {
+          in_apo--;
+        }
+        if (!in_comment && in_str === false && in_apo === 0) {
+          if (c === ':' && name_index === -1) {
+            name_index = i;
+          } else if (c === ';' || i === len - 1) {
+            if (name_index !== -1) {
+              var name = to_css_name(value.substring(start_index, name_index).trim());
+              if (!reserved_names.includes(name)) {
+                if (c !== ';') {
+                  i++;
+                }
+                var property = value.substring(start_index, i).trim();
+                new_style += ' ' + property + ';';
+              }
+            }
+            start_index = i + 1;
+            name_index = -1;
+          }
+        }
+      }
+    }
+    if (normal_styles) {
+      new_style += append_styles(normal_styles);
+    }
+    if (important_styles) {
+      new_style += append_styles(important_styles, true);
+    }
+    new_style = new_style.trim();
+    return new_style === '' ? null : new_style;
+  }
+  return value == null ? null : String(value);
 }
 
 /***/ }),
@@ -12545,9 +12683,9 @@ class Svelte4Component {
       recover: options.recover
     });
 
-    // We don't flush_sync for custom element wrappers or if the user doesn't want it
+    // We don't flushSync for custom element wrappers or if the user doesn't want it
     if (!options?.props?.$$host || options.sync === false) {
-      (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_4__.flush_sync)();
+      (0,_internal_client_runtime_js__WEBPACK_IMPORTED_MODULE_4__.flushSync)();
     }
     this.#events = props.$$events;
     for (const key of Object.keys(this.#instance)) {
@@ -34209,7 +34347,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   setMedia: () => (/* binding */ setMedia)
 /* harmony export */ });
 /* harmony import */ var svelte_internal_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal/client */ "../svelte/packages/svelte/src/internal/client/index.js");
-/* state.svelte.ts generated by Svelte v5.20.2 */
+/* state.svelte.ts generated by Svelte v5.23.2 */
 
 
 function _slicedToArray(r, e) {
